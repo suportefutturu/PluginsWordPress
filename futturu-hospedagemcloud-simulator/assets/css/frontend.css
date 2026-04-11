@@ -210,13 +210,20 @@
 .fcs-slider-track {
     overflow: hidden;
     width: 100%;
+    position: relative;
 }
 
 .fcs-slider-wrapper {
     display: flex;
     gap: 20px;
-    transition: transform 0.5s ease;
+    transition: transform 0.3s ease;
     will-change: transform;
+    padding: 10px 5px;
+}
+
+/* Ensure slider track has proper dimensions */
+.fcs-slider-track .fcs-slider-wrapper {
+    float: left;
 }
 
 .fcs-slider-nav {

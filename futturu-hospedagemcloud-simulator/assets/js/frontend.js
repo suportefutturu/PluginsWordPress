@@ -49,44 +49,102 @@
             
             var scrollAmount = 320; // Width of card + gap
             var currentScroll = 0;
+            var isDragging = false;
+            var startX = 0;
+            var startScroll = 0;
             
-            // Update button states on window resize
+            // Update button states function
+            var updateButtons = function() {
+                var trackWidth = $track[0].scrollWidth;
+                var wrapperWidth = $track[0].clientWidth;
+                var maxScroll = Math.max(0, trackWidth - wrapperWidth);
+                
+                if (currentScroll <= 0) {
+                    $prevBtn.css('opacity', '0.5').css('pointer-events', 'none');
+                } else {
+                    $prevBtn.css('opacity', '1').css('pointer-events', 'auto');
+                }
+                
+                if (currentScroll >= maxScroll - 1) {
+                    $nextBtn.css('opacity', '0.5').css('pointer-events', 'none');
+                } else {
+                    $nextBtn.css('opacity', '1').css('pointer-events', 'auto');
+                }
+            };
+            
+            // Handle prev button click
+            $prevBtn.on('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                var trackWidth = $track[0].scrollWidth;
+                var wrapperWidth = $track[0].clientWidth;
+                var maxScroll = Math.max(0, trackWidth - wrapperWidth);
+                currentScroll = Math.max(0, currentScroll - scrollAmount);
+                $wrapper.css('transform', 'translateX(-' + currentScroll + 'px)');
+                updateButtons();
+            });
+            
+            // Handle next button click
+            $nextBtn.on('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                var trackWidth = $track[0].scrollWidth;
+                var wrapperWidth = $track[0].clientWidth;
+                var maxScroll = Math.max(0, trackWidth - wrapperWidth);
+                currentScroll = Math.min(maxScroll, currentScroll + scrollAmount);
+                $wrapper.css('transform', 'translateX(-' + currentScroll + 'px)');
+                updateButtons();
+            });
+            
+            // Handle touch/drag events on track
+            $track.on('mousedown touchstart', function(e) {
+                isDragging = true;
+                startX = e.type === 'touchstart' ? e.originalEvent.touches[0].pageX : e.pageX;
+                startScroll = currentScroll;
+                $wrapper.css('transition', 'none');
+                e.preventDefault();
+            });
+            
+            $(document).on('mousemove touchmove', function(e) {
+                if (!isDragging) return;
+                
+                var currentX = e.type === 'touchmove' ? e.originalEvent.touches[0].pageX : e.pageX;
+                var diff = startX - currentX;
+                currentScroll = startScroll + diff;
+                
+                var trackWidth = $track[0].scrollWidth;
+                var wrapperWidth = $track[0].clientWidth;
+                var maxScroll = Math.max(0, trackWidth - wrapperWidth);
+                currentScroll = Math.max(0, Math.min(maxScroll, currentScroll));
+                
+                $wrapper.css('transform', 'translateX(-' + currentScroll + 'px)');
+            });
+            
+            $(document).on('mouseup touchend', function() {
+                if (isDragging) {
+                    isDragging = false;
+                    $wrapper.css('transition', 'transform 0.3s ease');
+                    updateButtons();
+                }
+            });
+            
+            // Prevent click event after drag
+            $track.on('click', function(e) {
+                if (Math.abs(startX - (e.pageX || 0)) > 5) {
+                    e.preventDefault();
+                }
+            });
+            
+            // Handle window resize
             $(window).on('resize', function() {
                 currentScroll = 0;
                 $wrapper.css('transform', 'translateX(0)');
-                updateButtonStates($prevBtn, $nextBtn, currentScroll, $track, $wrapper);
-            });
-            
-            $prevBtn.on('click', function() {
-                currentScroll = Math.max(0, currentScroll - scrollAmount);
-                updateSliderPosition($wrapper, currentScroll);
-                updateButtonStates($prevBtn, $nextBtn, currentScroll, $track, $wrapper);
-            });
-            
-            $nextBtn.on('click', function() {
-                var maxScroll = Math.max(0, $wrapper.outerWidth() - $track.outerWidth());
-                currentScroll = Math.min(maxScroll, currentScroll + scrollAmount);
-                updateSliderPosition($wrapper, currentScroll);
-                updateButtonStates($prevBtn, $nextBtn, currentScroll, $track, $wrapper);
+                updateButtons();
             });
             
             // Initial button state
-            updateButtonStates($prevBtn, $nextBtn, currentScroll, $track, $wrapper);
+            updateButtons();
         });
-    }
-    
-    function updateSliderPosition($wrapper, position) {
-        $wrapper.css('transform', 'translateX(-' + position + 'px)');
-    }
-    
-    function updateButtonStates($prevBtn, $nextBtn, currentScroll, $track, $wrapper) {
-        var maxScroll = Math.max(0, $wrapper.outerWidth() - $track.outerWidth());
-        
-        $prevBtn.css('opacity', currentScroll <= 0 ? '0.5' : '1');
-        $prevBtn.css('pointer-events', currentScroll <= 0 ? 'none' : 'auto');
-        
-        $nextBtn.css('opacity', currentScroll >= maxScroll - 10 ? '0.5' : '1');
-        $nextBtn.css('pointer-events', currentScroll >= maxScroll - 10 ? 'none' : 'auto');
     }
     
     // Handle recurrence toggle (Monthly/Annual)
@@ -132,15 +190,13 @@
                 var $slider = $('.fcs-category-content.active .fcs-slider');
                 var $track = $slider.find('.fcs-slider-track');
                 var $wrapper = $slider.find('.fcs-slider-wrapper');
-                var $prevBtn = $slider.find('.fcs-slider-prev');
-                var $nextBtn = $slider.find('.fcs-slider-next');
                 
                 // Reset scroll position
-                var currentScroll = 0;
                 $wrapper.css('transform', 'translateX(0)');
+                $wrapper.css('transition', 'transform 0.3s ease');
                 
-                // Reinitialize button states
-                updateButtonStates($prevBtn, $nextBtn, currentScroll, $track, $wrapper);
+                // Trigger button state update by simulating a resize
+                $(window).trigger('resize');
             }, 100);
         });
     }
