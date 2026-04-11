@@ -101,7 +101,7 @@ class Futturu_HospedagemCloud_Admin {
                             // But keep original order for editing (use unsorted)
                             $category_plans = array();
                             foreach ($plans as $plan) {
-                                if ($plan['categoria'] === $category) {
+                                if (isset($plan['categoria']) && $plan['categoria'] === $category) {
                                     $category_plans[] = $plan;
                                 }
                             }

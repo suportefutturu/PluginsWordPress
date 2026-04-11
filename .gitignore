@@ -1,41 +1,52 @@
 ```
-# Compiled and build artifacts
-*.pyc
-__pycache__/
-*.o
-*.obj
-dist/
-build/
-target/
+# WordPress specific ignores
+wp-content/plugins/futturu-hospedagemcloud-simulator/.DS_Store
+wp-content/plugins/futturu-hospedagemcloud-simulator/*.log
+wp-content/plugins/futturu-hospedagemcloud-simulator/Thumbs.db
 
-# Dependencies
-.venv/
-venv/
-node_modules/
-.mypy_cache/
-.pytest_cache/
-.coverage
-coverage/
-htmlcov/
-
-# Logs and temp files
+# General ignores for WordPress plugins
 *.log
 *.tmp
 *.swp
 *.swo
-
-# Environment
-.env
-.env.local
-*.env.*
-
-# Editors
-.vscode/
-.idea/
-
-# System files
 .DS_Store
 Thumbs.db
+
+# Environment files
+.env
+.env.local
+.env.*
+
+# Cache directories
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Build artifacts
+dist/
+build/
+*.o
+*.obj
+*.so
+*.dll
+*.exe
+
+# Dependencies
+node_modules/
+vendor/
+composer.lock
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Coverage reports
+coverage/
+htmlcov/
+.coverage
 
 # Compressed files
 *.zip

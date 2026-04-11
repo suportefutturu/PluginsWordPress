@@ -528,8 +528,11 @@ class Futturu_HospedagemCloud_Data {
         
         $categories = array();
         foreach ($plans as $plan) {
-            if (!in_array($plan['categoria'], $categories)) {
-                $categories[] = $plan['categoria'];
+            // Validar se a chave 'categoria' existe e não está vazia
+            if (isset($plan['categoria']) && !empty($plan['categoria'])) {
+                if (!in_array($plan['categoria'], $categories)) {
+                    $categories[] = $plan['categoria'];
+                }
             }
         }
         
@@ -546,15 +549,16 @@ class Futturu_HospedagemCloud_Data {
         
         $filtered_plans = array();
         foreach ($plans as $plan) {
-            if ($plan['categoria'] === $category) {
+            // Validar se a chave 'categoria' existe antes de comparar
+            if (isset($plan['categoria']) && $plan['categoria'] === $category) {
                 $filtered_plans[] = $plan;
             }
         }
         
         // Sort by price (cheapest to most expensive)
         usort($filtered_plans, function($a, $b) {
-            $price_a = (float) $a['preco_mensal'];
-            $price_b = (float) $b['preco_mensal'];
+            $price_a = isset($a['preco_mensal']) ? (float) $a['preco_mensal'] : 0;
+            $price_b = isset($b['preco_mensal']) ? (float) $b['preco_mensal'] : 0;
             
             if ($price_a === $price_b) {
                 return 0;
