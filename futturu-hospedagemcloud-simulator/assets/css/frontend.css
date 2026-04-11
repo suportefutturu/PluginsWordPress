@@ -1,0 +1,725 @@
+/**
+ * Frontend CSS - Simulador de Hospedagem Futturu Cloud
+ */
+
+/* Reset e Base */
+.futturu-cloud-simulator {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    color: #333;
+    line-height: 1.6;
+}
+
+.futturu-cloud-simulator * {
+    box-sizing: border-box;
+}
+
+/* Introdução */
+.fcs-intro {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.fcs-intro h2 {
+    font-size: 2.5rem;
+    color: #1a1a2e;
+    margin-bottom: 15px;
+    font-weight: 700;
+}
+
+.fcs-intro-text {
+    font-size: 1.1rem;
+    color: #555;
+    max-width: 900px;
+    margin: 0 auto 30px;
+}
+
+/* Features Highlight */
+.fcs-features-highlight {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.fcs-feature-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: #f0f4ff;
+    border-radius: 25px;
+    font-size: 0.9rem;
+    color: #2c52d4;
+    font-weight: 500;
+}
+
+.fcs-feature-badge .dashicons {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+}
+
+/* Seletor de Recorrência */
+.fcs-recurrence-selector {
+    text-align: center;
+    margin: 40px 0;
+}
+
+.fcs-toggle-container {
+    display: inline-flex;
+    background: #f5f5f5;
+    border-radius: 50px;
+    padding: 5px;
+    gap: 5px;
+}
+
+.fcs-toggle-btn {
+    padding: 12px 30px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #666;
+    border-radius: 45px;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.fcs-toggle-btn.active {
+    background: #1a1a2e;
+    color: #fff;
+}
+
+.fcs-toggle-btn[data-recurrence="annual"].active {
+    background: #28a745;
+}
+
+.fcs-discount-badge {
+    display: inline-block;
+    background: #ffc107;
+    color: #000;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 10px;
+    margin-left: 8px;
+}
+
+.fcs-recommended {
+    display: block;
+    font-size: 0.7rem;
+    opacity: 0.9;
+    margin-top: 2px;
+}
+
+.fcs-recurrence-note {
+    margin-top: 15px;
+    color: #28a745;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+/* Navegação por Categorias */
+.fcs-categories-nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.fcs-cat-btn {
+    padding: 12px 24px;
+    border: 2px solid #e0e0e0;
+    background: #fff;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #555;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.fcs-cat-btn:hover {
+    border-color: #2c52d4;
+    color: #2c52d4;
+}
+
+.fcs-cat-btn.active {
+    background: #2c52d4;
+    border-color: #2c52d4;
+    color: #fff;
+}
+
+/* Slider Container */
+.fcs-plans-section {
+    display: none;
+}
+
+.fcs-plans-section.active {
+    display: block;
+}
+
+.fcs-slider-container {
+    position: relative;
+    padding: 0 50px;
+}
+
+.fcs-slider-wrapper {
+    overflow: hidden;
+}
+
+.fcs-slider-track {
+    display: flex;
+    gap: 25px;
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    cursor: grab;
+    padding: 10px 0;
+}
+
+.fcs-slider-track:active {
+    cursor: grabbing;
+}
+
+.fcs-slider-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 45px;
+    height: 45px;
+    border: none;
+    background: #fff;
+    border: 2px solid #e0e0e0;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    z-index: 10;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.fcs-slider-btn:hover:not(:disabled) {
+    background: #2c52d4;
+    border-color: #2c52d4;
+    color: #fff;
+}
+
+.fcs-slider-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.fcs-slider-prev {
+    left: 0;
+}
+
+.fcs-slider-next {
+    right: 0;
+}
+
+/* Card do Plano */
+.fcs-plan-card {
+    flex: 0 0 320px;
+    background: #fff;
+    border: 2px solid #e8e8e8;
+    border-radius: 16px;
+    padding: 25px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.fcs-plan-card:hover {
+    border-color: #2c52d4;
+    box-shadow: 0 10px 30px rgba(44, 82, 212, 0.15);
+    transform: translateY(-5px);
+}
+
+.fcs-plan-card.recommended {
+    border-color: #28a745;
+    box-shadow: 0 10px 30px rgba(40, 167, 69, 0.2);
+}
+
+.fcs-plan-card.recommended::before {
+    content: 'Recomendado';
+    position: absolute;
+    top: 15px;
+    right: -30px;
+    background: #28a745;
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 4px 40px;
+    transform: rotate(45deg);
+}
+
+/* Header do Plano */
+.fcs-plan-header {
+    text-align: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+.fcs-plan-name {
+    font-size: 1.4rem;
+    color: #1a1a2e;
+    margin: 0 0 8px 0;
+    font-weight: 700;
+}
+
+.fcs-plan-views {
+    display: inline-block;
+    background: #e8f4fd;
+    color: #0284c7;
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 15px;
+}
+
+/* Recursos */
+.fcs-plan-resources {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.fcs-resource {
+    text-align: center;
+    padding: 12px 8px;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.fcs-resource-label {
+    display: block;
+    font-size: 0.75rem;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.fcs-resource-value {
+    display: block;
+    font-size: 1rem;
+    color: #1a1a2e;
+    font-weight: 700;
+}
+
+/* Uso Indicado */
+.fcs-plan-usage {
+    text-align: center;
+    padding: 10px;
+    background: #fff8e6;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.fcs-usage-label {
+    font-size: 0.8rem;
+    color: #856404;
+    display: block;
+    margin-bottom: 3px;
+}
+
+.fcs-usage-value {
+    font-size: 0.9rem;
+    color: #856404;
+    font-weight: 600;
+}
+
+/* Preços */
+.fcs-plan-pricing {
+    text-align: center;
+    margin-bottom: 25px;
+    padding: 20px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 12px;
+}
+
+.fcs-price-display {
+    margin-bottom: 10px;
+}
+
+.fcs-price-value {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: #1a1a2e;
+}
+
+.fcs-price-period {
+    font-size: 0.9rem;
+    color: #666;
+    margin-left: 5px;
+}
+
+.fcs-annual-savings {
+    display: inline-block;
+    background: #d4edda;
+    color: #155724;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 6px 15px;
+    border-radius: 20px;
+    margin-top: 10px;
+}
+
+/* Ações */
+.fcs-plan-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.fcs-btn {
+    flex: 1;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.fcs-btn-primary {
+    background: #28a745;
+    color: #fff;
+}
+
+.fcs-btn-primary:hover {
+    background: #218838;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
+}
+
+.fcs-btn-secondary {
+    background: #fff;
+    color: #555;
+    border: 2px solid #ddd;
+}
+
+.fcs-btn-secondary:hover {
+    border-color: #555;
+    color: #333;
+}
+
+.fcs-full-width {
+    width: 100%;
+}
+
+/* FAQ Section */
+.fcs-faq-section {
+    margin-top: 60px;
+    padding-top: 40px;
+    border-top: 3px solid #e0e0e0;
+}
+
+.fcs-faq-section h3 {
+    text-align: center;
+    font-size: 2rem;
+    color: #1a1a2e;
+    margin-bottom: 30px;
+}
+
+.fcs-faq-accordion {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.fcs-faq-item {
+    margin-bottom: 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.fcs-faq-question {
+    width: 100%;
+    padding: 18px 20px;
+    background: #fff;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #1a1a2e;
+    text-align: left;
+    transition: all 0.3s ease;
+}
+
+.fcs-faq-question:hover {
+    background: #f8f9fa;
+}
+
+.fcs-faq-question.active {
+    background: #2c52d4;
+    color: #fff;
+}
+
+.fcs-faq-icon {
+    font-size: 1.5rem;
+    font-weight: 300;
+    transition: transform 0.3s ease;
+}
+
+.fcs-faq-question.active .fcs-faq-icon {
+    transform: rotate(45deg);
+}
+
+.fcs-faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+.fcs-faq-answer p {
+    padding: 20px;
+    margin: 0;
+    background: #f8f9fa;
+    color: #555;
+    line-height: 1.7;
+}
+
+/* Modals */
+.fcs-modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 10000;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.fcs-modal-overlay.active {
+    display: flex;
+}
+
+.fcs-modal {
+    background: #fff;
+    border-radius: 16px;
+    max-width: 600px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    animation: modalSlideIn 0.3s ease;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fcs-modal-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 35px;
+    height: 35px;
+    border: none;
+    background: #f0f0f0;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: #666;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.fcs-modal-close:hover {
+    background: #dc3545;
+    color: #fff;
+}
+
+.fcs-modal-content {
+    padding: 40px 30px 30px;
+}
+
+.fcs-modal-content h3 {
+    font-size: 1.8rem;
+    color: #1a1a2e;
+    margin-bottom: 20px;
+}
+
+.fcs-modal-resources {
+    margin-bottom: 25px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 10px;
+}
+
+.fcs-modal-features h4 {
+    font-size: 1.2rem;
+    color: #1a1a2e;
+    margin-bottom: 15px;
+}
+
+.fcs-modal-features ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.fcs-modal-features li {
+    padding: 10px 0;
+    padding-left: 25px;
+    position: relative;
+    color: #555;
+}
+
+.fcs-modal-features li:before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: #28a745;
+    font-weight: 700;
+}
+
+/* Formulário */
+.fcs-form-group {
+    margin-bottom: 20px;
+}
+
+.fcs-form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #333;
+}
+
+.fcs-form-group input,
+.fcs-form-group textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.fcs-form-group input:focus,
+.fcs-form-group textarea:focus {
+    outline: none;
+    border-color: #2c52d4;
+}
+
+.fcs-form-message {
+    margin-top: 15px;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: 600;
+    display: none;
+}
+
+.fcs-form-message.success {
+    background: #d4edda;
+    color: #155724;
+    display: block;
+}
+
+.fcs-form-message.error {
+    background: #f8d7da;
+    color: #721c24;
+    display: block;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+    .futturu-cloud-simulator {
+        padding: 20px 15px;
+    }
+
+    .fcs-intro h2 {
+        font-size: 1.8rem;
+    }
+
+    .fcs-features-highlight {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .fcs-toggle-container {
+        flex-direction: column;
+        border-radius: 15px;
+    }
+
+    .fcs-toggle-btn {
+        width: 100%;
+        border-radius: 10px;
+    }
+
+    .fcs-categories-nav {
+        flex-direction: column;
+    }
+
+    .fcs-cat-btn {
+        width: 100%;
+    }
+
+    .fcs-slider-container {
+        padding: 0 40px;
+    }
+
+    .fcs-plan-card {
+        flex: 0 0 280px;
+    }
+
+    .fcs-plan-resources {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .fcs-plan-actions {
+        flex-direction: column;
+    }
+
+    .fcs-slider-btn {
+        width: 35px;
+        height: 35px;
+        font-size: 1.2rem;
+    }
+
+    .fcs-modal-content {
+        padding: 30px 20px 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .fcs-plan-card {
+        flex: 0 0 260px;
+    }
+
+    .fcs-price-value {
+        font-size: 1.8rem;
+    }
+}
