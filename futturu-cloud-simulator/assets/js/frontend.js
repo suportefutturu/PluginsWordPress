@@ -1,0 +1,333 @@
+/**
+ * Futturu Cloud Simulator - Frontend JavaScript
+ */
+
+(function($) {
+    'use strict';
+    
+    // Initialize on document ready
+    $(document).ready(function() {
+        initSimulator();
+    });
+    
+    function initSimulator() {
+        var $simulator = $('.futturu-cloud-simulator');
+        if (!$simulator.length) return;
+        
+        var discount = parseInt($simulator.data('discount')) || 10;
+        
+        // Initialize sliders for each category
+        initSliders();
+        
+        // Handle recurrence toggle
+        handleRecurrenceToggle(discount);
+        
+        // Handle category tabs
+        handleCategoryTabs();
+        
+        // Handle FAQ accordion
+        handleFAQAccordion();
+        
+        // Handle more info modal
+        handleMoreInfoModal();
+        
+        // Handle quote modal
+        handleQuoteModal();
+        
+        // Handle quote form submission
+        handleQuoteFormSubmission();
+    }
+    
+    // Initialize sliders for each category
+    function initSliders() {
+        $('.fcs-slider').each(function() {
+            var $slider = $(this);
+            var $wrapper = $slider.find('.fcs-slider-wrapper');
+            var $track = $slider.find('.fcs-slider-track');
+            var $prevBtn = $slider.find('.fcs-slider-prev');
+            var $nextBtn = $slider.find('.fcs-slider-next');
+            
+            var scrollAmount = 320; // Width of card + gap
+            var currentScroll = 0;
+            
+            $prevBtn.on('click', function() {
+                currentScroll = Math.max(0, currentScroll - scrollAmount);
+                updateSliderPosition($wrapper, currentScroll);
+                updateButtonStates($prevBtn, $nextBtn, currentScroll, $wrapper);
+            });
+            
+            $nextBtn.on('click', function() {
+                var maxScroll = $wrapper.outerWidth() - $track.outerWidth();
+                currentScroll = Math.min(maxScroll, currentScroll + scrollAmount);
+                updateSliderPosition($wrapper, currentScroll);
+                updateButtonStates($prevBtn, $nextBtn, currentScroll, $wrapper);
+            });
+            
+            // Initial button state
+            updateButtonStates($prevBtn, $nextBtn, currentScroll, $wrapper);
+        });
+    }
+    
+    function updateSliderPosition($wrapper, position) {
+        $wrapper.css('transform', 'translateX(-' + position + 'px)');
+    }
+    
+    function updateButtonStates($prevBtn, $nextBtn, currentScroll, $wrapper) {
+        var maxScroll = $wrapper.outerWidth() - $nextBtn.closest('.fcs-slider').find('.fcs-slider-track').outerWidth();
+        
+        $prevBtn.css('opacity', currentScroll <= 0 ? '0.5' : '1');
+        $prevBtn.css('pointer-events', currentScroll <= 0 ? 'none' : 'auto');
+        
+        $nextBtn.css('opacity', currentScroll >= maxScroll - 10 ? '0.5' : '1');
+        $nextBtn.css('pointer-events', currentScroll >= maxScroll - 10 ? 'none' : 'auto');
+    }
+    
+    // Handle recurrence toggle (Monthly/Annual)
+    function handleRecurrenceToggle(discount) {
+        $('input[name="fcs-recurrence"]').on('change', function() {
+            var isAnnual = $(this).val() === 'annual';
+            
+            $('.fcs-plan-card').each(function() {
+                var $card = $(this);
+                var $monthlyPrice = $card.find('.fcs-price-monthly');
+                var $annualPrice = $card.find('.fcs-price-annual');
+                
+                if (isAnnual) {
+                    $monthlyPrice.hide();
+                    $annualPrice.fadeIn();
+                } else {
+                    $annualPrice.hide();
+                    $monthlyPrice.fadeIn();
+                }
+            });
+            
+            // Update recurrence in quote modal
+            $('#fcs-recurrence').val(isAnnual ? 'annual' : 'monthly');
+        });
+    }
+    
+    // Handle category tabs
+    function handleCategoryTabs() {
+        $('.fcs-tab-button').on('click', function() {
+            var $tab = $(this);
+            var category = $tab.data('category');
+            
+            // Update active tab
+            $('.fcs-tab-button').removeClass('active');
+            $tab.addClass('active');
+            
+            // Show corresponding content
+            $('.fcs-category-content').removeClass('active');
+            $('.fcs-category-content[data-category="' + category + '"]').addClass('active');
+            
+            // Reset slider position for new category
+            var $slider = $('.fcs-category-content.active .fcs-slider');
+            var $wrapper = $slider.find('.fcs-slider-wrapper');
+            $wrapper.css('transform', 'translateX(0)');
+            
+            // Update slider buttons
+            var $prevBtn = $slider.find('.fcs-slider-prev');
+            var $nextBtn = $slider.find('.fcs-slider-next');
+            var $track = $slider.find('.fcs-slider-track');
+            updateButtonStates($prevBtn, $nextBtn, 0, $wrapper);
+        });
+    }
+    
+    // Handle FAQ accordion
+    function handleFAQAccordion() {
+        $('.fcs-faq-question').on('click', function() {
+            var $item = $(this).closest('.fcs-faq-item');
+            var isActive = $item.hasClass('active');
+            
+            // Close all items
+            $('.fcs-faq-item').removeClass('active');
+            
+            // Toggle clicked item
+            if (!isActive) {
+                $item.addClass('active');
+            }
+        });
+    }
+    
+    // Handle more info modal
+    function handleMoreInfoModal() {
+        $('.fcs-btn-more-info').on('click', function() {
+            var $btn = $(this);
+            var planData = JSON.parse($btn.data('plan'));
+            var featuresData = JSON.parse($btn.data('features'));
+            
+            // Populate modal content
+            $('#fcs-details-title').text(planData.modelo);
+            
+            // Build resources list
+            var resourcesHtml = '';
+            if (planData.categoria.indexOf('E-mails') !== -1) {
+                resourcesHtml += '<li><strong>Disco:</strong> ' + planData.disco + '</li>';
+            } else {
+                resourcesHtml += '<li><strong>RAM:</strong> ' + planData.ram + '</li>';
+            }
+            resourcesHtml += '<li><strong>CPU:</strong> ' + planData.cpu + '</li>';
+            resourcesHtml += '<li><strong>SSD:</strong> ' + planData.disco + '</li>';
+            
+            if (planData.visualizacoes) {
+                resourcesHtml += '<li><strong>Visualizações/mês:</strong> ' + planData.visualizacoes + '</li>';
+            }
+            
+            if (planData.uso_indicado) {
+                resourcesHtml += '<li><strong>Uso Indicado:</strong> ' + planData.uso_indicado + '</li>';
+            }
+            
+            $('#fcs-details-resources').html(resourcesHtml);
+            
+            // Build features list
+            var featuresHtml = '';
+            featuresData.forEach(function(feature) {
+                featuresHtml += '<li>' + feature + '</li>';
+            });
+            $('#fcs-details-features').html(featuresHtml);
+            
+            // Store plan model for quote button
+            $('.fcs-btn-quote-from-details').data('plan-model', planData.modelo);
+            
+            // Show modal
+            $('#fcs-details-modal').fadeIn();
+            $('body').css('overflow', 'hidden');
+        });
+        
+        // Close details modal
+        $('#fcs-details-modal .fcs-modal-close').on('click', function() {
+            $('#fcs-details-modal').fadeOut();
+            $('body').css('overflow', 'auto');
+        });
+        
+        // Quote from details modal
+        $('.fcs-btn-quote-from-details').on('click', function() {
+            var planModel = $(this).data('plan-model');
+            
+            // Close details modal
+            $('#fcs-details-modal').fadeOut();
+            
+            // Open quote modal with pre-selected plan
+            setTimeout(function() {
+                $('#fcs-plan-interest').val(planModel);
+                $('#fcs-quote-modal').fadeIn();
+            }, 300);
+            
+            $('body').css('overflow', 'hidden');
+        });
+    }
+    
+    // Handle quote modal
+    function handleQuoteModal() {
+        // Open quote modal from plan card
+        $('.fcs-btn-quote').on('click', function() {
+            var planModel = $(this).data('plan-model');
+            $('#fcs-plan-interest').val(planModel);
+            $('#fcs-quote-modal').fadeIn();
+            $('body').css('overflow', 'hidden');
+        });
+        
+        // Open quote modal from global CTA
+        $('.fcs-btn-global-quote').on('click', function() {
+            $('#fcs-quote-modal').fadeIn();
+            $('body').css('overflow', 'hidden');
+        });
+        
+        // Close quote modal
+        $('#fcs-quote-modal .fcs-modal-close').on('click', function() {
+            $('#fcs-quote-modal').fadeOut();
+            $('#fcs-quote-form')[0].reset();
+            $('.fcs-form-message').hide().removeClass('success error');
+            $('body').css('overflow', 'auto');
+        });
+        
+        // Close modal on overlay click
+        $('.fcs-modal-overlay').on('click', function(e) {
+            if ($(e.target).hasClass('fcs-modal-overlay')) {
+                $(this).fadeOut();
+                $('#fcs-quote-form')[0].reset();
+                $('.fcs-form-message').hide().removeClass('success error');
+                $('body').css('overflow', 'auto');
+            }
+        });
+        
+        // Close modal on ESC key
+        $(document).on('keydown', function(e) {
+            if (e.key === 'Escape') {
+                $('.fcs-modal-overlay').fadeOut();
+                $('#fcs-quote-form')[0].reset();
+                $('.fcs-form-message').hide().removeClass('success error');
+                $('body').css('overflow', 'auto');
+            }
+        });
+    }
+    
+    // Handle quote form submission
+    function handleQuoteFormSubmission() {
+        $('#fcs-quote-form').on('submit', function(e) {
+            e.preventDefault();
+            
+            var $form = $(this);
+            var $submitBtn = $form.find('.fcs-btn-submit');
+            var $submitText = $submitBtn.find('.fcs-submit-text');
+            var $submitLoading = $submitBtn.find('.fcs-submit-loading');
+            var $messageDiv = $form.find('.fcs-form-message');
+            
+            // Get form data
+            var formData = {
+                action: 'futturu_cloud_send_quote',
+                nonce: futturuCloudSim.nonce,
+                name: $form.find('#fcs-name').val(),
+                email: $form.find('#fcs-email').val(),
+                phone: $form.find('#fcs-phone').val(),
+                plan_interest: $form.find('#fcs-plan-interest').val(),
+                recurrence: $form.find('#fcs-recurrence').val(),
+                message: $form.find('#fcs-message').val()
+            };
+            
+            // Disable submit button
+            $submitBtn.prop('disabled', true);
+            $submitText.hide();
+            $submitLoading.show();
+            
+            // Send AJAX request
+            $.ajax({
+                url: futturuCloudSim.ajaxUrl,
+                type: 'POST',
+                data: formData,
+                success: function(response) {
+                    if (response.success) {
+                        $messageDiv.text(response.data.message)
+                            .removeClass('error')
+                            .addClass('success')
+                            .fadeIn();
+                        
+                        // Reset form after short delay
+                        setTimeout(function() {
+                            $form[0].reset();
+                            $messageDiv.fadeOut();
+                        }, 3000);
+                    } else {
+                        $messageDiv.text(response.data.message || futturuCloudSim.i18n.error)
+                            .removeClass('success')
+                            .addClass('error')
+                            .fadeIn();
+                    }
+                },
+                error: function() {
+                    $messageDiv.text(futturuCloudSim.i18n.error)
+                        .removeClass('success')
+                        .addClass('error')
+                        .fadeIn();
+                },
+                complete: function() {
+                    // Re-enable submit button
+                    $submitBtn.prop('disabled', false);
+                    $submitText.show();
+                    $submitLoading.hide();
+                }
+            });
+        });
+    }
+    
+})(jQuery);

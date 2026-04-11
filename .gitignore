@@ -1,0 +1,35 @@
+```
+# WordPress specific ignores
+wp-content/plugins/futturu-cloud-simulator/build/
+wp-content/plugins/futturu-cloud-simulator/dist/
+wp-content/plugins/futturu-cloud-simulator/node_modules/
+
+# Dependencies
+node_modules/
+vendor/
+
+# Logs
+*.log
+
+# Environment
+.env
+.env.local
+.env.*
+
+# Editor/IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*.tmp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+build/
+dist/
+*.min.js
+*.min.css
+```
