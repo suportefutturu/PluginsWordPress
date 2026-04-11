@@ -44,10 +44,10 @@
             var newFaqHtml = `
                 <div class="faq-item">
                     <label>Pergunta:</label>
-                    <input type="text" name="futturu_cloud_faqs[${index}][pergunta]" value="" class="large-text" />
+                    <input type="text" name="futturu_hospedagemcloud_faqs[${index}][pergunta]" value="" class="large-text" />
                     
                     <label>Resposta:</label>
-                    <textarea name="futturu_cloud_faqs[${index}][resposta]" rows="3" class="large-text"></textarea>
+                    <textarea name="futturu_hospedagemcloud_faqs[${index}][resposta]" rows="3" class="large-text"></textarea>
                     
                     <button type="button" class="button remove-faq">Remover</button>
                 </div>
@@ -67,7 +67,7 @@
     function reindexFAQs() {
         $('#faqs-container .faq-item').each(function(index) {
             var $item = $(this);
-            $item.find('input[name^="futturu_cloud_faqs"], textarea[name^="futturu_cloud_faqs"]').each(function() {
+            $item.find('input[name^="futturu_hospedagemcloud_faqs"], textarea[name^="futturu_hospedagemcloud_faqs"]').each(function() {
                 var name = $(this).attr('name');
                 var newName = name.replace(/\[\d+\]/, '[' + index + ']');
                 $(this).attr('name', newName);
@@ -82,7 +82,7 @@
             var index = $('#features-container .feature-item').length;
             var newFeatureHtml = `
                 <div class="feature-item">
-                    <input type="text" name="futturu_cloud_features[${index}]" value="" class="large-text" />
+                    <input type="text" name="futturu_hospedagemcloud_features[${index}]" value="" class="large-text" />
                     <button type="button" class="button remove-feature">Remover</button>
                 </div>
             `;
@@ -101,7 +101,7 @@
     function reindexFeatures() {
         $('#features-container .feature-item').each(function(index) {
             var $item = $(this);
-            $item.find('input[name^="futturu_cloud_features"]').each(function() {
+            $item.find('input[name^="futturu_hospedagemcloud_features"]').each(function() {
                 var name = $(this).attr('name');
                 var newName = name.replace(/\[\d+\]/, '[' + index + ']');
                 $(this).attr('name', newName);

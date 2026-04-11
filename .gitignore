@@ -1,35 +1,28 @@
 ```
-# WordPress specific ignores
-wp-content/plugins/futturu-cloud-simulator/build/
-wp-content/plugins/futturu-cloud-simulator/dist/
-wp-content/plugins/futturu-cloud-simulator/node_modules/
-
-# Dependencies
-node_modules/
-vendor/
-
-# Logs
+# WordPress plugin specific ignores
 *.log
+*.tmp
+*.swp
 
-# Environment
+# Environment and local config
 .env
 .env.local
 .env.*
 
-# Editor/IDE
+# Editor/IDE files
 .vscode/
 .idea/
-*.swp
-*.swo
-*.tmp
 
-# OS
+# System files
 .DS_Store
 Thumbs.db
 
-# Build artifacts
-build/
-dist/
-*.min.js
-*.min.css
+# Cache and temporary files
+*.pyc
+__pycache__/
+*.tmp
+
+# WordPress specific
+wp-content/cache/
+uploads/
 ```

@@ -2,11 +2,11 @@
  * Futturu Cloud Simulator - Admin Styles
  */
 
-.futturu-cloud-admin {
+.futturu-hospedagemcloud-admin {
     max-width: 1400px;
 }
 
-.futturu-cloud-tabs {
+.futturu-hospedagemcloud-tabs {
     display: flex;
     flex-wrap: wrap;
     gap: 5px;
@@ -247,7 +247,7 @@
 
 /* Responsive */
 @media (max-width: 782px) {
-    .futturu-cloud-tabs {
+    .futturu-hospedagemcloud-tabs {
         flex-direction: column;
     }
     

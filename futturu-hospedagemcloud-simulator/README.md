@@ -10,7 +10,7 @@ Plugin WordPress para simulação de planos de hospedagem em nuvem com opção d
 
 ## 🚀 Instalação
 
-1. Faça o upload da pasta `futturu-cloud-simulator` para o diretório `/wp-content/plugins/` do seu WordPress
+1. Faça o upload da pasta `futturu-hospedagemcloud-simulator` para o diretório `/wp-content/plugins/` do seu WordPress
 2. Ative o plugin através do menu "Plugins" no painel administrativo do WordPress
 3. Acesse **Configurações > Simulador Cloud Futturu** para configurar os planos, FAQs e funcionalidades
 
@@ -21,13 +21,13 @@ Plugin WordPress para simulação de planos de hospedagem em nuvem com opção d
 Para exibir o simulador em qualquer página, post ou widget, utilize o shortcode:
 
 ```
-[futturu_cloud_annual_monthly_sim]
+[futturu_hospedagemcloud_annual_monthly_sim]
 ```
 
 ### Exemplo de uso em template PHP
 
 ```php
-<?php echo do_shortcode('[futturu_cloud_annual_monthly_sim]'); ?>
+<?php echo do_shortcode('[futturu_hospedagemcloud_annual_monthly_sim]'); ?>
 ```
 
 ## ⚙️ Configuração
@@ -94,7 +94,7 @@ O plugin utiliza classes CSS prefixadas com `fcs-` para facilitar a personaliza�
 
 ```css
 /* Exemplo de personalização */
-.futturu-cloud-simulator {
+.futturu-hospedagemcloud-simulator {
     /* Suas customizações */
 }
 ```
@@ -113,7 +113,7 @@ Arquivos CSS:
 ## 📁 Estrutura de Arquivos
 
 ```
-futturu-cloud-simulator/
+futturu-hospedagemcloud-simulator/
 ├── assets/
 │   ├── css/
 │   │   ├── frontend.css
@@ -122,10 +122,10 @@ futturu-cloud-simulator/
 │       ├── frontend.js
 │       └── admin.js
 ├── includes/
-│   ├── class-futturu-cloud-admin.php
-│   ├── class-futturu-cloud-data.php
-│   └── class-futturu-cloud-frontend.php
-├── futturu-cloud-simulator.php
+│   ├── class-futturu-hospedagemcloud-admin.php
+│   ├── class-futturu-hospedagemcloud-data.php
+│   └── class-futturu-hospedagemcloud-frontend.php
+├── futturu-hospedagemcloud-simulator.php
 └── README.md
 ```
 
@@ -140,7 +140,7 @@ Para atualizar os planos com base na tabela oficial da Cloudez:
 
 ## 🌐 Internacionalização
 
-O plugin está preparado para internacionalização (i18n) utilizando text domain `futturu-cloud-sim`.
+O plugin está preparado para internacionalização (i18n) utilizando text domain `futturu-hospedagemcloud-sim`.
 
 ## 📝 Licença
 

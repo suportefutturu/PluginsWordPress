@@ -11,7 +11,7 @@
     });
     
     function initSimulator() {
-        var $simulator = $('.futturu-cloud-simulator');
+        var $simulator = $('.futturu-hospedagemcloud-simulator');
         if (!$simulator.length) return;
         
         var discount = parseInt($simulator.data('discount')) || 10;
@@ -275,7 +275,7 @@
             
             // Get form data
             var formData = {
-                action: 'futturu_cloud_send_quote',
+                action: 'futturu_hospedagemcloud_send_quote',
                 nonce: futturuCloudSim.nonce,
                 name: $form.find('#fcs-name').val(),
                 email: $form.find('#fcs-email').val(),

@@ -8,7 +8,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-class Futturu_Cloud_Data {
+class Futturu_HospedagemCloud_Data {
     
     /**
      * Get default plans data
@@ -523,7 +523,7 @@ class Futturu_Cloud_Data {
      */
     public static function get_categories($plans = null) {
         if ($plans === null) {
-            $plans = get_option('futturu_cloud_plans', self::get_default_plans());
+            $plans = get_option('futturu_hospedagemcloud_plans', self::get_default_plans());
         }
         
         $categories = array();
@@ -541,7 +541,7 @@ class Futturu_Cloud_Data {
      */
     public static function get_plans_by_category($category, $plans = null) {
         if ($plans === null) {
-            $plans = get_option('futturu_cloud_plans', self::get_default_plans());
+            $plans = get_option('futturu_hospedagemcloud_plans', self::get_default_plans());
         }
         
         $filtered_plans = array();
