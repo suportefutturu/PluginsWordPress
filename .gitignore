@@ -1,0 +1,9 @@
+```
+# WordPress specific
+wp-content/plugins/futturu-prof-site-sim/assets/css/frontend.css
+wp-content/plugins/futturu-prof-site-sim/assets/js/frontend.js
+
+# Compiled CSS/JS (if generated)
+*.css.map
+*.js.map
+```
