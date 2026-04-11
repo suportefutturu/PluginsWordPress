@@ -24,15 +24,39 @@ class Futuru_Cloud_Simulator_Frontend {
     }
     
     public static function render_shortcode($atts) {
+        // Check if plugin is enabled
         $settings = get_option('futturu_cloud_settings', array());
         
-        if (empty($settings['enabled'])) {
+        // If settings don't exist yet, plugin might not be activated properly
+        // Still allow rendering for first-time users
+        if (empty($settings) || !isset($settings['enabled']) || $settings['enabled'] !== false) {
+            // Plugin is enabled or settings not set yet - continue rendering
+        } else {
             return '';
         }
         
+        // Get plans, profiles and texts with defaults
         $plans = get_option('futturu_cloud_plans', array());
         $profiles = get_option('futturu_cloud_profiles', array());
         $texts = get_option('futturu_cloud_texts', array());
+        
+        // If no plans exist, use defaults from main class
+        if (empty($plans)) {
+            $main_instance = Futuru_Cloud_Simulator::get_instance();
+            $plans = $main_instance->get_default_plans_public();
+        }
+        
+        // If no profiles exist, use defaults
+        if (empty($profiles)) {
+            $main_instance = Futuru_Cloud_Simulator::get_instance();
+            $profiles = $main_instance->get_default_profiles_public();
+        }
+        
+        // If no texts exist, use defaults
+        if (empty($texts)) {
+            $main_instance = Futuru_Cloud_Simulator::get_instance();
+            $texts = $main_instance->get_default_texts_public();
+        }
         
         ob_start();
         ?>

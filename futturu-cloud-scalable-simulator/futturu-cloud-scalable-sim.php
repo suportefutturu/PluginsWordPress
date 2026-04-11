@@ -52,6 +52,7 @@ class Futuru_Cloud_Simulator {
         
         add_action('plugins_loaded', array($this, 'load_textdomain'));
         add_action('wp_enqueue_scripts', array($this, 'enqueue_assets'));
+        add_action('init', array($this, 'register_shortcode'), 1);
         
         // Initialize admin
         if (is_admin()) {
@@ -63,6 +64,13 @@ class Futuru_Cloud_Simulator {
         
         // Initialize AJAX handlers
         Futuru_Cloud_Simulator_Ajax::get_instance();
+    }
+    
+    /**
+     * Register the shortcode
+     */
+    public function register_shortcode() {
+        add_shortcode('futturu_cloud_scalable_simulator', array('Futuru_Cloud_Simulator_Frontend', 'render_shortcode'));
     }
     
     public function activate() {
@@ -130,6 +138,30 @@ class Futuru_Cloud_Simulator {
         }
     }
     
+    /**
+     * Get default plans (public method for frontend access)
+     */
+    public function get_default_plans_public() {
+        return $this->get_default_plans();
+    }
+    
+    /**
+     * Get default profiles (public method for frontend access)
+     */
+    public function get_default_profiles_public() {
+        return $this->get_default_profiles();
+    }
+    
+    /**
+     * Get default texts (public method for frontend access)
+     */
+    public function get_default_texts_public() {
+        return $this->get_default_texts();
+    }
+    
+    /**
+     * Get default plans array
+     */
     private function get_default_plans() {
         return array(
             array(
@@ -227,6 +259,9 @@ class Futuru_Cloud_Simulator {
         );
     }
     
+    /**
+     * Get default profiles array
+     */
     private function get_default_profiles() {
         return array(
             array(
@@ -264,6 +299,9 @@ class Futuru_Cloud_Simulator {
         );
     }
     
+    /**
+     * Get default texts array
+     */
     private function get_default_texts() {
         return array(
             'intro_title' => 'Descubra como começar com uma hospedagem poderosa e econômica',
@@ -282,6 +320,3 @@ function futturu_cloud_simulator_init() {
 }
 
 futturu_cloud_simulator_init();
-
-// Shortcode registration
-add_shortcode('futturu_cloud_scalable_simulator', array('Futuru_Cloud_Simulator_Frontend', 'render_shortcode'));
