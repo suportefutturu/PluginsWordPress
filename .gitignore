@@ -1,33 +1,41 @@
 ```
 # WordPress specific ignores
-wp-content/cache/
-wp-content/uploads/
-wp-config.php
-*.sql
-
-# Dependencies
-vendor/
-node_modules/
-
-# Build artifacts
+wp-content/plugins/futturu-cloud-simulator/
 *.log
 *.tmp
+*.swp
 .DS_Store
 Thumbs.db
 
-# Environment
+# Environment files
 .env
 .env.local
 *.env.*
 
-# Editor/IDE
+# Cache and temporary files
+.cache/
+*.cache
+tmp/
+temp/
+
+# IDE files
 .vscode/
 .idea/
-*.swp
-*.swo
+*.sublime-project
+*.sublime-workspace
 
-# PHP specific
-*.php~
-__MACOSX/
-*.DS_Store
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*~
+.swp
+.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Icon?
 ```
