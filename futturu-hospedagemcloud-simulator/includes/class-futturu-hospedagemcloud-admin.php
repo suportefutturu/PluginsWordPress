@@ -311,14 +311,20 @@ class Futturu_HospedagemCloud_Admin {
                 'visualizacoes' => isset($plan['visualizacoes']) ? sanitize_text_field($plan['visualizacoes']) : '',
                 'preco_mensal' => isset($plan['preco_mensal']) ? floatval($plan['preco_mensal']) : 0,
                 'uso_indicado' => isset($plan['uso_indicado']) ? sanitize_text_field($plan['uso_indicado']) : '',
+                'is_individual' => isset($plan['is_individual']) ? (bool) $plan['is_individual'] : false,
             );
             
             $sanitized_plans[] = $sanitized_plan;
         }
         
+        // Validar se temos planos válidos antes de salvar
+        if (empty($sanitized_plans)) {
+            wp_send_json_error(array('message' => __('Nenhum plano válido para salvar.', 'futturu-hospedagemcloud-sim')));
+        }
+        
         update_option('futturu_hospedagemcloud_plans', $sanitized_plans);
         
-        wp_send_json_success();
+        wp_send_json_success(array('message' => __('Planos salvos com sucesso!', 'futturu-hospedagemcloud-sim')));
     }
     
     /**

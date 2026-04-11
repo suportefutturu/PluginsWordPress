@@ -100,12 +100,12 @@ class Futturu_HospedagemCloud_Frontend {
             <div class="fcs-recurrence-selector">
                 <div class="fcs-toggle-container">
                     <label class="fcs-radio-label">
-                        <input type="radio" name="fcs-recurrence" value="monthly" checked />
+                        <input type="radio" name="fcs-recurrence" value="monthly" />
                         <span class="fcs-radio-text"><?php esc_html_e('Mensal', 'futturu-hospedagemcloud-sim'); ?></span>
                     </label>
                     
-                    <label class="fcs-radio-label fcs-radio-annual">
-                        <input type="radio" name="fcs-recurrence" value="annual" />
+                    <label class="fcs-radio-label fcs-radio-annual active">
+                        <input type="radio" name="fcs-recurrence" value="annual" checked />
                         <span class="fcs-radio-text">
                             <?php esc_html_e('Anual', 'futturu-hospedagemcloud-sim'); ?>
                             <span class="fcs-discount-badge"><?php echo esc_html($discount); ?>% OFF</span>

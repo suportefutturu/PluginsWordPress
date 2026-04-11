@@ -523,7 +523,13 @@ class Futturu_HospedagemCloud_Data {
      */
     public static function get_categories($plans = null) {
         if ($plans === null) {
-            $plans = get_option('futturu_hospedagemcloud_plans', self::get_default_plans());
+            $saved_plans = get_option('futturu_hospedagemcloud_plans');
+            // Se não existir opção salva ou for inválido, usa os padrões
+            if ($saved_plans === false || !is_array($saved_plans) || empty($saved_plans)) {
+                $plans = self::get_default_plans();
+            } else {
+                $plans = $saved_plans;
+            }
         }
         
         // Garantir que $plans é um array
@@ -553,7 +559,13 @@ class Futturu_HospedagemCloud_Data {
      */
     public static function get_plans_by_category($category, $plans = null) {
         if ($plans === null) {
-            $plans = get_option('futturu_hospedagemcloud_plans', self::get_default_plans());
+            $saved_plans = get_option('futturu_hospedagemcloud_plans');
+            // Se não existir opção salva ou for inválido, usa os padrões
+            if ($saved_plans === false || !is_array($saved_plans) || empty($saved_plans)) {
+                $plans = self::get_default_plans();
+            } else {
+                $plans = $saved_plans;
+            }
         }
         
         // Garantir que $plans é um array
@@ -586,5 +598,59 @@ class Futturu_HospedagemCloud_Data {
         });
         
         return $filtered_plans;
+    }
+    
+    /**
+     * Normalize plan names to standard format
+     * BR 1GB, BR 2GB, etc. | USA 1GB, USA 2GB, etc.
+     */
+    public static function normalize_plan_names() {
+        $plans = get_option('futturu_hospedagemcloud_plans');
+        
+        // Se não existir opção salva, usa os padrões e já salva normalizado
+        if ($plans === false || !is_array($plans) || empty($plans)) {
+            $plans = self::get_default_plans();
+        }
+        
+        $normalized = false;
+        
+        foreach ($plans as &$plan) {
+            if (!is_array($plan) || !isset($plan['modelo'])) {
+                continue;
+            }
+            
+            $modelo_original = $plan['modelo'];
+            $novo_modelo = $modelo_original;
+            
+            // Padrão BR: BR1G, BR2G, BR4G, BR8G, BR16G → BR 1GB, BR 2GB, etc.
+            if (preg_match('/^BR(\d+)G(?:\s+Individual)?$/i', $modelo_original, $matches)) {
+                $ram_gb = (int) $matches[1];
+                $novo_modelo = 'BR ' . $ram_gb . 'GB';
+                if (stripos($modelo_original, 'individual') !== false) {
+                    $novo_modelo .= ' Individual';
+                }
+            }
+            // Padrão USA Default: Default USA1G, Default USA2G, etc. → USA 1GB, USA 2GB, etc.
+            elseif (preg_match('/^Default\s+USA(\d+)(?:GB)?(?:\s+Individual)?$/i', $modelo_original, $matches)) {
+                $ram_gb = (int) $matches[1];
+                $novo_modelo = 'USA ' . $ram_gb . 'GB';
+                if (stripos($modelo_original, 'individual') !== false) {
+                    $novo_modelo .= ' Individual';
+                }
+            }
+            // Manter outros nomes como estão (RAM, CPU, Email, etc.)
+            
+            if ($novo_modelo !== $modelo_original) {
+                $plan['modelo'] = $novo_modelo;
+                $normalized = true;
+            }
+        }
+        
+        // Salvar apenas se houve normalização
+        if ($normalized) {
+            update_option('futturu_hospedagemcloud_plans', $plans);
+        }
+        
+        return $normalized;
     }
 }
