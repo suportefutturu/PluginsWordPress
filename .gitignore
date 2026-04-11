@@ -1,0 +1,27 @@
+```
+# WordPress specific ignores
+wp-content/cache/
+*.log
+*.tmp
+.DS_Store
+Thumbs.db
+
+# PHP development
+*.php~
+*.php.bak
+*.bak
+*.swp
+
+# Web assets
+.sass-cache/
+*.css.map
+*.js.map
+
+# General ignores
+.env
+.env.local
+*.env.*
+coverage/
+htmlcov/
+.coverage
+```
