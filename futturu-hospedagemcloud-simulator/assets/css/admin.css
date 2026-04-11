@@ -1,281 +1,69 @@
-/**
- * Futturu Cloud Simulator - Admin Styles
- */
-
-.futturu-hospedagemcloud-admin {
-    max-width: 1400px;
-}
-
-.futturu-hospedagemcloud-tabs {
+/* Admin Styles */
+.fcs-admin-tabs {
     display: flex;
-    flex-wrap: wrap;
-    gap: 5px;
-    margin-bottom: 20px;
-    border-bottom: 2px solid #e0e0e0;
-    padding-bottom: 0;
-}
-
-.tab-button {
-    padding: 12px 25px;
-    background: #f5f5f5;
-    border: none;
-    border-radius: 8px 8px 0 0;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: 600;
-    color: #555;
-    transition: all 0.3s ease;
-    position: relative;
-    top: 2px;
-}
-
-.tab-button:hover {
-    background: #e0e0e0;
-}
-
-.tab-button.active {
-    background: #fff;
-    color: #2271b1;
-    border: 2px solid #e0e0e0;
-    border-bottom: 2px solid #fff;
-    top: 0;
-    z-index: 10;
-}
-
-.tab-content {
-    display: none;
-    background: #fff;
-    border: 2px solid #e0e0e0;
-    border-top: none;
-    padding: 25px;
-    border-radius: 0 0 8px 8px;
-}
-
-.tab-content.active {
-    display: block;
-}
-
-.tab-content h2 {
-    margin-top: 0;
-    margin-bottom: 10px;
-    font-size: 1.5rem;
-    color: #1a1a2e;
-}
-
-.tab-content .description {
-    color: #666;
-    margin-bottom: 20px;
-}
-
-/* Plans Table */
-.category-section {
-    margin-bottom: 30px;
-    padding-bottom: 30px;
-    border-bottom: 2px solid #f0f0f0;
-}
-
-.category-section:last-child {
-    border-bottom: none;
-}
-
-.category-section h3 {
-    margin-top: 0;
-    margin-bottom: 15px;
-    color: #1a1a2e;
-    font-size: 1.2rem;
-}
-
-/* FAQ Items */
-#faqs-container {
-    margin-bottom: 20px;
-}
-
-.faq-item {
-    background: #f9f9f9;
-    padding: 20px;
-    border-radius: 8px;
-    margin-bottom: 15px;
-    border: 1px solid #e0e0e0;
-}
-
-.faq-item label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 600;
-    color: #333;
-}
-
-.faq-item input[type="text"],
-.faq-item textarea {
-    width: 100%;
-    max-width: 100%;
-    margin-bottom: 15px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-}
-
-.faq-item .remove-faq {
-    background: #dc3545;
-    color: white;
-    border: none;
-    padding: 8px 15px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 13px;
-}
-
-.faq-item .remove-faq:hover {
-    background: #c82333;
-}
-
-/* Feature Items */
-#features-container {
-    margin-bottom: 20px;
-}
-
-.feature-item {
-    display: flex;
-    align-items: center;
     gap: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
 }
 
-.feature-item input[type="text"] {
-    flex-grow: 1;
-    padding: 10px;
+.fcs-tab-btn {
+    padding: 10px 20px;
+    border: 1px solid #ccc;
+    background: #f7f7f7;
+    cursor: pointer;
+    font-size: 14px;
+    border-radius: 4px;
+}
+
+.fcs-tab-btn.active {
+    background: #2271b1;
+    color: white;
+    border-color: #2271b1;
+}
+
+.fcs-tab-content {
+    display: none;
+}
+
+.fcs-tab-content.active {
+    display: block;
+}
+
+.fcs-category-section {
+    margin-bottom: 30px;
+}
+
+.fcs-category-section h3 {
+    margin-bottom: 15px;
+}
+
+.fcs-faq-item {
+    margin-bottom: 15px;
+    padding: 15px;
     border: 1px solid #ddd;
     border-radius: 4px;
 }
 
-.feature-item .remove-feature {
-    background: #dc3545;
-    color: white;
-    border: none;
-    padding: 8px 15px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 13px;
-    white-space: nowrap;
-}
-
-.feature-item .remove-feature:hover {
-    background: #c82333;
-}
-
-/* Add Buttons */
-#add-faq,
-#add-feature {
-    background: #28a745;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: 600;
-    margin-bottom: 20px;
-}
-
-#add-faq:hover,
-#add-feature:hover {
-    background: #218838;
-}
-
-/* Shortcode Box */
-.shortcode-box {
-    background: #f0f0f0;
-    padding: 20px;
-    border-radius: 8px;
-    margin: 20px 0;
-    text-align: center;
-}
-
-.shortcode-box code {
-    font-size: 1.5rem;
-    color: #2271b1;
-    background: none;
-    padding: 0;
-}
-
-/* Form Table */
-.form-table th {
-    padding: 15px 10px 15px 0;
-    width: 200px;
-}
-
-.form-table td {
-    padding: 15px 0;
-}
-
-.form-table input[type="number"],
-.form-table input[type="email"],
-.form-table input[type="text"] {
-    padding: 8px 12px;
-}
-
-.form-table textarea {
-    padding: 10px;
+.fcs-faq-item input[type="text"] {
     width: 100%;
-    max-width: 600px;
+    margin-bottom: 10px;
 }
 
-.form-table .description {
-    margin-top: 5px;
-    font-style: italic;
+.fcs-faq-item textarea {
+    width: 100%;
+    margin-bottom: 10px;
 }
 
-/* Submit Button */
-.tab-content .submit {
-    margin-top: 25px;
-    padding-top: 20px;
-    border-top: 1px solid #e0e0e0;
-}
-
-.tab-content .button-primary {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+.remove-faq {
+    background: #dc3232;
+    color: white;
     border: none;
-    padding: 12px 30px;
-    font-size: 14px;
-    font-weight: 600;
-    border-radius: 4px;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
 }
 
-.tab-content .button-primary:hover {
-    opacity: 0.9;
-}
-
-/* Responsive */
-@media (max-width: 782px) {
-    .futturu-hospedagemcloud-tabs {
-        flex-direction: column;
-    }
-    
-    .tab-button {
-        border-radius: 4px;
-        top: 0;
-    }
-    
-    .tab-button.active {
-        border: 2px solid #2271b1;
-    }
-    
-    .tab-content {
-        border-radius: 8px;
-        border-top: 2px solid #e0e0e0;
-    }
-    
-    .form-table th {
-        width: auto;
-        padding-bottom: 5px;
-    }
-    
-    .feature-item {
-        flex-direction: column;
-        align-items: stretch;
-    }
-    
-    .feature-item .remove-feature {
-        width: 100%;
-    }
+#fcs-faqs-container {
+    margin-bottom: 20px;
 }

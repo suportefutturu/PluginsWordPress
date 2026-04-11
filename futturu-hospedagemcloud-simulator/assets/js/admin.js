@@ -1,112 +1,118 @@
-/**
- * Futturu Cloud Simulator - Admin JavaScript
- */
-
-(function($) {
-    'use strict';
-    
-    $(document).ready(function() {
-        initAdminPanel();
+jQuery(document).ready(function($) {
+    // Tabs
+    $('.fcs-tab-btn').on('click', function() {
+        var tab = $(this).data('tab');
+        
+        $('.fcs-tab-btn').removeClass('active');
+        $(this).addClass('active');
+        
+        $('.fcs-tab-content').removeClass('active');
+        $('#fcs-tab-' + tab).addClass('active');
     });
     
-    function initAdminPanel() {
-        // Handle tab switching
-        handleTabs();
+    // Save Plans
+    $('#fcs-save-plans').on('click', function() {
+        var $spinner = $('#fcs-plans-spinner');
+        var $message = $('#fcs-plans-message');
         
-        // Handle FAQ add/remove
-        handleFAQActions();
+        $spinner.addClass('is-active');
+        $message.html('');
         
-        // Handle feature add/remove
-        handleFeatureActions();
-    }
-    
-    // Handle tab switching
-    function handleTabs() {
-        $('.tab-button').on('click', function() {
-            var $btn = $(this);
-            var tabId = $btn.data('tab');
-            
-            // Update active button
-            $('.tab-button').removeClass('active');
-            $btn.addClass('active');
-            
-            // Show corresponding content
-            $('.tab-content').removeClass('active');
-            $('#tab-' + tabId).addClass('active');
-        });
-    }
-    
-    // Handle FAQ add/remove actions
-    function handleFAQActions() {
-        // Add new FAQ
-        $('#add-faq').on('click', function() {
-            var index = $('#faqs-container .faq-item').length;
-            var newFaqHtml = `
-                <div class="faq-item">
-                    <label>Pergunta:</label>
-                    <input type="text" name="futturu_hospedagemcloud_faqs[${index}][pergunta]" value="" class="large-text" />
-                    
-                    <label>Resposta:</label>
-                    <textarea name="futturu_hospedagemcloud_faqs[${index}][resposta]" rows="3" class="large-text"></textarea>
-                    
-                    <button type="button" class="button remove-faq">Remover</button>
-                </div>
-            `;
-            
-            $('#faqs-container').append(newFaqHtml);
+        var data = {
+            action: 'futturu_hospedagemcloud_save_plans',
+            nonce: futturuHospedagemCloudAdmin.nonce
+        };
+        
+        $('input[name^="plan_"]').each(function() {
+            var name = $(this).attr('name');
+            var value = $(this).val();
+            data[name] = value;
         });
         
-        // Remove FAQ (delegated event)
-        $(document).on('click', '.remove-faq', function() {
-            $(this).closest('.faq-item').remove();
-            reindexFAQs();
+        $.post(futturuHospedagemCloudAdmin.ajaxUrl, data, function(response) {
+            $spinner.removeClass('is-active');
+            if (response.success) {
+                $message.html('<span style="color: green;">' + response.data + '</span>');
+            } else {
+                $message.html('<span style="color: red;">Erro: ' + response.data + '</span>');
+            }
         });
-    }
+    });
     
-    // Re-index FAQs after removal
-    function reindexFAQs() {
-        $('#faqs-container .faq-item').each(function(index) {
-            var $item = $(this);
-            $item.find('input[name^="futturu_hospedagemcloud_faqs"], textarea[name^="futturu_hospedagemcloud_faqs"]').each(function() {
-                var name = $(this).attr('name');
-                var newName = name.replace(/\[\d+\]/, '[' + index + ']');
-                $(this).attr('name', newName);
-            });
-        });
-    }
+    // Add FAQ
+    $('#fcs-add-faq').on('click', function() {
+        var index = $('#fcs-faqs-container .fcs-faq-item').length;
+        var html = '<div class="fcs-faq-item">' +
+            '<input type="text" name="faq_pergunta[' + index + ']" class="regular-text" placeholder="Pergunta">' +
+            '<textarea name="faq_resposta[' + index + ']" rows="3" placeholder="Resposta"></textarea>' +
+            '<button type="button" class="button remove-faq">Remover</button>' +
+            '</div>';
+        $('#fcs-faqs-container').append(html);
+    });
     
-    // Handle feature add/remove actions
-    function handleFeatureActions() {
-        // Add new feature
-        $('#add-feature').on('click', function() {
-            var index = $('#features-container .feature-item').length;
-            var newFeatureHtml = `
-                <div class="feature-item">
-                    <input type="text" name="futturu_hospedagemcloud_features[${index}]" value="" class="large-text" />
-                    <button type="button" class="button remove-feature">Remover</button>
-                </div>
-            `;
-            
-            $('#features-container').append(newFeatureHtml);
+    // Remove FAQ
+    $(document).on('click', '.remove-faq', function() {
+        $(this).parent().remove();
+    });
+    
+    // Save FAQs
+    $('#fcs-save-faqs').on('click', function() {
+        var $spinner = $('#fcs-faqs-spinner');
+        var $message = $('#fcs-faqs-message');
+        
+        $spinner.addClass('is-active');
+        $message.html('');
+        
+        var data = {
+            action: 'futturu_hospedagemcloud_save_faqs',
+            nonce: futturuHospedagemCloudAdmin.nonce
+        };
+        
+        $('input[name^="faq_pergunta"]').each(function() {
+            var name = $(this).attr('name');
+            var value = $(this).val();
+            data[name] = value;
         });
         
-        // Remove feature (delegated event)
-        $(document).on('click', '.remove-feature', function() {
-            $(this).closest('.feature-item').remove();
-            reindexFeatures();
+        $('textarea[name^="faq_resposta"]').each(function() {
+            var name = $(this).attr('name');
+            var value = $(this).val();
+            data[name] = value;
         });
-    }
-    
-    // Re-index features after removal
-    function reindexFeatures() {
-        $('#features-container .feature-item').each(function(index) {
-            var $item = $(this);
-            $item.find('input[name^="futturu_hospedagemcloud_features"]').each(function() {
-                var name = $(this).attr('name');
-                var newName = name.replace(/\[\d+\]/, '[' + index + ']');
-                $(this).attr('name', newName);
-            });
+        
+        $.post(futturuHospedagemCloudAdmin.ajaxUrl, data, function(response) {
+            $spinner.removeClass('is-active');
+            if (response.success) {
+                $message.html('<span style="color: green;">' + response.data + '</span>');
+            } else {
+                $message.html('<span style="color: red;">Erro: ' + response.data + '</span>');
+            }
         });
-    }
+    });
     
-})(jQuery);
+    // Save Settings
+    $('#fcs-save-settings').on('click', function() {
+        var $spinner = $('#fcs-settings-spinner');
+        var $message = $('#fcs-settings-message');
+        
+        $spinner.addClass('is-active');
+        $message.html('');
+        
+        var data = {
+            action: 'futturu_hospedagemcloud_save_settings',
+            nonce: futturuHospedagemCloudAdmin.nonce,
+            discount_rate: $('#fcs-discount-rate').val(),
+            contact_email: $('#fcs-contact-email').val(),
+            default_view: $('input[name="fcs-default-view"]:checked').val()
+        };
+        
+        $.post(futturuHospedagemCloudAdmin.ajaxUrl, data, function(response) {
+            $spinner.removeClass('is-active');
+            if (response.success) {
+                $message.html('<span style="color: green;">' + response.data + '</span>');
+            } else {
+                $message.html('<span style="color: red;">Erro: ' + response.data + '</span>');
+            }
+        });
+    });
+});
