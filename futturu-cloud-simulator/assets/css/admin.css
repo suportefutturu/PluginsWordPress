@@ -1,0 +1,197 @@
+/**
+ * Futturu Cloud Simulator - Admin Styles
+ */
+
+.fcs-admin-wrap {
+    max-width: 1200px;
+}
+
+.fcs-admin-wrap h1 {
+    margin-bottom: 20px;
+}
+
+/* Tab Navigation */
+.nav-tab-wrapper {
+    margin-bottom: 20px;
+    border-bottom: 2px solid #e9ecef;
+}
+
+.nav-tab {
+    display: inline-block;
+    padding: 12px 24px;
+    background: #f8f9fa;
+    border: 2px solid #e9ecef;
+    border-bottom: none;
+    border-radius: 8px 8px 0 0;
+    margin-right: 5px;
+    margin-bottom: -2px;
+    text-decoration: none;
+    color: #555;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.nav-tab:hover {
+    background: #e9ecef;
+    color: #333;
+}
+
+.nav-tab-active {
+    background: #fff !important;
+    border-color: #1a73e8;
+    color: #1a73e8 !important;
+}
+
+.tab-content {
+    background: #fff;
+    border: 2px solid #e9ecef;
+    border-top: none;
+    padding: 25px;
+    border-radius: 0 0 8px 8px;
+}
+
+/* Tables */
+.wp-list-table th {
+    font-weight: 600;
+    padding: 12px 10px;
+}
+
+.wp-list-table td {
+    padding: 12px 10px;
+    vertical-align: middle;
+}
+
+.button-link-delete {
+    color: #d63638 !important;
+}
+
+.button-link-delete:hover {
+    color: #b32d2e !important;
+    border-color: #b32d2e !important;
+}
+
+/* Modal Styles */
+.fcs-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100000;
+}
+
+.fcs-modal-content {
+    background: #fff;
+    border-radius: 8px;
+    max-width: 700px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    padding: 30px;
+}
+
+.fcs-modal-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 28px;
+    cursor: pointer;
+    color: #999;
+    line-height: 1;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+}
+
+.fcs-modal-close:hover {
+    color: #333;
+}
+
+.fcs-modal-content h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.form-table th {
+    padding: 15px 10px 15px 0;
+    width: 200px;
+}
+
+.form-table td {
+    padding: 15px 10px;
+}
+
+.form-table input[type="text"],
+.form-table input[type="number"],
+.form-table input[type="email"],
+.form-table textarea,
+.form-table select {
+    width: 100%;
+    max-width: 400px;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.form-table textarea {
+    min-height: 80px;
+    resize: vertical;
+}
+
+.form-table .small-text {
+    width: 80px;
+    max-width: 80px;
+}
+
+.form-table .description {
+    margin-top: 5px;
+    color: #666;
+    font-style: italic;
+}
+
+.submit {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #e9ecef;
+}
+
+.submit .button {
+    margin-right: 10px;
+}
+
+/* Notice Messages */
+.notice {
+    margin: 10px 0 20px !important;
+}
+
+/* Responsive */
+@media (max-width: 782px) {
+    .form-table th {
+        width: auto;
+        padding-bottom: 5px;
+    }
+    
+    .form-table td {
+        padding-top: 5px;
+    }
+    
+    .form-table input[type="text"],
+    .form-table input[type="number"],
+    .form-table input[type="email"],
+    .form-table textarea,
+    .form-table select {
+        max-width: 100%;
+    }
+}

@@ -1,0 +1,31 @@
+```
+# WordPress specific ignores
+wp-content/cache/
+*.log
+*.tmp
+
+# Dependencies
+node_modules/
+vendor/
+
+# Environment
+.env
+.env.local
+*.env.*
+
+# Editor/IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+build/
+dist/
+*.min.js
+*.min.css
+```
