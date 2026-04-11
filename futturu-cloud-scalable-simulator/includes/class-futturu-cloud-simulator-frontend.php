@@ -1,387 +1,306 @@
 <?php
 /**
- * Frontend class for Futuru Cloud Simulator
+ * Frontend Renderer - Simulador Cloud Futturu
+ * Renderiza o simulador com foco em conversão
  */
 
-// Prevent direct access
 if (!defined('ABSPATH')) {
     exit;
 }
 
-class Futuru_Cloud_Simulator_Frontend {
-    
-    private static $instance = null;
-    
-    public static function get_instance() {
-        if (null === self::$instance) {
-            self::$instance = new self();
-        }
-        return self::$instance;
+// Helper function to get plan by ID
+function futturu_get_plan_by_id($plans, $plan_id) {
+    if (empty($plans) || empty($plan_id)) {
+        return null;
     }
-    
-    private function __construct() {
-        // Frontend hooks if needed
+    foreach ($plans as $plan) {
+        if (isset($plan['id']) && $plan['id'] === $plan_id) {
+            return $plan;
+        }
     }
+    return null;
+}
+
+// Helper to format price
+function futturu_format_price($price) {
+    return 'R$ ' . number_format(floatval($price), 2, ',', '.');
+}
+
+// Helper to format views
+function futturu_format_views($views) {
+    if ($views >= 1000000) {
+        return number_format($views / 1000000, 1, ',', '.') . 'M';
+    } elseif ($views >= 1000) {
+        return number_format($views / 1000, 0, ',', '.') . 'K';
+    }
+    return number_format($views, 0, ',', '.');
+}
+?>
+
+<div class="futturu-cloud-simulator" id="futturuCloudSimulator">
     
-    public static function render_shortcode($atts) {
-        // Check if plugin is enabled
-        $settings = get_option('futturu_cloud_settings', array());
-        
-        // If settings don't exist yet, plugin might not be activated properly
-        // Still allow rendering for first-time users
-        if (empty($settings) || !isset($settings['enabled']) || $settings['enabled'] !== false) {
-            // Plugin is enabled or settings not set yet - continue rendering
-        } else {
-            return '';
-        }
-        
-        // Get plans, profiles and texts with defaults
-        $plans = get_option('futturu_cloud_plans', array());
-        $profiles = get_option('futturu_cloud_profiles', array());
-        $texts = get_option('futturu_cloud_texts', array());
-        
-        // If no plans exist, use defaults from main class
-        if (empty($plans)) {
-            $main_instance = Futuru_Cloud_Simulator::get_instance();
-            $plans = $main_instance->get_default_plans_public();
-        }
-        
-        // If no profiles exist, use defaults
-        if (empty($profiles)) {
-            $main_instance = Futuru_Cloud_Simulator::get_instance();
-            $profiles = $main_instance->get_default_profiles_public();
-        }
-        
-        // If no texts exist, use defaults
-        if (empty($texts)) {
-            $main_instance = Futuru_Cloud_Simulator::get_instance();
-            $texts = $main_instance->get_default_texts_public();
-        }
-        
-        ob_start();
-        ?>
-        <div class="futturu-cloud-simulator">
-            <!-- Introduction Section -->
-            <div class="futturu-intro-section">
-                <h2 class="futturu-intro-title"><?php echo esc_html(isset($texts['intro_title']) ? $texts['intro_title'] : __('Descubra como começar com uma hospedagem poderosa e econômica', 'futturu-cloud-simulator')); ?></h2>
-                <p class="futturu-intro-text"><?php echo esc_html(isset($texts['intro_text']) ? $texts['intro_text'] : __('Cresça com tranquilidade e segurança. Nossa parceria com a Cloudez oferece planos escalonáveis, gerenciados automaticamente, para que você se preocupe apenas com o seu negócio.', 'futturu-cloud-simulator')); ?></p>
-                
-                <div class="futturu-benefits-grid">
-                    <div class="futturu-benefit-item">
-                        <div class="futturu-benefit-icon">🚀</div>
-                        <h4><?php _e('Comece com Planos Acessíveis', 'futturu-cloud-simulator'); ?></h4>
-                    </div>
-                    <div class="futturu-benefit-item">
-                        <div class="futturu-benefit-icon">⚙️</div>
-                        <h4><?php _e('Hospedagem Gerenciada', 'futturu-cloud-simulator'); ?></h4>
-                    </div>
-                    <div class="futturu-benefit-item">
-                        <div class="futturu-benefit-icon">⚡</div>
-                        <h4><?php _e('CDN e Otimizações Automáticas', 'futturu-cloud-simulator'); ?></h4>
-                    </div>
-                    <div class="futturu-benefit-item">
-                        <div class="futturu-benefit-icon">🔒</div>
-                        <h4><?php _e('Backups e Segurança Garantidos', 'futturu-cloud-simulator'); ?></h4>
-                    </div>
-                    <div class="futturu-benefit-item">
-                        <div class="futturu-benefit-icon">📊</div>
-                        <h4><?php _e('Monitoramento Proativo', 'futturu-cloud-simulator'); ?></h4>
-                    </div>
-                    <div class="futturu-benefit-item">
-                        <div class="futturu-benefit-icon">📈</div>
-                        <h4><?php _e('Escalabilidade Simples', 'futturu-cloud-simulator'); ?></h4>
-                    </div>
-                    <div class="futturu-benefit-item">
-                        <div class="futturu-benefit-icon">❌</div>
-                        <h4><?php _e('Evite Hospedagem Compartilhada', 'futturu-cloud-simulator'); ?></h4>
-                    </div>
-                    <div class="futturu-benefit-item">
-                        <div class="futturu-benefit-icon">👨‍💼</div>
-                        <h4><?php _e('Suporte Técnico Humano Especializado', 'futturu-cloud-simulator'); ?></h4>
-                    </div>
-                </div>
+    <!-- Section A: Introduction -->
+    <div class="fcs-intro-section">
+        <div class="fcs-container">
+            <h1 class="fcs-main-title"><?php echo esc_html($texts['intro_title'] ?? 'Comece Pequeno, Cresça com Segurança'); ?></h1>
+            <h2 class="fcs-subtitle"><?php echo esc_html($texts['intro_subtitle'] ?? 'Descubra como começar com uma hospedagem poderosa e econômica'); ?></h2>
+            <p class="fcs-description"><?php echo esc_html($texts['intro_description'] ?? ''); ?></p>
+            
+            <div class="fcs-benefits-grid">
+                <?php if (!empty($texts['benefits']) && is_array($texts['benefits'])): ?>
+                    <?php foreach ($texts['benefits'] as $benefit): ?>
+                        <div class="fcs-benefit-item">
+                            <span class="fcs-benefit-icon">✓</span>
+                            <span><?php echo esc_html($benefit); ?></span>
+                        </div>
+                    <?php endforeach; ?>
+                <?php endif; ?>
             </div>
             
-            <!-- Quiz Section -->
-            <div class="futturu-quiz-section">
-                <h3 class="futturu-quiz-title"><?php echo esc_html(isset($texts['quiz_question']) ? $texts['quiz_question'] : __('Quantas visualizações seu site recebe (ou espera receber) por mês?', 'futturu-cloud-simulator')); ?></h3>
-                
-                <div class="futturu-quiz-options">
-                    <?php foreach ($profiles as $profile) : ?>
-                        <button class="futturu-quiz-option" 
-                                data-profile-id="<?php echo esc_attr($profile['id']); ?>"
-                                data-recommended-plan="<?php echo esc_attr($profile['recommended_plan']); ?>">
-                            <span class="futturu-quiz-option-name"><?php echo esc_html($profile['name']); ?></span>
-                            <span class="futturu-quiz-option-views">
-                                <?php echo number_format($profile['views_min'], 0, ',', '.'); ?> - 
-                                <?php echo $profile['views_max'] >= 999999999 ? '+' : number_format($profile['views_max'], 0, ',', '.'); ?>
-                                <?php _e('visualizações/mês', 'futturu-cloud-simulator'); ?>
+            <div class="fcs-partnership-badge">
+                <span class="fcs-badge-text">Tecnologia e Infraestrutura</span>
+                <strong>Cloudez</strong>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section B: Micro-Quiz -->
+    <div class="fcs-quiz-section">
+        <div class="fcs-container">
+            <h3 class="fcs-quiz-title"><?php echo esc_html($texts['quiz_question'] ?? 'Quantas visualizações seu site recebe por mês?'); ?></h3>
+            
+            <div class="fcs-quiz-options">
+                <?php if (!empty($profiles) && is_array($profiles)): ?>
+                    <?php foreach ($profiles as $profile): ?>
+                        <button class="fcs-quiz-option" 
+                                data-profile-id="<?php echo esc_attr($profile['id'] ?? ''); ?>"
+                                data-recommended-plan="<?php echo esc_attr($profile['recommended_plan'] ?? ''); ?>"
+                                data-min-views="<?php echo esc_attr($profile['min_views'] ?? 0); ?>"
+                                data-max-views="<?php echo esc_attr($profile['max_views'] ?? 0); ?>">
+                            <span class="fcs-option-name"><?php echo esc_html($profile['name'] ?? ''); ?></span>
+                            <span class="fcs-option-views">
+                                <?php echo futturu_format_views($profile['min_views'] ?? 0); ?> - <?php echo futturu_format_views($profile['max_views'] ?? 0); ?> visitas/mês
                             </span>
+                            <span class="fcs-option-desc"><?php echo esc_html($profile['description'] ?? ''); ?></span>
                         </button>
                     <?php endforeach; ?>
-                </div>
-                
-                <div id="futturu-recommendation" class="futturu-recommendation" style="display: none;">
-                    <div class="futturu-recommendation-content">
-                        <h4><?php _e('Plano Recomendado para Você:', 'futturu-cloud-simulator'); ?></h4>
-                        <div id="recommended-plan-info"></div>
-                        <button class="futturu-btn futturu-btn-primary" onclick="futturuScrollToPlans()">
-                            <?php _e('Ver Todos os Planos', 'futturu-cloud-simulator'); ?>
-                        </button>
-                    </div>
-                </div>
+                <?php endif; ?>
             </div>
             
-            <!-- Plans Table Section -->
-            <div class="futturu-plans-section" id="futturu-plans">
-                <h3 class="futturu-plans-title"><?php echo esc_html(isset($texts['table_title']) ? $texts['table_title'] : __('Planos Econômicos & Escaláveis', 'futturu-cloud-simulator')); ?></h3>
-                
-                <div class="futturu-plans-table-wrapper">
-                    <table class="futturu-plans-table">
-                        <thead>
-                            <tr>
-                                <th><?php _e('Modelo', 'futturu-cloud-simulator'); ?></th>
-                                <th><?php _e('Recursos', 'futturu-cloud-simulator'); ?></th>
-                                <th><?php _e('Visualizações/Mês', 'futturu-cloud-simulator'); ?></th>
-                                <th><?php _e('Sites por Cloud', 'futturu-cloud-simulator'); ?></th>
-                                <th><?php _e('Preço', 'futturu-cloud-simulator'); ?></th>
-                                <th><?php _e('Cresça com', 'futturu-cloud-simulator'); ?></th>
-                                <th><?php _e('Ação', 'futturu-cloud-simulator'); ?></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php 
-                            // Sort plans to show initial plans first
-                            usort($plans, function($a, $b) {
-                                $category_order = array('inicial' => 1, 'crescimento' => 2, 'intermediario' => 3, 'avancado' => 4, 'enterprise' => 5);
-                                $order_a = isset($category_order[$a['category']]) ? $category_order[$a['category']] : 99;
-                                $order_b = isset($category_order[$b['category']]) ? $category_order[$b['category']] : 99;
-                                return $order_a - $order_b;
-                            });
-                            
-                            foreach ($plans as $plan) : 
-                                $next_plan = !empty($plan['next_plan']) ? self::get_plan_by_id($plan['next_plan'], $plans) : null;
-                            ?>
-                                <tr class="futturu-plan-row" data-plan-id="<?php echo esc_attr($plan['id']); ?>">
-                                    <td class="futturu-plan-name">
-                                        <strong><?php echo esc_html($plan['name']); ?></strong>
-                                        <span class="futturu-plan-category"><?php echo esc_html(self::get_category_label($plan['category'])); ?></span>
-                                    </td>
-                                    <td>
-                                        <div class="futturu-plan-resources">
-                                            <div><span class="label">RAM:</span> <?php echo esc_html($plan['ram']); ?> GB</div>
-                                            <div><span class="label">CPU:</span> <?php echo esc_html($plan['cpu']); ?> Core(s)</div>
-                                            <div><span class="label">SSD:</span> <?php echo esc_html($plan['disk']); ?> GB</div>
-                                        </div>
-                                    </td>
-                                    <td><?php echo number_format($plan['views'], 0, ',', '.'); ?></td>
-                                    <td><?php echo esc_html($plan['sites']); ?></td>
-                                    <td class="futturu-plan-price">
-                                        <span class="price-currency">R$</span>
-                                        <span class="price-value"><?php echo number_format($plan['price'], 2, ',', '.'); ?></span>
-                                        <span class="price-period">/mês</span>
-                                    </td>
-                                    <td>
-                                        <?php if ($next_plan) : ?>
-                                            <div class="futturu-upgrade-path">
-                                                <span class="upgrade-arrow">→</span>
-                                                <strong><?php echo esc_html($next_plan['name']); ?></strong>
-                                                <span class="upgrade-price">(R$ <?php echo number_format($next_plan['price'], 2, ',', '.'); ?>)</span>
-                                            </div>
-                                        <?php else : ?>
-                                            <span class="futturu-max-plan"><?php _e('Plano Máximo', 'futturu-cloud-simulator'); ?></span>
-                                        <?php endif; ?>
-                                    </td>
-                                    <td>
-                                        <button class="futturu-btn futturu-btn-secondary more-info-btn" 
-                                                data-plan-id="<?php echo esc_attr($plan['id']); ?>">
-                                            <?php _e('Mais Info', 'futturu-cloud-simulator'); ?>
-                                        </button>
-                                        <button class="futturu-btn futturu-btn-primary select-plan-btn" 
-                                                data-plan-id="<?php echo esc_attr($plan['id']); ?>"
-                                                data-plan-name="<?php echo esc_attr($plan['name']); ?>"
-                                                data-plan-price="<?php echo esc_attr($plan['price']); ?>">
-                                            <?php _e('Contratar este Plano', 'futturu-cloud-simulator'); ?>
-                                        </button>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            
-            <!-- Growth Path Section -->
-            <div class="futturu-growth-section">
-                <h3><?php _e('Simule Seu Caminho de Crescimento', 'futturu-cloud-simulator'); ?></h3>
-                <p><?php _e('Veja como você pode começar pequeno e crescer com segurança:', 'futturu-cloud-simulator'); ?></p>
-                
-                <div class="futturu-growth-timeline">
-                    <div class="futturu-growth-step">
-                        <div class="step-month"><?php _e('Mês 0', 'futturu-cloud-simulator'); ?></div>
-                        <div class="step-plan">BR1G</div>
-                        <div class="step-price">R$ 239/mês</div>
-                        <div class="step-desc"><?php _e('Início seguro e econômico', 'futturu-cloud-simulator'); ?></div>
-                    </div>
-                    <div class="futturu-growth-arrow">→</div>
-                    <div class="futturu-growth-step">
-                        <div class="step-month"><?php _e('Mês 6', 'futturu-cloud-simulator'); ?></div>
-                        <div class="step-plan">BR4G</div>
-                        <div class="step-price">R$ 1.009/mês</div>
-                        <div class="step-desc"><?php _e('Crescimento consolidado', 'futturu-cloud-simulator'); ?></div>
-                    </div>
-                    <div class="futturu-growth-arrow">→</div>
-                    <div class="futturu-growth-step">
-                        <div class="step-month"><?php _e('Mês 12', 'futturu-cloud-simulator'); ?></div>
-                        <div class="step-plan">BR8G</div>
-                        <div class="step-price">R$ 1.589/mês</div>
-                        <div class="step-desc"><?php _e('Alta performance', 'futturu-cloud-simulator'); ?></div>
-                    </div>
-                </div>
-                
-                <div class="futturu-comparison-box">
-                    <h4><?php _e('Vantagens vs Hospedagem Compartilhada', 'futturu-cloud-simulator'); ?></h4>
-                    <ul>
-                        <li>✓ <?php _e('Recursos dedicados e garantidos', 'futturu-cloud-simulator'); ?></li>
-                        <li>✓ <?php _e('Escalabilidade com 1 clique', 'futturu-cloud-simulator'); ?></li>
-                        <li>✓ <?php _e('Sem limitações ocultas', 'futturu-cloud-simulator'); ?></li>
-                        <li>✓ <?php _e('Performance consistente', 'futturu-cloud-simulator'); ?></li>
-                        <li>✓ <?php _e('Suporte especializado em cloud', 'futturu-cloud-simulator'); ?></li>
-                    </ul>
-                </div>
-            </div>
-            
-            <!-- CTA Section -->
-            <div class="futturu-cta-section">
-                <div class="futturu-cta-content">
-                    <h3><?php echo esc_html(isset($texts['cta_main']) ? $texts['cta_main'] : __('Pronto para começar com a hospedagem certa e crescer com tranquilidade? Fale com um especialista da Futturu.', 'futturu-cloud-simulator')); ?></h3>
-                    <button class="futturu-btn futturu-btn-large futturu-btn-primary" onclick="futturuOpenModal()">
-                        <?php _e('Solicite uma Cotação', 'futturu-cloud-simulator'); ?>
-                    </button>
-                </div>
-                <div class="futturu-cta-secondary">
-                    <p><?php echo esc_html(isset($texts['cta_secondary']) ? $texts['cta_secondary'] : __('Quer ajuda para escolher o plano ideal para começar? Solicite uma consultoria gratuita.', 'futturu-cloud-simulator')); ?></p>
-                    <button class="futturu-btn futturu-btn-outline" onclick="futturuOpenModal()">
-                        <?php _e('Falar com Especialista', 'futturu-cloud-simulator'); ?>
-                    </button>
-                </div>
-            </div>
-            
-            <!-- Contact Modal -->
-            <div id="futturu-contact-modal" class="futturu-modal-overlay" style="display: none;">
-                <div class="futturu-modal-dialog">
-                    <button class="futturu-modal-close-btn" onclick="futturuCloseModal()">&times;</button>
-                    <h3><?php _e('Solicite uma Cotação', 'futturu-cloud-simulator'); ?></h3>
-                    <p><?php _e('Preencha o formulário abaixo e entraremos em contato em breve.', 'futturu-cloud-simulator'); ?></p>
-                    
-                    <form id="futturu-contact-form" method="post">
-                        <input type="hidden" name="action" value="futturu_send_contact">
-                        <input type="hidden" name="nonce" value="<?php echo wp_create_nonce('futturu_cloud_sim_nonce'); ?>">
-                        <input type="hidden" id="selected-plan" name="selected_plan" value="">
-                        
-                        <div class="futturu-form-group">
-                            <label for="futturu-name"><?php _e('Nome Completo *', 'futturu-cloud-simulator'); ?></label>
-                            <input type="text" id="futturu-name" name="name" required>
-                        </div>
-                        
-                        <div class="futturu-form-group">
-                            <label for="futturu-email"><?php _e('E-mail *', 'futturu-cloud-simulator'); ?></label>
-                            <input type="email" id="futturu-email" name="email" required>
-                        </div>
-                        
-                        <div class="futturu-form-group">
-                            <label for="futturu-phone"><?php _e('Telefone/WhatsApp', 'futturu-cloud-simulator'); ?></label>
-                            <input type="tel" id="futturu-phone" name="phone">
-                        </div>
-                        
-                        <div class="futturu-form-group">
-                            <label for="futturu-traffic"><?php _e('Perfil de Tráfego', 'futturu-cloud-simulator'); ?></label>
-                            <select id="futturu-traffic" name="traffic_profile">
-                                <option value=""><?php _e('Selecione...', 'futturu-cloud-simulator'); ?></option>
-                                <?php foreach ($profiles as $profile) : ?>
-                                    <option value="<?php echo esc_attr($profile['id']); ?>"><?php echo esc_html($profile['name']); ?></option>
-                                <?php endforeach; ?>
-                            </select>
-                        </div>
-                        
-                        <div class="futturu-form-group">
-                            <label for="futturu-message"><?php _e('Mensagem (Opcional)', 'futturu-cloud-simulator'); ?></label>
-                            <textarea id="futturu-message" name="message" rows="4"></textarea>
-                        </div>
-                        
-                        <div class="futturu-form-submit">
-                            <button type="submit" class="futturu-btn futturu-btn-primary futturu-btn-full">
-                                <?php _e('Enviar Solicitação', 'futturu-cloud-simulator'); ?>
-                            </button>
-                        </div>
-                        
-                        <div id="futturu-form-message" class="futturu-form-message"></div>
-                    </form>
-                </div>
-            </div>
-            
-            <!-- Plan Details Modal -->
-            <div id="futturu-plan-details-modal" class="futturu-modal-overlay" style="display: none;">
-                <div class="futturu-modal-dialog futturu-modal-large">
-                    <button class="futturu-modal-close-btn" onclick="futturuClosePlanDetails()">&times;</button>
-                    <div id="futturu-plan-details-content"></div>
+            <div class="fcs-quiz-result" id="fcsQuizResult" style="display:none;">
+                <div class="fcs-result-message">
+                    <h4>Recomendamos para você:</h4>
+                    <p id="fcsRecommendedPlanName"></p>
                 </div>
             </div>
         </div>
-        
-        <script>
-        function futturuScrollToPlans() {
-            document.getElementById('futturu-plans').scrollIntoView({ behavior: 'smooth' });
-        }
-        
-        function futturuOpenModal(planId, planName) {
-            if (planId) {
-                document.getElementById('selected-plan').value = planName || '';
-            }
-            document.getElementById('futturu-contact-modal').style.display = 'flex';
-        }
-        
-        function futturuCloseModal() {
-            document.getElementById('futturu-contact-modal').style.display = 'none';
-        }
-        
-        function futturuClosePlanDetails() {
-            document.getElementById('futturu-plan-details-modal').style.display = 'none';
-        }
-        
-        // Close modal on outside click
-        window.onclick = function(event) {
-            var contactModal = document.getElementById('futturu-contact-modal');
-            var detailsModal = document.getElementById('futturu-plan-details-modal');
-            if (event.target == contactModal) {
-                futturuCloseModal();
-            }
-            if (event.target == detailsModal) {
-                futturuClosePlanDetails();
-            }
-        }
-        </script>
-        <?php
-        return ob_get_clean();
-    }
-    
-    private static function get_plan_by_id($plan_id, $plans) {
-        foreach ($plans as $plan) {
-            if ($plan['id'] === $plan_id) {
-                return $plan;
-            }
-        }
-        return null;
-    }
-    
-    private static function get_category_label($category) {
-        $labels = array(
-            'inicial' => __('Inicial', 'futturu-cloud-simulator'),
-            'crescimento' => __('Crescimento', 'futturu-cloud-simulator'),
-            'intermediario' => __('Intermediário', 'futturu-cloud-simulator'),
-            'avancado' => __('Avançado', 'futturu-cloud-simulator'),
-            'enterprise' => __('Enterprise', 'futturu-cloud-simulator')
-        );
-        return isset($labels[$category]) ? $labels[$category] : $category;
-    }
-}
+    </div>
+
+    <!-- Section C: Plans Table -->
+    <div class="fcs-plans-section" id="fcsPlansSection">
+        <div class="fcs-container">
+            <h3 class="fcs-section-title">Planos Econômicos & Escaláveis</h3>
+            <p class="fcs-section-subtitle">Comece com o plano ideal para o seu momento e escale quando precisar</p>
+            
+            <div class="fcs-plans-grid">
+                <?php if (!empty($plans) && is_array($plans)): ?>
+                    <?php foreach ($plans as $plan): 
+                        $is_featured = isset($plan['featured']) && $plan['featured'];
+                        $next_plan = futturu_get_plan_by_id($plans, $plan['next_plan'] ?? '');
+                    ?>
+                        <div class="fcs-plan-card <?php echo $is_featured ? 'fcs-featured' : ''; ?>" 
+                             data-plan-id="<?php echo esc_attr($plan['id'] ?? ''); ?>">
+                            
+                            <?php if ($is_featured): ?>
+                                <div class="fcs-featured-badge">Mais Popular</div>
+                            <?php endif; ?>
+                            
+                            <div class="fcs-plan-header">
+                                <h4 class="fcs-plan-name"><?php echo esc_html($plan['name'] ?? ''); ?></h4>
+                                <p class="fcs-plan-description"><?php echo esc_html($plan['description'] ?? ''); ?></p>
+                            </div>
+                            
+                            <div class="fcs-plan-price">
+                                <span class="fcs-price-value"><?php echo futturu_format_price($plan['price'] ?? 0); ?></span>
+                                <span class="fcs-price-period">/mês</span>
+                            </div>
+                            
+                            <div class="fcs-plan-resources">
+                                <div class="fcs-resource">
+                                    <span class="fcs-resource-value"><?php echo esc_html($plan['ram'] ?? 0); ?> GB</span>
+                                    <span class="fcs-resource-label">RAM</span>
+                                </div>
+                                <div class="fcs-resource">
+                                    <span class="fcs-resource-value"><?php echo esc_html($plan['cpu'] ?? 0); ?> vCPU</span>
+                                    <span class="fcs-resource-label">Processamento</span>
+                                </div>
+                                <div class="fcs-resource">
+                                    <span class="fcs-resource-value"><?php echo esc_html($plan['disk'] ?? 0); ?> GB</span>
+                                    <span class="fcs-resource-label">SSD</span>
+                                </div>
+                                <div class="fcs-resource">
+                                    <span class="fcs-resource-value"><?php echo futturu_format_views($plan['views'] ?? 0); ?></span>
+                                    <span class="fcs-resource-label">Visitas/mês</span>
+                                </div>
+                                <div class="fcs-resource">
+                                    <span class="fcs-resource-value"><?php echo esc_html($plan['sites'] ?? '-'); ?></span>
+                                    <span class="fcs-resource-label">Sites</span>
+                                </div>
+                            </div>
+                            
+                            <?php if ($next_plan): ?>
+                                <div class="fcs-upgrade-path">
+                                    <span class="fcs-upgrade-label">Cresça para:</span>
+                                    <strong><?php echo esc_html($next_plan['name'] ?? ''); ?></strong>
+                                    <span class="fcs-upgrade-price">(<?php echo futturu_format_price($next_plan['price'] ?? 0); ?>)</span>
+                                </div>
+                            <?php endif; ?>
+                            
+                            <button class="fcs-cta-button fcs-select-plan-btn" 
+                                    data-plan-id="<?php echo esc_attr($plan['id'] ?? ''); ?>"
+                                    data-plan-name="<?php echo esc_attr($plan['name'] ?? ''); ?>"
+                                    data-plan-price="<?php echo esc_attr($plan['price'] ?? 0); ?>">
+                                <?php echo esc_html($cta['button_text'] ?? 'Solicitar Cotação'); ?>
+                            </button>
+                        </div>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
+
+    <!-- Comparison Section -->
+    <div class="fcs-comparison-section">
+        <div class="fcs-container">
+            <h3 class="fcs-section-title"><?php echo esc_html($texts['comparison_title'] ?? 'Por que evitar Hospedagem Compartilhada?'); ?></h3>
+            
+            <div class="fcs-comparison-grid">
+                <div class="fcs-comparison-item fcs-shared-hosting">
+                    <h4>Hospedagem Compartilhada</h4>
+                    <ul class="fcs-cons-list">
+                        <?php if (!empty($texts['comparison_items']) && is_array($texts['comparison_items'])): ?>
+                            <?php foreach ($texts['comparison_items'] as $item): ?>
+                                <li><span class="fcs-icon-cross">✕</span> <?php echo esc_html($item); ?></li>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </ul>
+                </div>
+                
+                <div class="fcs-comparison-item fcs-cloud-hosting">
+                    <h4>Cloud Futturu + Cloudez</h4>
+                    <ul class="fcs-pros-list">
+                        <li><span class="fcs-icon-check">✓</span> Recursos dedicados e garantidos</li>
+                        <li><span class="fcs-icon-check">✓</span> Performance estável em qualquer cenário</li>
+                        <li><span class="fcs-icon-check">✓</span> Segurança avançada e backups automáticos</li>
+                        <li><span class="fcs-icon-check">✓</span> Escalabilidade instantânea com 1 clique</li>
+                        <li><span class="fcs-icon-check">✓</span> Suporte técnico especializado e humano</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Timeline Section -->
+    <div class="fcs-timeline-section">
+        <div class="fcs-container">
+            <h3 class="fcs-section-title"><?php echo esc_html($texts['timeline_title'] ?? 'Seu Caminho de Crescimento'); ?></h3>
+            <p class="fcs-section-subtitle"><?php echo esc_html($texts['timeline_description'] ?? ''); ?></p>
+            
+            <div class="fcs-timeline">
+                <?php 
+                $timeline_plans = array('br1g', 'br4g', 'br8g');
+                $timeline_months = array(0, 6, 12);
+                $timeline_labels = array('Início', '6 meses', '1 ano');
+                
+                foreach ($timeline_plans as $index => $plan_id): 
+                    $plan = futturu_get_plan_by_id($plans, $plan_id);
+                    if (!$plan) continue;
+                ?>
+                    <div class="fcs-timeline-item">
+                        <div class="fcs-timeline-marker">
+                            <span class="fcs-timeline-month"><?php echo esc_html($timeline_labels[$index]); ?></span>
+                        </div>
+                        <div class="fcs-timeline-content">
+                            <h4><?php echo esc_html($plan['name']); ?></h4>
+                            <p class="fcs-timeline-price"><?php echo futturu_format_price($plan['price']); ?>/mês</p>
+                            <p class="fcs-timeline-views"><?php echo futturu_format_views($plan['views']); ?> visitas/mês</p>
+                        </div>
+                    </div>
+                    
+                    <?php if ($index < count($timeline_plans) - 1): ?>
+                        <div class="fcs-timeline-arrow">→</div>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            </div>
+            
+            <div class="fcs-timeline-note">
+                <p><strong>Economia inteligente:</strong> Comece com R$ 239/mês e escale apenas quando seu negócio crescer. Evite pagar por recursos que não usa!</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section E: CTA Final -->
+    <div class="fcs-cta-section">
+        <div class="fcs-container">
+            <div class="fcs-cta-content">
+                <h3><?php echo esc_html($cta['primary_text'] ?? 'Pronto para começar?'); ?></h3>
+                <p><?php echo esc_html($cta['primary_subtext'] ?? ''); ?></p>
+                <button class="fcs-cta-button fcs-cta-large" id="fcsOpenModalBtn">
+                    <?php echo esc_html($cta['button_text'] ?? 'Solicite uma Cotação Gratuita'); ?>
+                </button>
+            </div>
+            
+            <div class="fcs-cta-secondary">
+                <p><strong><?php echo esc_html($cta['secondary_text'] ?? ''); ?></strong></p>
+                <p><?php echo esc_html($cta['secondary_subtext'] ?? ''); ?></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Modal -->
+    <div class="fcs-modal" id="fcsContactModal">
+        <div class="fcs-modal-overlay"></div>
+        <div class="fcs-modal-content">
+            <button class="fcs-modal-close" id="fcsCloseModalBtn">&times;</button>
+            
+            <h3 id="fcsModalTitle">Solicite sua Cotação</h3>
+            <p id="fcsModalSubtitle">Preencha o formulário e entraremos em contato em até 24 horas.</p>
+            
+            <form id="fcsLeadForm" class="fcs-form">
+                <input type="hidden" name="nonce" value="<?php echo wp_create_nonce('futturu_cloud_nonce'); ?>">
+                <input type="hidden" name="selected_plan" id="fcsSelectedPlan" value="">
+                <input type="hidden" name="traffic_profile" id="fcsTrafficProfile" value="">
+                
+                <div class="fcs-form-group">
+                    <label for="fcsName">Nome completo *</label>
+                    <input type="text" id="fcsName" name="name" required>
+                </div>
+                
+                <div class="fcs-form-group">
+                    <label for="fcsEmail">E-mail *</label>
+                    <input type="email" id="fcsEmail" name="email" required>
+                </div>
+                
+                <div class="fcs-form-group">
+                    <label for="fcsPhone">Telefone / WhatsApp</label>
+                    <input type="tel" id="fcsPhone" name="phone">
+                </div>
+                
+                <div class="fcs-form-group">
+                    <label for="fcsMessage">Como podemos ajudar?</label>
+                    <textarea id="fcsMessage" name="message" rows="4"></textarea>
+                </div>
+                
+                <div class="fcs-form-actions">
+                    <button type="submit" class="fcs-cta-button fcs-submit-btn">
+                        <span class="fcs-btn-text">Enviar Solicitação</span>
+                        <span class="fcs-btn-loading" style="display:none;">Enviando...</span>
+                    </button>
+                </div>
+                
+                <div class="fcs-form-message" id="fcsFormMessage"></div>
+            </form>
+        </div>
+    </div>
+
+</div>
