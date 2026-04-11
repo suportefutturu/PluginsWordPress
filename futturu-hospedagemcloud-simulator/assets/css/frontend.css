@@ -219,6 +219,11 @@
     transition: transform 0.3s ease;
     will-change: transform;
     padding: 10px 5px;
+    cursor: grab;
+}
+
+.fcs-slider-wrapper:active {
+    cursor: grabbing;
 }
 
 /* Ensure slider track has proper dimensions */
@@ -237,11 +242,12 @@
     border-radius: 50%;
     cursor: pointer;
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    z-index: 10;
+    z-index: 20;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: all 0.3s ease;
+    pointer-events: auto;
 }
 
 .fcs-slider-nav:hover {
@@ -253,6 +259,7 @@
     font-size: 24px;
     width: 24px;
     height: 24px;
+    pointer-events: none;
 }
 
 .fcs-slider-prev {
@@ -415,6 +422,8 @@
     align-items: center;
     justify-content: center;
     gap: 8px;
+    z-index: 10;
+    position: relative;
 }
 
 .fcs-btn-more-info {
@@ -424,6 +433,7 @@
 
 .fcs-btn-more-info:hover {
     background: #e0e0e0;
+    transform: translateY(-2px);
 }
 
 .fcs-btn-quote {

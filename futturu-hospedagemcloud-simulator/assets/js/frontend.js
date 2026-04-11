@@ -218,18 +218,32 @@
     }
     
     // Handle more info modal
-    function handleMoreInfoModal() {
-        $('.fcs-btn-more-info').on('click', function() {
+function handleMoreInfoModal() {
+        $('.fcs-btn-more-info').on('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
             var $btn = $(this);
-            var planData = JSON.parse($btn.data('plan'));
-            var featuresData = JSON.parse($btn.data('features'));
+            
+            // Build plan data from individual data attributes
+            var planData = {
+                modelo: $btn.data('model'),
+                ram: $btn.data('ram'),
+                cpu: $btn.data('cpu'),
+                disco: $btn.data('disco'),
+                visualizacoes: $btn.data('visualizacoes'),
+                uso_indicado: $btn.data('uso'),
+                categoria: $btn.data('categoria')
+            };
+            
+            var featuresData = $btn.data('features');
             
             // Populate modal content
             $('#fcs-details-title').text(planData.modelo);
             
             // Build resources list
             var resourcesHtml = '';
-            if (planData.categoria.indexOf('E-mails') !== -1) {
+            if (planData.categoria && planData.categoria.indexOf('E-mails') !== -1) {
                 resourcesHtml += '<li><strong>Disco:</strong> ' + planData.disco + '</li>';
             } else {
                 resourcesHtml += '<li><strong>RAM:</strong> ' + planData.ram + '</li>';
@@ -249,9 +263,11 @@
             
             // Build features list
             var featuresHtml = '';
-            featuresData.forEach(function(feature) {
-                featuresHtml += '<li>' + feature + '</li>';
-            });
+            if (featuresData && featuresData.length > 0) {
+                featuresData.forEach(function(feature) {
+                    featuresHtml += '<li>' + feature + '</li>';
+                });
+            }
             $('#fcs-details-features').html(featuresHtml);
             
             // Store plan model for quote button

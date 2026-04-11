@@ -203,7 +203,15 @@ class Futturu_HospedagemCloud_Frontend {
                                             </div>
                                             
                                             <div class="fcs-plan-actions">
-                                                <button class="fcs-btn-more-info" data-plan='<?php echo esc_attr(json_encode($plan)); ?>' data-features='<?php echo esc_attr(json_encode($features)); ?>'>
+                                                <button class="fcs-btn-more-info" 
+                                                        data-model="<?php echo esc_attr($plan['modelo']); ?>" 
+                                                        data-ram="<?php echo esc_attr($plan['ram']); ?>" 
+                                                        data-cpu="<?php echo esc_attr($plan['cpu']); ?>" 
+                                                        data-disco="<?php echo esc_attr($plan['disco']); ?>" 
+                                                        data-visualizacoes="<?php echo esc_attr($plan['visualizacoes']); ?>" 
+                                                        data-uso="<?php echo esc_attr($plan['uso_indicado']); ?>" 
+                                                        data-categoria="<?php echo esc_attr($plan['categoria']); ?>"
+                                                        data-features='<?php echo esc_attr(json_encode($features)); ?>'>
                                                     <span class="dashicons dashicons-info"></span>
                                                     <?php esc_html_e('Mais Info', 'futturu-hospedagemcloud-sim'); ?>
                                                 </button>
