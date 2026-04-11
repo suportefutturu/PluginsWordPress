@@ -42,29 +42,36 @@
     function initSliders() {
         $('.fcs-slider').each(function() {
             var $slider = $(this);
-            var $wrapper = $slider.find('.fcs-slider-wrapper');
             var $track = $slider.find('.fcs-slider-track');
+            var $wrapper = $slider.find('.fcs-slider-wrapper');
             var $prevBtn = $slider.find('.fcs-slider-prev');
             var $nextBtn = $slider.find('.fcs-slider-next');
             
             var scrollAmount = 320; // Width of card + gap
             var currentScroll = 0;
             
+            // Update button states on window resize
+            $(window).on('resize', function() {
+                currentScroll = 0;
+                $wrapper.css('transform', 'translateX(0)');
+                updateButtonStates($prevBtn, $nextBtn, currentScroll, $track, $wrapper);
+            });
+            
             $prevBtn.on('click', function() {
                 currentScroll = Math.max(0, currentScroll - scrollAmount);
                 updateSliderPosition($wrapper, currentScroll);
-                updateButtonStates($prevBtn, $nextBtn, currentScroll, $wrapper);
+                updateButtonStates($prevBtn, $nextBtn, currentScroll, $track, $wrapper);
             });
             
             $nextBtn.on('click', function() {
-                var maxScroll = $wrapper.outerWidth() - $track.outerWidth();
+                var maxScroll = Math.max(0, $wrapper.outerWidth() - $track.outerWidth());
                 currentScroll = Math.min(maxScroll, currentScroll + scrollAmount);
                 updateSliderPosition($wrapper, currentScroll);
-                updateButtonStates($prevBtn, $nextBtn, currentScroll, $wrapper);
+                updateButtonStates($prevBtn, $nextBtn, currentScroll, $track, $wrapper);
             });
             
             // Initial button state
-            updateButtonStates($prevBtn, $nextBtn, currentScroll, $wrapper);
+            updateButtonStates($prevBtn, $nextBtn, currentScroll, $track, $wrapper);
         });
     }
     
@@ -72,8 +79,8 @@
         $wrapper.css('transform', 'translateX(-' + position + 'px)');
     }
     
-    function updateButtonStates($prevBtn, $nextBtn, currentScroll, $wrapper) {
-        var maxScroll = $wrapper.outerWidth() - $nextBtn.closest('.fcs-slider').find('.fcs-slider-track').outerWidth();
+    function updateButtonStates($prevBtn, $nextBtn, currentScroll, $track, $wrapper) {
+        var maxScroll = Math.max(0, $wrapper.outerWidth() - $track.outerWidth());
         
         $prevBtn.css('opacity', currentScroll <= 0 ? '0.5' : '1');
         $prevBtn.css('pointer-events', currentScroll <= 0 ? 'none' : 'auto');
@@ -120,16 +127,21 @@
             $('.fcs-category-content').removeClass('active');
             $('.fcs-category-content[data-category="' + category + '"]').addClass('active');
             
-            // Reset slider position for new category
-            var $slider = $('.fcs-category-content.active .fcs-slider');
-            var $wrapper = $slider.find('.fcs-slider-wrapper');
-            $wrapper.css('transform', 'translateX(0)');
-            
-            // Update slider buttons
-            var $prevBtn = $slider.find('.fcs-slider-prev');
-            var $nextBtn = $slider.find('.fcs-slider-next');
-            var $track = $slider.find('.fcs-slider-track');
-            updateButtonStates($prevBtn, $nextBtn, 0, $wrapper);
+            // Reset slider position for new category and reinitialize
+            setTimeout(function() {
+                var $slider = $('.fcs-category-content.active .fcs-slider');
+                var $track = $slider.find('.fcs-slider-track');
+                var $wrapper = $slider.find('.fcs-slider-wrapper');
+                var $prevBtn = $slider.find('.fcs-slider-prev');
+                var $nextBtn = $slider.find('.fcs-slider-next');
+                
+                // Reset scroll position
+                var currentScroll = 0;
+                $wrapper.css('transform', 'translateX(0)');
+                
+                // Reinitialize button states
+                updateButtonStates($prevBtn, $nextBtn, currentScroll, $track, $wrapper);
+            }, 100);
         });
     }
     

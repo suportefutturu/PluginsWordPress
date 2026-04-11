@@ -1,28 +1,32 @@
 ```
-# WordPress plugin specific ignores
-*.log
-*.tmp
-*.swp
+# Build artifacts
+dist/
+build/
+*.min.js
+*.min.css
+*.bundle.js
+*.css.map
+*.js.map
 
-# Environment and local config
+# Dependencies
+node_modules/
+
+# Environment
 .env
 .env.local
 .env.*
 
-# Editor/IDE files
+# Editors
 .vscode/
 .idea/
+*.swp
+*.swo
 
-# System files
-.DS_Store
-Thumbs.db
-
-# Cache and temporary files
-*.pyc
-__pycache__/
+# Logs and temp files
+*.log
 *.tmp
 
-# WordPress specific
-wp-content/cache/
-uploads/
+# OS specific
+.DS_Store
+Thumbs.db
 ```
