@@ -526,8 +526,17 @@ class Futturu_HospedagemCloud_Data {
             $plans = get_option('futturu_hospedagemcloud_plans', self::get_default_plans());
         }
         
+        // Garantir que $plans é um array
+        if (!is_array($plans)) {
+            $plans = self::get_default_plans();
+        }
+        
         $categories = array();
         foreach ($plans as $plan) {
+            // Validar se $plan é um array antes de acessar chaves
+            if (!is_array($plan)) {
+                continue;
+            }
             // Validar se a chave 'categoria' existe e não está vazia
             if (isset($plan['categoria']) && !empty($plan['categoria'])) {
                 if (!in_array($plan['categoria'], $categories)) {
@@ -547,8 +556,17 @@ class Futturu_HospedagemCloud_Data {
             $plans = get_option('futturu_hospedagemcloud_plans', self::get_default_plans());
         }
         
+        // Garantir que $plans é um array
+        if (!is_array($plans)) {
+            $plans = self::get_default_plans();
+        }
+        
         $filtered_plans = array();
         foreach ($plans as $plan) {
+            // Validar se $plan é um array antes de acessar chaves
+            if (!is_array($plan)) {
+                continue;
+            }
             // Validar se a chave 'categoria' existe antes de comparar
             if (isset($plan['categoria']) && $plan['categoria'] === $category) {
                 $filtered_plans[] = $plan;

@@ -294,7 +294,29 @@ class Futturu_HospedagemCloud_Admin {
         }
         
         $plans = isset($_POST['plans']) ? $_POST['plans'] : array();
-        update_option('futturu_hospedagemcloud_plans', $plans);
+        
+        // Sanitizar os dados dos planos antes de salvar
+        $sanitized_plans = array();
+        foreach ($plans as $plan) {
+            if (!is_array($plan)) {
+                continue;
+            }
+            
+            $sanitized_plan = array(
+                'categoria' => isset($plan['categoria']) ? sanitize_text_field($plan['categoria']) : '',
+                'modelo' => isset($plan['modelo']) ? sanitize_text_field($plan['modelo']) : '',
+                'ram' => isset($plan['ram']) ? sanitize_text_field($plan['ram']) : '',
+                'cpu' => isset($plan['cpu']) ? sanitize_text_field($plan['cpu']) : '',
+                'disco' => isset($plan['disco']) ? sanitize_text_field($plan['disco']) : '',
+                'visualizacoes' => isset($plan['visualizacoes']) ? sanitize_text_field($plan['visualizacoes']) : '',
+                'preco_mensal' => isset($plan['preco_mensal']) ? floatval($plan['preco_mensal']) : 0,
+                'uso_indicado' => isset($plan['uso_indicado']) ? sanitize_text_field($plan['uso_indicado']) : '',
+            );
+            
+            $sanitized_plans[] = $sanitized_plan;
+        }
+        
+        update_option('futturu_hospedagemcloud_plans', $sanitized_plans);
         
         wp_send_json_success();
     }
