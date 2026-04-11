@@ -537,7 +537,7 @@ class Futturu_HospedagemCloud_Data {
     }
     
     /**
-     * Get plans by category
+     * Get plans by category (sorted by price: cheapest to most expensive)
      */
     public static function get_plans_by_category($category, $plans = null) {
         if ($plans === null) {
@@ -550,6 +550,18 @@ class Futturu_HospedagemCloud_Data {
                 $filtered_plans[] = $plan;
             }
         }
+        
+        // Sort by price (cheapest to most expensive)
+        usort($filtered_plans, function($a, $b) {
+            $price_a = (float) $a['preco_mensal'];
+            $price_b = (float) $b['preco_mensal'];
+            
+            if ($price_a === $price_b) {
+                return 0;
+            }
+            
+            return ($price_a < $price_b) ? -1 : 1;
+        });
         
         return $filtered_plans;
     }

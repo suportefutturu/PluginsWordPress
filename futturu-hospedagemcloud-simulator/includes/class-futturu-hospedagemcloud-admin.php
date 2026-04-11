@@ -96,10 +96,19 @@ class Futturu_HospedagemCloud_Admin {
                         $categories = Futturu_HospedagemCloud_Data::get_categories($plans);
                         
                         foreach ($categories as $category) :
-                            $category_plans = Futturu_HospedagemCloud_Data::get_plans_by_category($category, $plans);
+                            // Get plans sorted by price for display
+                            $category_plans_sorted = Futturu_HospedagemCloud_Data::get_plans_by_category($category, $plans);
+                            // But keep original order for editing (use unsorted)
+                            $category_plans = array();
+                            foreach ($plans as $plan) {
+                                if ($plan['categoria'] === $category) {
+                                    $category_plans[] = $plan;
+                                }
+                            }
                         ?>
                             <div class="category-section">
                                 <h3><?php echo esc_html($category); ?></h3>
+                                <p class="description" style="margin-bottom: 10px;"><?php esc_html_e('Ordem atual: conforme tabela oficial. No frontend, os planos são exibidos do mais barato para o mais caro.', 'futturu-hospedagemcloud-sim'); ?></p>
                                 <table class="wp-list-table widefat fixed striped">
                                     <thead>
                                         <tr>
