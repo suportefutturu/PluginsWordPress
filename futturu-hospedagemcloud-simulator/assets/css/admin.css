@@ -1,69 +1,95 @@
-/* Admin Styles */
-.fcs-admin-tabs {
-    display: flex;
-    gap: 10px;
+/**
+ * Admin CSS - Simulador de Hospedagem Futturu Cloud
+ */
+
+.futturu-hospedagemcloud-admin {
+    max-width: 1400px;
+}
+
+.futturu-hospedagemcloud-admin .nav-tab-wrapper {
     margin-bottom: 20px;
-    border-bottom: 1px solid #ccc;
-    padding-bottom: 10px;
 }
 
-.fcs-tab-btn {
-    padding: 10px 20px;
-    border: 1px solid #ccc;
-    background: #f7f7f7;
-    cursor: pointer;
-    font-size: 14px;
-    border-radius: 4px;
-}
-
-.fcs-tab-btn.active {
-    background: #2271b1;
-    color: white;
-    border-color: #2271b1;
-}
-
-.fcs-tab-content {
+.futturu-hospedagemcloud-admin .tab-content {
     display: none;
+    background: #fff;
+    padding: 20px;
+    border: 1px solid #ccd0d4;
+    border-radius: 5px;
 }
 
-.fcs-tab-content.active {
+.futturu-hospedagemcloud-admin .tab-content.active {
     display: block;
 }
 
-.fcs-category-section {
-    margin-bottom: 30px;
+.futturu-hospedagemcloud-admin .category-section {
+    margin-bottom: 40px;
 }
 
-.fcs-category-section h3 {
+.futturu-hospedagemcloud-admin .category-section h4 {
+    font-size: 1.3rem;
     margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #2c52d4;
+    color: #1a1a2e;
 }
 
-.fcs-faq-item {
-    margin-bottom: 15px;
-    padding: 15px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-}
-
-.fcs-faq-item input[type="text"] {
-    width: 100%;
-    margin-bottom: 10px;
-}
-
-.fcs-faq-item textarea {
-    width: 100%;
-    margin-bottom: 10px;
-}
-
-.remove-faq {
-    background: #dc3232;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 3px;
-    cursor: pointer;
-}
-
-#fcs-faqs-container {
+.futturu-hospedagemcloud-admin .wp-list-table {
     margin-bottom: 20px;
+}
+
+.futturu-hospedagemcloud-admin .wp-list-table th {
+    font-weight: 600;
+    padding: 12px 10px;
+}
+
+.futturu-hospedagemcloud-admin .wp-list-table td {
+    padding: 10px;
+    vertical-align: middle;
+}
+
+.futturu-hospedagemcloud-admin input.regular-text {
+    width: 100%;
+}
+
+.futturu-hospedagemcloud-admin input.small-text {
+    width: 100px;
+}
+
+.futturu-hospedagemcloud-admin .submit {
+    padding-top: 20px;
+    border-top: 1px solid #e0e0e0;
+}
+
+.futturu-hospedagemcloud-admin .spinner {
+    float: none;
+    margin: 0 10px 0 0;
+}
+
+.futturu-hospedagemcloud-admin .notice-message {
+    margin-left: 10px;
+    font-weight: 600;
+}
+
+.futturu-hospedagemcloud-admin .notice-message.success {
+    color: #28a745;
+}
+
+.futturu-hospedagemcloud-admin .notice-message.error {
+    color: #dc3545;
+}
+
+.futturu-hospedagemcloud-admin .form-table th {
+    padding: 20px 10px 20px 0;
+    width: 200px;
+}
+
+.futturu-hospedagemcloud-admin .form-table td {
+    padding: 15px 10px;
+}
+
+.futturu-hospedagemcloud-admin .description {
+    font-style: italic;
+    color: #666;
+    margin-top: 5px;
 }

@@ -1,7 +1,7 @@
 <?php
 /**
- * Class Futturu_HospedagemCloud_Data
- * Gerencia os dados dos planos, FAQs e configurações
+ * Classe de Dados do Simulador Futturu Cloud
+ * Gerencia todos os dados dos planos, categorias, features e FAQs
  */
 
 if (!defined('ABSPATH')) {
@@ -14,513 +14,515 @@ class Futturu_HospedagemCloud_Data {
      * Construtor
      */
     public function __construct() {
-        // Inicialização se necessário
+        // Inicializa dados se necessário
     }
 
     /**
-     * Obter categorias disponíveis
+     * Retorna as categorias de planos
      */
-    public function get_categories() {
+    public static function get_categories() {
         return array(
             'padrao' => '☁️ Clouds Padrão (Uso Geral)',
-            'ram' => '🧠 Clouds Focados em Memória RAM',
-            'cpu' => '⚙️ Clouds Focados em Processamento (CPU)',
+            'ram' => '🧠 Clouds Focados em RAM',
+            'cpu' => '⚙️ Clouds Focados em CPU',
             'email' => '📧 Clouds para E-mails'
         );
     }
 
     /**
-     * Obter planos padrão
-     * Nomes padronizados: "BR XGB" ou "USA XGB" conforme RAM
+     * Retorna os planos padrão hardcoded
      */
-    public function get_default_plans() {
-        $plans = array();
-
-        // ☁️ Clouds Padrão (Uso Geral) - Ordenados do mais barato para o mais caro
-        $plans[] = array(
-            'id' => 'usa-1g-ind',
-            'categoria' => 'padrao',
-            'nome' => 'USA 1GB Individual',
-            'ram' => '1 GB',
-            'cpu' => '1 Core',
-            'disco' => '25 GB',
-            'visualizacoes' => '100.000 (1 site)',
-            'preco_mensal' => 89,
-            'uso_indicado' => 'Sites pessoais'
-        );
-        $plans[] = array(
-            'id' => 'usa-1g',
-            'categoria' => 'padrao',
-            'nome' => 'USA 1GB',
-            'ram' => '1 GB',
-            'cpu' => '1 Core',
-            'disco' => '25 GB',
-            'visualizacoes' => '100.000',
-            'preco_mensal' => 119,
-            'uso_indicado' => ''
-        );
-        $plans[] = array(
-            'id' => 'br-1g-ind',
-            'categoria' => 'padrao',
-            'nome' => 'BR 1GB Individual',
-            'ram' => '1 GB',
-            'cpu' => '1 Core',
-            'disco' => '25 GB',
-            'visualizacoes' => '100.000 (1 site)',
-            'preco_mensal' => 219,
-            'uso_indicado' => 'Sites pessoais'
-        );
-        $plans[] = array(
-            'id' => 'br-1g',
-            'categoria' => 'padrao',
-            'nome' => 'BR 1GB',
-            'ram' => '1 GB',
-            'cpu' => '1 Core',
-            'disco' => '25 GB',
-            'visualizacoes' => '100.000',
-            'preco_mensal' => 239,
-            'uso_indicado' => ''
-        );
-        $plans[] = array(
-            'id' => 'usa-2g',
-            'categoria' => 'padrao',
-            'nome' => 'USA 2GB',
-            'ram' => '2 GB',
-            'cpu' => '1 Core',
-            'disco' => '50 GB',
-            'visualizacoes' => '300.000',
-            'preco_mensal' => 229,
-            'uso_indicado' => ''
-        );
-        $plans[] = array(
-            'id' => 'br-2g',
-            'categoria' => 'padrao',
-            'nome' => 'BR 2GB',
-            'ram' => '2 GB',
-            'cpu' => '1 Core',
-            'disco' => '50 GB',
-            'visualizacoes' => '300.000',
-            'preco_mensal' => 559,
-            'uso_indicado' => ''
-        );
-        $plans[] = array(
-            'id' => 'usa-4g',
-            'categoria' => 'padrao',
-            'nome' => 'USA 4GB',
-            'ram' => '4 GB',
-            'cpu' => '2 Cores',
-            'disco' => '80 GB',
-            'visualizacoes' => '500.000',
-            'preco_mensal' => 439,
-            'uso_indicado' => ''
-        );
-        $plans[] = array(
-            'id' => 'br-4g',
-            'categoria' => 'padrao',
-            'nome' => 'BR 4GB',
-            'ram' => '4 GB',
-            'cpu' => '2 Cores',
-            'disco' => '80 GB',
-            'visualizacoes' => '500.000',
-            'preco_mensal' => 1009,
-            'uso_indicado' => ''
-        );
-        $plans[] = array(
-            'id' => 'usa-8g',
-            'categoria' => 'padrao',
-            'nome' => 'USA 8GB',
-            'ram' => '8 GB',
-            'cpu' => '4 Cores',
-            'disco' => '160 GB',
-            'visualizacoes' => '1.000.000',
-            'preco_mensal' => 799,
-            'uso_indicado' => ''
-        );
-        $plans[] = array(
-            'id' => 'br-8g',
-            'categoria' => 'padrao',
-            'nome' => 'BR 8GB',
-            'ram' => '8 GB',
-            'cpu' => '4 Cores',
-            'disco' => '160 GB',
-            'visualizacoes' => '1.000.000',
-            'preco_mensal' => 1589,
-            'uso_indicado' => ''
-        );
-        $plans[] = array(
-            'id' => 'br-16g',
-            'categoria' => 'padrao',
-            'nome' => 'BR 16GB',
-            'ram' => '16 GB',
-            'cpu' => '6 Cores',
-            'disco' => '320 GB',
-            'visualizacoes' => '1.400.000',
-            'preco_mensal' => 2969,
-            'uso_indicado' => ''
-        );
-        $plans[] = array(
-            'id' => 'usa-16g',
-            'categoria' => 'padrao',
-            'nome' => 'USA 16GB',
-            'ram' => '16 GB',
-            'cpu' => '6 Cores',
-            'disco' => '320 GB',
-            'visualizacoes' => '1.400.000',
-            'preco_mensal' => 1629,
-            'uso_indicado' => ''
-        );
-        $plans[] = array(
-            'id' => 'usa-32g',
-            'categoria' => 'padrao',
-            'nome' => 'USA 32GB',
-            'ram' => '32 GB',
-            'cpu' => '8 Cores',
-            'disco' => '640 GB',
-            'visualizacoes' => '3.000.000',
-            'preco_mensal' => 3129,
-            'uso_indicado' => ''
-        );
-        $plans[] = array(
-            'id' => 'usa-64g',
-            'categoria' => 'padrao',
-            'nome' => 'USA 64GB',
-            'ram' => '64 GB',
-            'cpu' => '12 Cores',
-            'disco' => '1280 GB',
-            'visualizacoes' => '6.000.000',
-            'preco_mensal' => 6249,
-            'uso_indicado' => ''
-        );
-        $plans[] = array(
-            'id' => 'usa-128g',
-            'categoria' => 'padrao',
-            'nome' => 'USA 128GB',
-            'ram' => '128 GB',
-            'cpu' => '24 Cores',
-            'disco' => '2560 GB',
-            'visualizacoes' => '16.000.000',
-            'preco_mensal' => 12629,
-            'uso_indicado' => ''
-        );
-        $plans[] = array(
-            'id' => 'usa-192g',
-            'categoria' => 'padrao',
-            'nome' => 'USA 192GB',
-            'ram' => '192 GB',
-            'cpu' => '32 Cores',
-            'disco' => '3840 GB',
-            'visualizacoes' => '24.000.000',
-            'preco_mensal' => 18879,
-            'uso_indicado' => ''
-        );
-
-        // 🧠 Clouds Focados em Memória RAM - Ordenados do mais barato para o mais caro
-        $plans[] = array(
-            'id' => 'usa-max-ram',
-            'categoria' => 'ram',
-            'nome' => 'USA Max RAM',
-            'ram' => '24 GB',
-            'cpu' => '1 Core',
-            'disco' => '20 GB',
-            'visualizacoes' => '',
-            'preco_mensal' => 1299,
-            'uso_indicado' => ''
-        );
-        $plans[] = array(
-            'id' => 'usa-super-ram',
-            'categoria' => 'ram',
-            'nome' => 'USA Super RAM',
-            'ram' => '48 GB',
-            'cpu' => '2 Cores',
-            'disco' => '40 GB',
-            'visualizacoes' => '',
-            'preco_mensal' => 2409,
-            'uso_indicado' => ''
-        );
-        $plans[] = array(
-            'id' => 'usa-hyper-ram',
-            'categoria' => 'ram',
-            'nome' => 'USA Hyper RAM',
-            'ram' => '90 GB',
-            'cpu' => '4 Cores',
-            'disco' => '90 GB',
-            'visualizacoes' => '',
-            'preco_mensal' => 4739,
-            'uso_indicado' => ''
-        );
-        $plans[] = array(
-            'id' => 'usa-ultra-ram',
-            'categoria' => 'ram',
-            'nome' => 'USA Ultra RAM',
-            'ram' => '150 GB',
-            'cpu' => '8 Cores',
-            'disco' => '200 GB',
-            'visualizacoes' => '',
-            'preco_mensal' => 8759,
-            'uso_indicado' => ''
-        );
-        $plans[] = array(
-            'id' => 'usa-elite-ram',
-            'categoria' => 'ram',
-            'nome' => 'USA Elite RAM',
-            'ram' => '300 GB',
-            'cpu' => '16 Cores',
-            'disco' => '340 GB',
-            'visualizacoes' => '',
-            'preco_mensal' => 17579,
-            'uso_indicado' => ''
-        );
-
-        // ⚙️ Clouds Focados em CPU - Ordenados do mais barato para o mais caro
-        $plans[] = array(
-            'id' => 'usa-max-cpu',
-            'categoria' => 'cpu',
-            'nome' => 'USA Max CPU',
-            'ram' => '4 GB',
-            'cpu' => '2 Cores',
-            'disco' => '80 GB',
-            'visualizacoes' => '',
-            'preco_mensal' => 649,
-            'uso_indicado' => ''
-        );
-        $plans[] = array(
-            'id' => 'usa-super-cpu',
-            'categoria' => 'cpu',
-            'nome' => 'USA Super CPU',
-            'ram' => '8 GB',
-            'cpu' => '4 Cores',
-            'disco' => '160 GB',
-            'visualizacoes' => '',
-            'preco_mensal' => 1199,
-            'uso_indicado' => ''
-        );
-        $plans[] = array(
-            'id' => 'usa-hyper-cpu',
-            'categoria' => 'cpu',
-            'nome' => 'USA Hyper CPU',
-            'ram' => '16 GB',
-            'cpu' => '8 Cores',
-            'disco' => '320 GB',
-            'visualizacoes' => '',
-            'preco_mensal' => 2249,
-            'uso_indicado' => ''
-        );
-        $plans[] = array(
-            'id' => 'usa-ultra-cpu',
-            'categoria' => 'cpu',
-            'nome' => 'USA Ultra CPU',
-            'ram' => '32 GB',
-            'cpu' => '16 Cores',
-            'disco' => '640 GB',
-            'visualizacoes' => '',
-            'preco_mensal' => 4499,
-            'uso_indicado' => ''
-        );
-        $plans[] = array(
-            'id' => 'usa-elite-cpu',
-            'categoria' => 'cpu',
-            'nome' => 'USA Elite CPU',
-            'ram' => '64 GB',
-            'cpu' => '32 Cores',
-            'disco' => '1280 GB',
-            'visualizacoes' => '',
-            'preco_mensal' => 8879,
-            'uso_indicado' => ''
-        );
-        $plans[] = array(
-            'id' => 'usa-prestige-cpu',
-            'categoria' => 'cpu',
-            'nome' => 'USA Prestige CPU',
-            'ram' => '96 GB',
-            'cpu' => '48 Cores',
-            'disco' => '1920 GB',
-            'visualizacoes' => '',
-            'preco_mensal' => 13149,
-            'uso_indicado' => ''
-        );
-
-        // 📧 Clouds para E-mails - Ordenados do mais barato para o mais caro
-        $plans[] = array(
-            'id' => 'usa-email-20g',
-            'categoria' => 'email',
-            'nome' => 'USA Email 20GB',
-            'ram' => '1 GB',
-            'cpu' => '1 Core',
-            'disco' => '20 GB',
-            'visualizacoes' => '',
-            'preco_mensal' => 129,
-            'uso_indicado' => 'Pequenas Empresas'
-        );
-        $plans[] = array(
-            'id' => 'usa-email-60g',
-            'categoria' => 'email',
-            'nome' => 'USA Email 60GB',
-            'ram' => '1 GB',
-            'cpu' => '1 Core',
-            'disco' => '60 GB',
-            'visualizacoes' => '',
-            'preco_mensal' => 149,
-            'uso_indicado' => 'Pequenas Empresas'
-        );
-        $plans[] = array(
-            'id' => 'usa-email-100g',
-            'categoria' => 'email',
-            'nome' => 'USA Email 100GB',
-            'ram' => '1 GB',
-            'cpu' => '1 Core',
-            'disco' => '100 GB',
-            'visualizacoes' => '',
-            'preco_mensal' => 209,
-            'uso_indicado' => 'Pequenas Empresas'
-        );
-        $plans[] = array(
-            'id' => 'usa-email-200g',
-            'categoria' => 'email',
-            'nome' => 'USA Email 200GB',
-            'ram' => '1 GB',
-            'cpu' => '1 Core',
-            'disco' => '200 GB',
-            'visualizacoes' => '',
-            'preco_mensal' => 289,
-            'uso_indicado' => 'Pequenas Empresas'
-        );
-        $plans[] = array(
-            'id' => 'usa-email-300g',
-            'categoria' => 'email',
-            'nome' => 'USA Email 300GB',
-            'ram' => '1 GB',
-            'cpu' => '1 Core',
-            'disco' => '300 GB',
-            'visualizacoes' => '',
-            'preco_mensal' => 359,
-            'uso_indicado' => 'Pequenas Empresas'
-        );
-        $plans[] = array(
-            'id' => 'usa-email-400g',
-            'categoria' => 'email',
-            'nome' => 'USA Email 400GB',
-            'ram' => '2 GB',
-            'cpu' => '1 Core',
-            'disco' => '400 GB',
-            'visualizacoes' => '',
-            'preco_mensal' => 489,
-            'uso_indicado' => 'Pequenas Empresas'
-        );
-        $plans[] = array(
-            'id' => 'usa-email-500g',
-            'categoria' => 'email',
-            'nome' => 'USA Email 500GB',
-            'ram' => '2 GB',
-            'cpu' => '1 Core',
-            'disco' => '500 GB',
-            'visualizacoes' => '',
-            'preco_mensal' => 549,
-            'uso_indicado' => 'Pequenas Empresas'
-        );
-        $plans[] = array(
-            'id' => 'usa-email-600g',
-            'categoria' => 'email',
-            'nome' => 'USA Email 600GB',
-            'ram' => '2 GB',
-            'cpu' => '1 Core',
-            'disco' => '600 GB',
-            'visualizacoes' => '',
-            'preco_mensal' => 869,
-            'uso_indicado' => 'Pequenas Empresas'
-        );
-        $plans[] = array(
-            'id' => 'usa-email-700g',
-            'categoria' => 'email',
-            'nome' => 'USA Email 700GB',
-            'ram' => '4 GB',
-            'cpu' => '2 Cores',
-            'disco' => '700 GB',
-            'visualizacoes' => '',
-            'preco_mensal' => 1419,
-            'uso_indicado' => 'Pequenas Empresas'
-        );
-        $plans[] = array(
-            'id' => 'usa-email-800g',
-            'categoria' => 'email',
-            'nome' => 'USA Email 800GB',
-            'ram' => '4 GB',
-            'cpu' => '2 Cores',
-            'disco' => '800 GB',
-            'visualizacoes' => '',
-            'preco_mensal' => 1519,
-            'uso_indicado' => 'Pequenas Empresas'
-        );
-        $plans[] = array(
-            'id' => 'usa-email-900g',
-            'categoria' => 'email',
-            'nome' => 'USA Email 900GB',
-            'ram' => '4 GB',
-            'cpu' => '2 Cores',
-            'disco' => '900 GB',
-            'visualizacoes' => '',
-            'preco_mensal' => 1629,
-            'uso_indicado' => 'Pequenas Empresas'
-        );
-        $plans[] = array(
-            'id' => 'usa-email-1000g',
-            'categoria' => 'email',
-            'nome' => 'USA Email 1000GB',
-            'ram' => '4 GB',
-            'cpu' => '2 Cores',
-            'disco' => '1000 GB',
-            'visualizacoes' => '',
-            'preco_mensal' => 2049,
-            'uso_indicado' => 'Pequenas Empresas'
-        );
-
-        return $plans;
-    }
-
-    /**
-     * Obter FAQs padrão
-     */
-    public function get_default_faqs() {
+    public static function get_default_plans() {
         return array(
+            // ☁️ Clouds Padrão (Uso Geral)
             array(
-                'pergunta' => 'Existe alguma taxa de instalação?',
-                'resposta' => 'Não! Nossa equipe realiza toda a configuração inicial sem custos adicionais.'
+                'categoria' => 'padrao',
+                'modelo' => 'Default USA1G Individual',
+                'nome_exibido' => 'USA 1GB Individual',
+                'ram' => '1 GB',
+                'cpu' => '1 Core',
+                'disco' => '25 GB',
+                'visualizacoes' => '100.000 (1 site)',
+                'preco_mensal' => 89,
+                'uso_indicado' => ''
             ),
             array(
-                'pergunta' => 'Posso mudar meu plano futuramente?',
-                'resposta' => 'Sim! Você pode fazer upgrade ou downgrade do seu plano a qualquer momento, conforme a necessidade do seu projeto.'
+                'categoria' => 'padrao',
+                'modelo' => 'Default USA1G',
+                'nome_exibido' => 'USA 1GB',
+                'ram' => '1 GB',
+                'cpu' => '1 Core',
+                'disco' => '25 GB',
+                'visualizacoes' => '100.000',
+                'preco_mensal' => 119,
+                'uso_indicado' => ''
             ),
             array(
-                'pergunta' => 'Eu terei que migrar meu website?',
-                'resposta' => 'Não se preocupe! Oferecemos migração gratuita de sites. Nossa equipe cuida de tudo para você.'
+                'categoria' => 'padrao',
+                'modelo' => 'BR1G Individual',
+                'nome_exibido' => 'BR 1GB Individual',
+                'ram' => '1 GB',
+                'cpu' => '1 Core',
+                'disco' => '25 GB',
+                'visualizacoes' => '100.000 (1 site)',
+                'preco_mensal' => 219,
+                'uso_indicado' => ''
             ),
             array(
-                'pergunta' => 'Quanto tempo duram os contratos?',
-                'resposta' => 'Temos planos mensais com flexibilidade total e planos anuais com 10% de desconto. Sem fidelidade nos planos mensais.'
+                'categoria' => 'padrao',
+                'modelo' => 'Default USA2G',
+                'nome_exibido' => 'USA 2GB',
+                'ram' => '2 GB',
+                'cpu' => '1 Core',
+                'disco' => '50 GB',
+                'visualizacoes' => '300.000',
+                'preco_mensal' => 229,
+                'uso_indicado' => ''
             ),
             array(
-                'pergunta' => 'E se eu precisar de mais e-mail e CDN?',
-                'resposta' => 'Nossos planos já incluem CDN automática e contas de e-mail configuráveis. Entre em contato para necessidades específicas.'
+                'categoria' => 'padrao',
+                'modelo' => 'BR1G',
+                'nome_exibido' => 'BR 1GB',
+                'ram' => '1 GB',
+                'cpu' => '1 Core',
+                'disco' => '25 GB',
+                'visualizacoes' => '100.000',
+                'preco_mensal' => 239,
+                'uso_indicado' => ''
             ),
             array(
-                'pergunta' => 'Quais as formas de pagamento?',
-                'resposta' => 'Aceitamos cartão de crédito, boleto bancário e PIX. Planos anuais podem ser parcelados no cartão.'
+                'categoria' => 'padrao',
+                'modelo' => 'Default USA4G',
+                'nome_exibido' => 'USA 4GB',
+                'ram' => '4 GB',
+                'cpu' => '2 Cores',
+                'disco' => '80 GB',
+                'visualizacoes' => '500.000',
+                'preco_mensal' => 439,
+                'uso_indicado' => ''
+            ),
+            array(
+                'categoria' => 'padrao',
+                'modelo' => 'BR2G',
+                'nome_exibido' => 'BR 2GB',
+                'ram' => '2 GB',
+                'cpu' => '1 Core',
+                'disco' => '50 GB',
+                'visualizacoes' => '300.000',
+                'preco_mensal' => 559,
+                'uso_indicado' => ''
+            ),
+            array(
+                'categoria' => 'padrao',
+                'modelo' => 'Default USA8G',
+                'nome_exibido' => 'USA 8GB',
+                'ram' => '8 GB',
+                'cpu' => '4 Cores',
+                'disco' => '160 GB',
+                'visualizacoes' => '1.000.000',
+                'preco_mensal' => 799,
+                'uso_indicado' => ''
+            ),
+            array(
+                'categoria' => 'padrao',
+                'modelo' => 'BR4G',
+                'nome_exibido' => 'BR 4GB',
+                'ram' => '4 GB',
+                'cpu' => '2 Cores',
+                'disco' => '80 GB',
+                'visualizacoes' => '500.000',
+                'preco_mensal' => 1009,
+                'uso_indicado' => ''
+            ),
+            array(
+                'categoria' => 'padrao',
+                'modelo' => 'BR8G',
+                'nome_exibido' => 'BR 8GB',
+                'ram' => '8 GB',
+                'cpu' => '4 Cores',
+                'disco' => '160 GB',
+                'visualizacoes' => '1.000.000',
+                'preco_mensal' => 1589,
+                'uso_indicado' => ''
+            ),
+            array(
+                'categoria' => 'padrao',
+                'modelo' => 'Default USA16G',
+                'nome_exibido' => 'USA 16GB',
+                'ram' => '16 GB',
+                'cpu' => '6 Cores',
+                'disco' => '320 GB',
+                'visualizacoes' => '1.400.000',
+                'preco_mensal' => 1629,
+                'uso_indicado' => ''
+            ),
+            array(
+                'categoria' => 'padrao',
+                'modelo' => 'BR16G',
+                'nome_exibido' => 'BR 16GB',
+                'ram' => '16 GB',
+                'cpu' => '6 Cores',
+                'disco' => '320 GB',
+                'visualizacoes' => '1.400.000',
+                'preco_mensal' => 2969,
+                'uso_indicado' => ''
+            ),
+            array(
+                'categoria' => 'padrao',
+                'modelo' => 'Default USA32G',
+                'nome_exibido' => 'USA 32GB',
+                'ram' => '32 GB',
+                'cpu' => '8 Cores',
+                'disco' => '640 GB',
+                'visualizacoes' => '3.000.000',
+                'preco_mensal' => 3129,
+                'uso_indicado' => ''
+            ),
+            array(
+                'categoria' => 'padrao',
+                'modelo' => 'Default USA64G',
+                'nome_exibido' => 'USA 64GB',
+                'ram' => '64 GB',
+                'cpu' => '12 Cores',
+                'disco' => '1280 GB',
+                'visualizacoes' => '6.000.000',
+                'preco_mensal' => 6249,
+                'uso_indicado' => ''
+            ),
+            array(
+                'categoria' => 'padrao',
+                'modelo' => 'Default USA128G',
+                'nome_exibido' => 'USA 128GB',
+                'ram' => '128 GB',
+                'cpu' => '24 Cores',
+                'disco' => '2560 GB',
+                'visualizacoes' => '16.000.000',
+                'preco_mensal' => 12629,
+                'uso_indicado' => ''
+            ),
+            array(
+                'categoria' => 'padrao',
+                'modelo' => 'Default USA192G',
+                'nome_exibido' => 'USA 192GB',
+                'ram' => '192 GB',
+                'cpu' => '32 Cores',
+                'disco' => '3840 GB',
+                'visualizacoes' => '24.000.000',
+                'preco_mensal' => 18879,
+                'uso_indicado' => ''
+            ),
+            
+            // 🧠 Clouds Focados em Memória RAM
+            array(
+                'categoria' => 'ram',
+                'modelo' => 'Default USAMax RAM',
+                'nome_exibido' => 'USA Max RAM',
+                'ram' => '24 GB',
+                'cpu' => '1 Core',
+                'disco' => '20 GB',
+                'visualizacoes' => '',
+                'preco_mensal' => 1299,
+                'uso_indicado' => ''
+            ),
+            array(
+                'categoria' => 'ram',
+                'modelo' => 'Default USASuper RAM',
+                'nome_exibido' => 'USA Super RAM',
+                'ram' => '48 GB',
+                'cpu' => '2 Cores',
+                'disco' => '40 GB',
+                'visualizacoes' => '',
+                'preco_mensal' => 2409,
+                'uso_indicado' => ''
+            ),
+            array(
+                'categoria' => 'ram',
+                'modelo' => 'Default USAHyper RAM',
+                'nome_exibido' => 'USA Hyper RAM',
+                'ram' => '90 GB',
+                'cpu' => '4 Cores',
+                'disco' => '90 GB',
+                'visualizacoes' => '',
+                'preco_mensal' => 4739,
+                'uso_indicado' => ''
+            ),
+            array(
+                'categoria' => 'ram',
+                'modelo' => 'Default USAUltra RAM',
+                'nome_exibido' => 'USA Ultra RAM',
+                'ram' => '150 GB',
+                'cpu' => '8 Cores',
+                'disco' => '200 GB',
+                'visualizacoes' => '',
+                'preco_mensal' => 8759,
+                'uso_indicado' => ''
+            ),
+            array(
+                'categoria' => 'ram',
+                'modelo' => 'Default USAElite RAM',
+                'nome_exibido' => 'USA Elite RAM',
+                'ram' => '300 GB',
+                'cpu' => '16 Cores',
+                'disco' => '340 GB',
+                'visualizacoes' => '',
+                'preco_mensal' => 17579,
+                'uso_indicado' => ''
+            ),
+            
+            // ⚙️ Clouds Focados em Processamento (CPU)
+            array(
+                'categoria' => 'cpu',
+                'modelo' => 'Default USAMax CPU',
+                'nome_exibido' => 'USA Max CPU',
+                'ram' => '4 GB',
+                'cpu' => '2 Cores',
+                'disco' => '80 GB',
+                'visualizacoes' => '',
+                'preco_mensal' => 649,
+                'uso_indicado' => ''
+            ),
+            array(
+                'categoria' => 'cpu',
+                'modelo' => 'Default USASuper CPU',
+                'nome_exibido' => 'USA Super CPU',
+                'ram' => '8 GB',
+                'cpu' => '4 Cores',
+                'disco' => '160 GB',
+                'visualizacoes' => '',
+                'preco_mensal' => 1199,
+                'uso_indicado' => ''
+            ),
+            array(
+                'categoria' => 'cpu',
+                'modelo' => 'Default USAHyper CPU',
+                'nome_exibido' => 'USA Hyper CPU',
+                'ram' => '16 GB',
+                'cpu' => '8 Cores',
+                'disco' => '320 GB',
+                'visualizacoes' => '',
+                'preco_mensal' => 2249,
+                'uso_indicado' => ''
+            ),
+            array(
+                'categoria' => 'cpu',
+                'modelo' => 'Default USAUltra CPU',
+                'nome_exibido' => 'USA Ultra CPU',
+                'ram' => '32 GB',
+                'cpu' => '16 Cores',
+                'disco' => '640 GB',
+                'visualizacoes' => '',
+                'preco_mensal' => 4499,
+                'uso_indicado' => ''
+            ),
+            array(
+                'categoria' => 'cpu',
+                'modelo' => 'Default USAElite CPU',
+                'nome_exibido' => 'USA Elite CPU',
+                'ram' => '64 GB',
+                'cpu' => '32 Cores',
+                'disco' => '1280 GB',
+                'visualizacoes' => '',
+                'preco_mensal' => 8879,
+                'uso_indicado' => ''
+            ),
+            array(
+                'categoria' => 'cpu',
+                'modelo' => 'Default USAPrestige CPU',
+                'nome_exibido' => 'USA Prestige CPU',
+                'ram' => '96 GB',
+                'cpu' => '48 Cores',
+                'disco' => '1920 GB',
+                'visualizacoes' => '',
+                'preco_mensal' => 13149,
+                'uso_indicado' => ''
+            ),
+            
+            // 📧 Clouds para E-mails
+            array(
+                'categoria' => 'email',
+                'modelo' => 'Default USAEmail 20G',
+                'nome_exibido' => 'USA Email 20GB',
+                'ram' => '1 GB',
+                'cpu' => '1 Core',
+                'disco' => '20 GB',
+                'visualizacoes' => '',
+                'preco_mensal' => 129,
+                'uso_indicado' => 'Pequenas Empresas'
+            ),
+            array(
+                'categoria' => 'email',
+                'modelo' => 'Default USAEmail 60G',
+                'nome_exibido' => 'USA Email 60GB',
+                'ram' => '1 GB',
+                'cpu' => '1 Core',
+                'disco' => '60 GB',
+                'visualizacoes' => '',
+                'preco_mensal' => 149,
+                'uso_indicado' => 'Pequenas Empresas'
+            ),
+            array(
+                'categoria' => 'email',
+                'modelo' => 'Default USAEmail 100G',
+                'nome_exibido' => 'USA Email 100GB',
+                'ram' => '1 GB',
+                'cpu' => '1 Core',
+                'disco' => '100 GB',
+                'visualizacoes' => '',
+                'preco_mensal' => 209,
+                'uso_indicado' => 'Pequenas Empresas'
+            ),
+            array(
+                'categoria' => 'email',
+                'modelo' => 'Default USAEmail 200G',
+                'nome_exibido' => 'USA Email 200GB',
+                'ram' => '1 GB',
+                'cpu' => '1 Core',
+                'disco' => '200 GB',
+                'visualizacoes' => '',
+                'preco_mensal' => 289,
+                'uso_indicado' => 'Pequenas Empresas'
+            ),
+            array(
+                'categoria' => 'email',
+                'modelo' => 'Default USAEmail 300G',
+                'nome_exibido' => 'USA Email 300GB',
+                'ram' => '1 GB',
+                'cpu' => '1 Core',
+                'disco' => '300 GB',
+                'visualizacoes' => '',
+                'preco_mensal' => 359,
+                'uso_indicado' => 'Pequenas Empresas'
+            ),
+            array(
+                'categoria' => 'email',
+                'modelo' => 'Default USAEmail 400G',
+                'nome_exibido' => 'USA Email 400GB',
+                'ram' => '2 GB',
+                'cpu' => '1 Core',
+                'disco' => '400 GB',
+                'visualizacoes' => '',
+                'preco_mensal' => 489,
+                'uso_indicado' => 'Pequenas Empresas'
+            ),
+            array(
+                'categoria' => 'email',
+                'modelo' => 'Default USAEmail 500G',
+                'nome_exibido' => 'USA Email 500GB',
+                'ram' => '2 GB',
+                'cpu' => '1 Core',
+                'disco' => '500 GB',
+                'visualizacoes' => '',
+                'preco_mensal' => 549,
+                'uso_indicado' => 'Pequenas Empresas'
+            ),
+            array(
+                'categoria' => 'email',
+                'modelo' => 'Default USAEmail 600G',
+                'nome_exibido' => 'USA Email 600GB',
+                'ram' => '2 GB',
+                'cpu' => '1 Core',
+                'disco' => '600 GB',
+                'visualizacoes' => '',
+                'preco_mensal' => 869,
+                'uso_indicado' => 'Pequenas Empresas'
+            ),
+            array(
+                'categoria' => 'email',
+                'modelo' => 'Default USAEmail 700G',
+                'nome_exibido' => 'USA Email 700GB',
+                'ram' => '4 GB',
+                'cpu' => '2 Cores',
+                'disco' => '700 GB',
+                'visualizacoes' => '',
+                'preco_mensal' => 1419,
+                'uso_indicado' => 'Pequenas Empresas'
+            ),
+            array(
+                'categoria' => 'email',
+                'modelo' => 'Default USAEmail 800G',
+                'nome_exibido' => 'USA Email 800GB',
+                'ram' => '4 GB',
+                'cpu' => '2 Cores',
+                'disco' => '800 GB',
+                'visualizacoes' => '',
+                'preco_mensal' => 1519,
+                'uso_indicado' => 'Pequenas Empresas'
+            ),
+            array(
+                'categoria' => 'email',
+                'modelo' => 'Default USAEmail 900G',
+                'nome_exibido' => 'USA Email 900GB',
+                'ram' => '4 GB',
+                'cpu' => '2 Cores',
+                'disco' => '900 GB',
+                'visualizacoes' => '',
+                'preco_mensal' => 1629,
+                'uso_indicado' => 'Pequenas Empresas'
+            ),
+            array(
+                'categoria' => 'email',
+                'modelo' => 'Default USAEmail 1000G',
+                'nome_exibido' => 'USA Email 1000GB',
+                'ram' => '4 GB',
+                'cpu' => '2 Cores',
+                'disco' => '1000 GB',
+                'visualizacoes' => '',
+                'preco_mensal' => 2049,
+                'uso_indicado' => 'Pequenas Empresas'
             )
         );
     }
 
     /**
-     * Obter funcionalidades/benefícios padrão
+     * Retorna os planos salvos ou os padrão
      */
-    public function get_default_features() {
+    public static function get_plans() {
+        $saved_plans = get_option('futturu_hospedagemcloud_plans');
+        
+        if (!is_array($saved_plans) || empty($saved_plans)) {
+            return self::get_default_plans();
+        }
+        
+        return $saved_plans;
+    }
+
+    /**
+     * Retorna planos por categoria ordenados por preço (mais barato para mais caro)
+     */
+    public static function get_plans_by_category($category) {
+        $plans = self::get_plans();
+        
+        if (!is_array($plans)) {
+            return self::get_default_plans();
+        }
+        
+        $filtered = array_filter($plans, function($plan) use ($category) {
+            return isset($plan['categoria']) && $plan['categoria'] === $category;
+        });
+        
+        // Ordena por preço crescente
+        usort($filtered, function($a, $b) {
+            $price_a = isset($a['preco_mensal']) ? floatval($a['preco_mensal']) : 0;
+            $price_b = isset($b['preco_mensal']) ? floatval($b['preco_mensal']) : 0;
+            return $price_a - $price_b;
+        });
+        
+        return array_values($filtered);
+    }
+
+    /**
+     * Retorna as funcionalidades/benefícios
+     */
+    public static function get_features() {
         return array(
             'HTTPS Automático (Let\'s Encrypt)',
             'Backup Automático',
             'CDN + Cache Automática',
             'Pagespeed Optimizer',
             'Firewall e Proteção Anti-blocklist',
-            'Monitoramento de Infraestrutura 24/7',
+            'Monitoramento de Infraestrutura',
             'Atualizações de Segurança Automáticas',
-            'Acesso Root (onde aplicável)',
+            'Possibilidade de Acesso Root (onde aplicável)',
             'Painel de Controle Automatizado e Amigável',
             'Migração de Sites Grátis',
             'Definição de Limite de Memória',
@@ -532,75 +534,106 @@ class Futturu_HospedagemCloud_Data {
     }
 
     /**
-     * Obter planos por categoria (ordenados por preço crescente)
+     * Retorna os FAQs
      */
-    public function get_plans_by_category($category_slug) {
-        $plans = get_option('futturu_hospedagemcloud_plans');
-        
-        // Validação robusta dos dados
-        if (!is_array($plans) || empty($plans)) {
-            $plans = $this->get_default_plans();
-        }
-
-        $filtered = array();
-        foreach ($plans as $plan) {
-            // Verificação segura de array e chave
-            if (is_array($plan) && isset($plan['categoria']) && $plan['categoria'] === $category_slug) {
-                $filtered[] = $plan;
-            }
-        }
-
-        // Ordenar por preço (crescente)
-        usort($filtered, function($a, $b) {
-            $price_a = isset($a['preco_mensal']) ? floatval($a['preco_mensal']) : 0;
-            $price_b = isset($b['preco_mensal']) ? floatval($b['preco_mensal']) : 0;
-            return $price_a - $price_b;
-        });
-
-        return $filtered;
+    public static function get_faqs() {
+        return array(
+            array(
+                'pergunta' => 'Existe alguma taxa de instalação?',
+                'resposta' => 'Não! Não cobramos nenhuma taxa de instalação ou configuração. Todo o processo é gratuito.'
+            ),
+            array(
+                'pergunta' => 'Posso mudar meu plano futuramente?',
+                'resposta' => 'Sim! Você pode fazer upgrade ou downgrade do seu plano a qualquer momento, conforme a necessidade do seu projeto.'
+            ),
+            array(
+                'pergunta' => 'Eu terei que migrar meu website?',
+                'resposta' => 'Oferecemos migração gratuita de sites. Nossa equipe cuidará de toda a transferência sem downtime.'
+            ),
+            array(
+                'pergunta' => 'Quanto tempo duram os contratos?',
+                'resposta' => 'Trabalhamos com planos mensais e anuais. O plano anual oferece 10% de desconto e é recomendado para maior economia.'
+            ),
+            array(
+                'pergunta' => 'E se eu precisar de mais e-mail e CDN?',
+                'resposta' => 'Nossos planos já incluem recursos robustos de e-mail e CDN. Caso precise de algo adicional, podemos personalizar sua solução.'
+            ),
+            array(
+                'pergunta' => 'Quais as formas de pagamento?',
+                'resposta' => 'Aceitamos cartão de crédito, boleto bancário, PIX e transferência bancária. Entre em contato para mais detalhes.'
+            )
+        );
     }
 
     /**
-     * Obter configurações
+     * Salva os planos no banco de dados
      */
-    public function get_settings() {
-        $defaults = array(
-            'discount_rate' => 10,
-            'default_view' => 'annual',
-            'contact_email' => 'suporte@futturu.com.br'
-        );
-        $saved = get_option('futturu_hospedagemcloud_settings', array());
-        
-        if (!is_array($saved)) {
-            $saved = array();
+    public static function save_plans($plans) {
+        if (!is_array($plans)) {
+            return false;
         }
         
+        // Sanitiza os dados
+        $sanitized = array();
+        foreach ($plans as $plan) {
+            if (!is_array($plan)) {
+                continue;
+            }
+            
+            $sanitized[] = array(
+                'categoria' => sanitize_text_field(isset($plan['categoria']) ? $plan['categoria'] : ''),
+                'modelo' => sanitize_text_field(isset($plan['modelo']) ? $plan['modelo'] : ''),
+                'nome_exibido' => sanitize_text_field(isset($plan['nome_exibido']) ? $plan['nome_exibido'] : ''),
+                'ram' => sanitize_text_field(isset($plan['ram']) ? $plan['ram'] : ''),
+                'cpu' => sanitize_text_field(isset($plan['cpu']) ? $plan['cpu'] : ''),
+                'disco' => sanitize_text_field(isset($plan['disco']) ? $plan['disco'] : ''),
+                'visualizacoes' => sanitize_text_field(isset($plan['visualizacoes']) ? $plan['visualizacoes'] : ''),
+                'preco_mensal' => floatval(isset($plan['preco_mensal']) ? $plan['preco_mensal'] : 0),
+                'uso_indicado' => sanitize_text_field(isset($plan['uso_indicado']) ? $plan['uso_indicado'] : '')
+            );
+        }
+        
+        update_option('futturu_hospedagemcloud_plans', $sanitized);
+        return true;
+    }
+
+    /**
+     * Reseta para os planos padrão
+     */
+    public static function reset_to_defaults() {
+        delete_option('futturu_hospedagemcloud_plans');
+        return true;
+    }
+
+    /**
+     * Retorna configurações globais
+     */
+    public static function get_settings() {
+        $defaults = array(
+            'desconto_anual' => 10,
+            'email_destino' => 'suporte@futturu.com.br',
+            'texto_introducao' => 'Descubra o plano de hospedagem em nuvem ideal para o seu projeto. Escolha o período de pagamento: Economize 10% contratando anualmente ou pague mensalmente com flexibilidade. Nossa parceria com a Cloudez oferece servidores de alto desempenho na nuvem com gerenciamento completo e suporte técnico especializado.'
+        );
+        
+        $saved = get_option('futturu_hospedagemcloud_settings', array());
         return wp_parse_args($saved, $defaults);
     }
 
     /**
-     * Obter FAQs salvos
+     * Salva configurações globais
      */
-    public function get_faqs() {
-        $faqs = get_option('futturu_hospedagemcloud_faqs');
-        
-        if (!is_array($faqs) || empty($faqs)) {
-            return $this->get_default_faqs();
+    public static function save_settings($settings) {
+        if (!is_array($settings)) {
+            return false;
         }
         
-        return $faqs;
-    }
-
-    /**
-     * Obter features salvas
-     */
-    public function get_features() {
-        $features = get_option('futturu_hospedagemcloud_features');
+        $sanitized = array(
+            'desconto_anual' => intval(isset($settings['desconto_anual']) ? $settings['desconto_anual'] : 10),
+            'email_destino' => sanitize_email(isset($settings['email_destino']) ? $settings['email_destino'] : 'suporte@futturu.com.br'),
+            'texto_introducao' => wp_kses_post(isset($settings['texto_introducao']) ? $settings['texto_introducao'] : '')
+        );
         
-        if (!is_array($features) || empty($features)) {
-            return $this->get_default_features();
-        }
-        
-        return $features;
+        update_option('futturu_hospedagemcloud_settings', $sanitized);
+        return true;
     }
 }

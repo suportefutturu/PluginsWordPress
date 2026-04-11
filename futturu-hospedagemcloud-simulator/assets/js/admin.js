@@ -1,118 +1,141 @@
-jQuery(document).ready(function($) {
-    // Tabs
-    $('.fcs-tab-btn').on('click', function() {
-        var tab = $(this).data('tab');
-        
-        $('.fcs-tab-btn').removeClass('active');
-        $(this).addClass('active');
-        
-        $('.fcs-tab-content').removeClass('active');
-        $('#fcs-tab-' + tab).addClass('active');
+/**
+ * Admin JavaScript - Simulador de Hospedagem Futturu Cloud
+ */
+
+(function($) {
+    'use strict';
+
+    $(document).ready(function() {
+        initTabs();
+        initPlansForm();
+        initResetButton();
     });
-    
-    // Save Plans
-    $('#fcs-save-plans').on('click', function() {
-        var $spinner = $('#fcs-plans-spinner');
-        var $message = $('#fcs-plans-message');
-        
-        $spinner.addClass('is-active');
-        $message.html('');
-        
-        var data = {
-            action: 'futturu_hospedagemcloud_save_plans',
-            nonce: futturuHospedagemCloudAdmin.nonce
-        };
-        
-        $('input[name^="plan_"]').each(function() {
-            var name = $(this).attr('name');
-            var value = $(this).val();
-            data[name] = value;
+
+    /**
+     * Inicializa tabs do admin
+     */
+    function initTabs() {
+        $('.nav-tab').on('click', function(e) {
+            e.preventDefault();
+            
+            const target = $(this).attr('href');
+            
+            // Atualiza tabs
+            $('.nav-tab').removeClass('nav-tab-active');
+            $(this).addClass('nav-tab-active');
+            
+            // Atualiza conteúdo
+            $('.tab-content').removeClass('active');
+            $(target).addClass('active');
         });
-        
-        $.post(futturuHospedagemCloudAdmin.ajaxUrl, data, function(response) {
-            $spinner.removeClass('is-active');
-            if (response.success) {
-                $message.html('<span style="color: green;">' + response.data + '</span>');
-            } else {
-                $message.html('<span style="color: red;">Erro: ' + response.data + '</span>');
+    }
+
+    /**
+     * Inicializa formulário de planos
+     */
+    function initPlansForm() {
+        $('#futturu-plans-form').on('submit', function(e) {
+            e.preventDefault();
+            
+            const $form = $(this);
+            const $spinner = $('#plans-spinner');
+            const $message = $('.notice-message');
+            const $submitBtn = $('#save-plans-btn');
+            
+            // Coleta dados dos planos
+            const plans = [];
+            const $rows = $form.find('tbody tr');
+            
+            $rows.each(function() {
+                const $row = $(this);
+                const category = $row.data('category');
+                
+                plans.push({
+                    categoria: category,
+                    nome_exibido: $row.find('input[name*="nome_exibido"]').val(),
+                    modelo: $row.find('input[name*="modelo"]').val(),
+                    ram: $row.find('input[name*="ram"]').val(),
+                    cpu: $row.find('input[name*="cpu"]').val(),
+                    disco: $row.find('input[name*="disco"]').val(),
+                    visualizacoes: $row.find('input[name*="visualizacoes"]').val(),
+                    preco_mensal: parseFloat($row.find('input[name*="preco_mensal"]').val()) || 0,
+                    uso_indicado: $row.find('input[name*="uso_indicado"]').val()
+                });
+            });
+            
+            // Envia AJAX
+            $.ajax({
+                url: futturuHospedagemCloudAdmin.ajaxUrl,
+                type: 'POST',
+                data: {
+                    action: 'futturu_hospedagemcloud_save_plans',
+                    nonce: futturuHospedagemCloudAdmin.nonce,
+                    plans: plans
+                },
+                beforeSend: function() {
+                    $spinner.addClass('is-active');
+                    $submitBtn.prop('disabled', true);
+                    $message.removeClass('success error').text('');
+                },
+                success: function(response) {
+                    if (response.success) {
+                        $message.addClass('success').text(response.data.message);
+                    } else {
+                        $message.addClass('error').text(response.data.message);
+                    }
+                },
+                error: function() {
+                    $message.addClass('error').text(futturuHospedagemCloudAdmin.strings.error);
+                },
+                complete: function() {
+                    $spinner.removeClass('is-active');
+                    $submitBtn.prop('disabled', false);
+                    
+                    setTimeout(function() {
+                        $message.text('');
+                    }, 5000);
+                }
+            });
+        });
+    }
+
+    /**
+     * Inicializa botão de reset
+     */
+    function initResetButton() {
+        $('#reset-plans-btn').on('click', function() {
+            if (!confirm(futturuHospedagemCloudAdmin.strings.confirmReset)) {
+                return;
             }
+            
+            const $spinner = $('#plans-spinner');
+            const $message = $('.notice-message');
+            
+            $.ajax({
+                url: futturuHospedagemCloudAdmin.ajaxUrl,
+                type: 'POST',
+                data: {
+                    action: 'futturu_hospedagemcloud_reset_plans',
+                    nonce: futturuHospedagemCloudAdmin.nonce
+                },
+                beforeSend: function() {
+                    $spinner.addClass('is-active');
+                },
+                success: function(response) {
+                    if (response.success) {
+                        location.reload();
+                    } else {
+                        $('.notice-message').addClass('error').text(response.data.message);
+                    }
+                },
+                error: function() {
+                    $('.notice-message').addClass('error').text(futturuHospedagemCloudAdmin.strings.error);
+                },
+                complete: function() {
+                    $spinner.removeClass('is-active');
+                }
+            });
         });
-    });
-    
-    // Add FAQ
-    $('#fcs-add-faq').on('click', function() {
-        var index = $('#fcs-faqs-container .fcs-faq-item').length;
-        var html = '<div class="fcs-faq-item">' +
-            '<input type="text" name="faq_pergunta[' + index + ']" class="regular-text" placeholder="Pergunta">' +
-            '<textarea name="faq_resposta[' + index + ']" rows="3" placeholder="Resposta"></textarea>' +
-            '<button type="button" class="button remove-faq">Remover</button>' +
-            '</div>';
-        $('#fcs-faqs-container').append(html);
-    });
-    
-    // Remove FAQ
-    $(document).on('click', '.remove-faq', function() {
-        $(this).parent().remove();
-    });
-    
-    // Save FAQs
-    $('#fcs-save-faqs').on('click', function() {
-        var $spinner = $('#fcs-faqs-spinner');
-        var $message = $('#fcs-faqs-message');
-        
-        $spinner.addClass('is-active');
-        $message.html('');
-        
-        var data = {
-            action: 'futturu_hospedagemcloud_save_faqs',
-            nonce: futturuHospedagemCloudAdmin.nonce
-        };
-        
-        $('input[name^="faq_pergunta"]').each(function() {
-            var name = $(this).attr('name');
-            var value = $(this).val();
-            data[name] = value;
-        });
-        
-        $('textarea[name^="faq_resposta"]').each(function() {
-            var name = $(this).attr('name');
-            var value = $(this).val();
-            data[name] = value;
-        });
-        
-        $.post(futturuHospedagemCloudAdmin.ajaxUrl, data, function(response) {
-            $spinner.removeClass('is-active');
-            if (response.success) {
-                $message.html('<span style="color: green;">' + response.data + '</span>');
-            } else {
-                $message.html('<span style="color: red;">Erro: ' + response.data + '</span>');
-            }
-        });
-    });
-    
-    // Save Settings
-    $('#fcs-save-settings').on('click', function() {
-        var $spinner = $('#fcs-settings-spinner');
-        var $message = $('#fcs-settings-message');
-        
-        $spinner.addClass('is-active');
-        $message.html('');
-        
-        var data = {
-            action: 'futturu_hospedagemcloud_save_settings',
-            nonce: futturuHospedagemCloudAdmin.nonce,
-            discount_rate: $('#fcs-discount-rate').val(),
-            contact_email: $('#fcs-contact-email').val(),
-            default_view: $('input[name="fcs-default-view"]:checked').val()
-        };
-        
-        $.post(futturuHospedagemCloudAdmin.ajaxUrl, data, function(response) {
-            $spinner.removeClass('is-active');
-            if (response.success) {
-                $message.html('<span style="color: green;">' + response.data + '</span>');
-            } else {
-                $message.html('<span style="color: red;">Erro: ' + response.data + '</span>');
-            }
-        });
-    });
-});
+    }
+
+})(jQuery);
