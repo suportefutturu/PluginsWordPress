@@ -63,8 +63,8 @@ class Futuru_Cloud_Simulator_Frontend {
         <div class="futturu-cloud-simulator">
             <!-- Introduction Section -->
             <div class="futturu-intro-section">
-                <h2 class="futturu-intro-title"><?php echo esc_html($texts['intro_title'] ?? __('Descubra como começar com uma hospedagem poderosa e econômica', 'futturu-cloud-simulator')); ?></h2>
-                <p class="futturu-intro-text"><?php echo esc_html($texts['intro_text'] ?? __('Cresça com tranquilidade e segurança. Nossa parceria com a Cloudez oferece planos escalonáveis, gerenciados automaticamente, para que você se preocupe apenas com o seu negócio.', 'futturu-cloud-simulator')); ?></p>
+                <h2 class="futturu-intro-title"><?php echo esc_html(isset($texts['intro_title']) ? $texts['intro_title'] : __('Descubra como começar com uma hospedagem poderosa e econômica', 'futturu-cloud-simulator')); ?></h2>
+                <p class="futturu-intro-text"><?php echo esc_html(isset($texts['intro_text']) ? $texts['intro_text'] : __('Cresça com tranquilidade e segurança. Nossa parceria com a Cloudez oferece planos escalonáveis, gerenciados automaticamente, para que você se preocupe apenas com o seu negócio.', 'futturu-cloud-simulator')); ?></p>
                 
                 <div class="futturu-benefits-grid">
                     <div class="futturu-benefit-item">
@@ -104,7 +104,7 @@ class Futuru_Cloud_Simulator_Frontend {
             
             <!-- Quiz Section -->
             <div class="futturu-quiz-section">
-                <h3 class="futturu-quiz-title"><?php echo esc_html($texts['quiz_question'] ?? __('Quantas visualizações seu site recebe (ou espera receber) por mês?', 'futturu-cloud-simulator')); ?></h3>
+                <h3 class="futturu-quiz-title"><?php echo esc_html(isset($texts['quiz_question']) ? $texts['quiz_question'] : __('Quantas visualizações seu site recebe (ou espera receber) por mês?', 'futturu-cloud-simulator')); ?></h3>
                 
                 <div class="futturu-quiz-options">
                     <?php foreach ($profiles as $profile) : ?>
@@ -134,7 +134,7 @@ class Futuru_Cloud_Simulator_Frontend {
             
             <!-- Plans Table Section -->
             <div class="futturu-plans-section" id="futturu-plans">
-                <h3 class="futturu-plans-title"><?php echo esc_html($texts['table_title'] ?? __('Planos Econômicos & Escaláveis', 'futturu-cloud-simulator')); ?></h3>
+                <h3 class="futturu-plans-title"><?php echo esc_html(isset($texts['table_title']) ? $texts['table_title'] : __('Planos Econômicos & Escaláveis', 'futturu-cloud-simulator')); ?></h3>
                 
                 <div class="futturu-plans-table-wrapper">
                     <table class="futturu-plans-table">
@@ -154,8 +154,8 @@ class Futuru_Cloud_Simulator_Frontend {
                             // Sort plans to show initial plans first
                             usort($plans, function($a, $b) {
                                 $category_order = array('inicial' => 1, 'crescimento' => 2, 'intermediario' => 3, 'avancado' => 4, 'enterprise' => 5);
-                                $order_a = $category_order[$a['category']] ?? 99;
-                                $order_b = $category_order[$b['category']] ?? 99;
+                                $order_a = isset($category_order[$a['category']]) ? $category_order[$a['category']] : 99;
+                                $order_b = isset($category_order[$b['category']]) ? $category_order[$b['category']] : 99;
                                 return $order_a - $order_b;
                             });
                             
@@ -169,12 +169,12 @@ class Futuru_Cloud_Simulator_Frontend {
                                     </td>
                                     <td>
                                         <div class="futturu-plan-resources">
-                                            <div><span class="label">RAM:</span> <?php echo esc_html($plan['ram']); ?></div>
-                                            <div><span class="label">CPU:</span> <?php echo esc_html($plan['cpu']); ?></div>
-                                            <div><span class="label">SSD:</span> <?php echo esc_html($plan['disk']); ?></div>
+                                            <div><span class="label">RAM:</span> <?php echo esc_html($plan['ram']); ?> GB</div>
+                                            <div><span class="label">CPU:</span> <?php echo esc_html($plan['cpu']); ?> Core(s)</div>
+                                            <div><span class="label">SSD:</span> <?php echo esc_html($plan['disk']); ?> GB</div>
                                         </div>
                                     </td>
-                                    <td><?php echo esc_html($plan['views']); ?></td>
+                                    <td><?php echo number_format($plan['views'], 0, ',', '.'); ?></td>
                                     <td><?php echo esc_html($plan['sites']); ?></td>
                                     <td class="futturu-plan-price">
                                         <span class="price-currency">R$</span>
@@ -254,13 +254,13 @@ class Futuru_Cloud_Simulator_Frontend {
             <!-- CTA Section -->
             <div class="futturu-cta-section">
                 <div class="futturu-cta-content">
-                    <h3><?php echo esc_html($texts['cta_main'] ?? __('Pronto para começar com a hospedagem certa e crescer com tranquilidade? Fale com um especialista da Futturu.', 'futturu-cloud-simulator')); ?></h3>
+                    <h3><?php echo esc_html(isset($texts['cta_main']) ? $texts['cta_main'] : __('Pronto para começar com a hospedagem certa e crescer com tranquilidade? Fale com um especialista da Futturu.', 'futturu-cloud-simulator')); ?></h3>
                     <button class="futturu-btn futturu-btn-large futturu-btn-primary" onclick="futturuOpenModal()">
                         <?php _e('Solicite uma Cotação', 'futturu-cloud-simulator'); ?>
                     </button>
                 </div>
                 <div class="futturu-cta-secondary">
-                    <p><?php echo esc_html($texts['cta_secondary'] ?? __('Quer ajuda para escolher o plano ideal para começar? Solicite uma consultoria gratuita.', 'futturu-cloud-simulator')); ?></p>
+                    <p><?php echo esc_html(isset($texts['cta_secondary']) ? $texts['cta_secondary'] : __('Quer ajuda para escolher o plano ideal para começar? Solicite uma consultoria gratuita.', 'futturu-cloud-simulator')); ?></p>
                     <button class="futturu-btn futturu-btn-outline" onclick="futturuOpenModal()">
                         <?php _e('Falar com Especialista', 'futturu-cloud-simulator'); ?>
                     </button>
@@ -382,6 +382,6 @@ class Futuru_Cloud_Simulator_Frontend {
             'avancado' => __('Avançado', 'futturu-cloud-simulator'),
             'enterprise' => __('Enterprise', 'futturu-cloud-simulator')
         );
-        return $labels[$category] ?? $category;
+        return isset($labels[$category]) ? $labels[$category] : $category;
     }
 }

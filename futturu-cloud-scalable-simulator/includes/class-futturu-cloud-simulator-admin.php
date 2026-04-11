@@ -196,40 +196,40 @@ class Futuru_Cloud_Simulator_Admin {
                             <th><label for="intro_title"><?php _e('Título de Introdução', 'futturu-cloud-simulator'); ?></label></th>
                             <td>
                                 <input type="text" name="futturu_cloud_texts[intro_title]" id="intro_title" 
-                                       value="<?php echo esc_attr($texts['intro_title'] ?? ''); ?>" class="regular-text">
+                                       value="<?php echo esc_attr(isset($texts['intro_title']) ? $texts['intro_title'] : ''); ?>" class="regular-text">
                             </td>
                         </tr>
                         <tr>
                             <th><label for="intro_text"><?php _e('Texto de Introdução', 'futturu-cloud-simulator'); ?></label></th>
                             <td>
-                                <textarea name="futturu_cloud_texts[intro_text]" id="intro_text" rows="4" class="large-text"><?php echo esc_textarea($texts['intro_text'] ?? ''); ?></textarea>
+                                <textarea name="futturu_cloud_texts[intro_text]" id="intro_text" rows="4" class="large-text"><?php echo esc_textarea(isset($texts['intro_text']) ? $texts['intro_text'] : ''); ?></textarea>
                             </td>
                         </tr>
                         <tr>
                             <th><label for="quiz_question"><?php _e('Pergunta do Quiz', 'futturu-cloud-simulator'); ?></label></th>
                             <td>
                                 <input type="text" name="futturu_cloud_texts[quiz_question]" id="quiz_question" 
-                                       value="<?php echo esc_attr($texts['quiz_question'] ?? ''); ?>" class="regular-text">
+                                       value="<?php echo esc_attr(isset($texts['quiz_question']) ? $texts['quiz_question'] : ''); ?>" class="regular-text">
                             </td>
                         </tr>
                         <tr>
                             <th><label for="cta_main"><?php _e('CTA Principal', 'futturu-cloud-simulator'); ?></label></th>
                             <td>
-                                <textarea name="futturu_cloud_texts[cta_main]" id="cta_main" rows="3" class="large-text"><?php echo esc_textarea($texts['cta_main'] ?? ''); ?></textarea>
+                                <textarea name="futturu_cloud_texts[cta_main]" id="cta_main" rows="3" class="large-text"><?php echo esc_textarea(isset($texts['cta_main']) ? $texts['cta_main'] : ''); ?></textarea>
                             </td>
                         </tr>
                         <tr>
                             <th><label for="cta_secondary"><?php _e('CTA Secundário', 'futturu-cloud-simulator'); ?></label></th>
                             <td>
                                 <input type="text" name="futturu_cloud_texts[cta_secondary]" id="cta_secondary" 
-                                       value="<?php echo esc_attr($texts['cta_secondary'] ?? ''); ?>" class="regular-text">
+                                       value="<?php echo esc_attr(isset($texts['cta_secondary']) ? $texts['cta_secondary'] : ''); ?>" class="regular-text">
                             </td>
                         </tr>
                         <tr>
                             <th><label for="table_title"><?php _e('Título da Tabela', 'futturu-cloud-simulator'); ?></label></th>
                             <td>
                                 <input type="text" name="futturu_cloud_texts[table_title]" id="table_title" 
-                                       value="<?php echo esc_attr($texts['table_title'] ?? ''); ?>" class="regular-text">
+                                       value="<?php echo esc_attr(isset($texts['table_title']) ? $texts['table_title'] : ''); ?>" class="regular-text">
                             </td>
                         </tr>
                     </table>
@@ -244,7 +244,7 @@ class Futuru_Cloud_Simulator_Admin {
                             <th><label for="cta_email"><?php _e('E-mail para CTA', 'futturu-cloud-simulator'); ?></label></th>
                             <td>
                                 <input type="email" name="futturu_cloud_settings[cta_email]" id="cta_email" 
-                                       value="<?php echo esc_attr($settings['cta_email'] ?? 'suporte@futturu.com.br'); ?>" class="regular-text">
+                                       value="<?php echo esc_attr(isset($settings['cta_email']) ? $settings['cta_email'] : 'suporte@futturu.com.br'); ?>" class="regular-text">
                                 <p class="description"><?php _e('E-mail que receberá as mensagens do formulário.', 'futturu-cloud-simulator'); ?></p>
                             </td>
                         </tr>
@@ -253,7 +253,7 @@ class Futuru_Cloud_Simulator_Admin {
                             <td>
                                 <label>
                                     <input type="checkbox" name="futturu_cloud_settings[enabled]" id="plugin_enabled" 
-                                           value="1" <?php checked($settings['enabled'] ?? true, true); ?>>
+                                           value="1" <?php checked(isset($settings['enabled']) ? $settings['enabled'] : true, true); ?>>
                                     <?php _e('Habilitar shortcode e funcionalidades', 'futturu-cloud-simulator'); ?>
                                 </label>
                             </td>

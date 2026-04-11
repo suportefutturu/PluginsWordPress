@@ -65,7 +65,7 @@ class Futuru_Cloud_Simulator_Ajax {
         
         // Get settings
         $settings = get_option('futturu_cloud_settings', array());
-        $to_email = $settings['cta_email'] ?? 'suporte@futturu.com.br';
+        $to_email = isset($settings['cta_email']) ? $settings['cta_email'] : 'suporte@futturu.com.br';
         
         // Prepare email subject
         $subject = sprintf(
