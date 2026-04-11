@@ -1,0 +1,633 @@
+/**
+ * Futuru Cloud Simulator - Frontend Styles
+ * Modern, clean, professional design aligned with Futturu branding
+ */
+
+/* Base Styles */
+.futturu-cloud-simulator {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    color: #333;
+    line-height: 1.6;
+}
+
+.futturu-cloud-simulator * {
+    box-sizing: border-box;
+}
+
+/* Introduction Section */
+.futturu-intro {
+    text-align: center;
+    margin-bottom: 50px;
+    padding: 40px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 12px;
+    color: white;
+}
+
+.futturu-intro h2 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+.futturu-intro .intro-text {
+    font-size: 1.15em;
+    max-width: 900px;
+    margin: 0 auto 30px;
+    opacity: 0.95;
+}
+
+/* Benefits Grid */
+.futturu-benefits {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin: 40px 0;
+}
+
+.benefit-item {
+    background: rgba(255, 255, 255, 0.15);
+    padding: 20px 15px;
+    border-radius: 8px;
+    backdrop-filter: blur(10px);
+    transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.benefit-item:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.benefit-icon {
+    font-size: 2em;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.benefit-text {
+    font-size: 0.95em;
+    font-weight: 500;
+}
+
+.partnership-note {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 15px 25px;
+    border-radius: 8px;
+    margin-top: 30px;
+    font-size: 0.95em;
+}
+
+/* Category Tabs */
+.futturu-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 30px;
+    justify-content: center;
+}
+
+.tab-button {
+    padding: 12px 24px;
+    border: 2px solid #667eea;
+    background: white;
+    color: #667eea;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.tab-button:hover {
+    background: #f5f7ff;
+    transform: translateY(-2px);
+}
+
+.tab-button.active {
+    background: #667eea;
+    color: white;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+/* Plans Section */
+.plans-section {
+    display: none;
+    animation: fadeIn 0.5s ease;
+}
+
+.plans-section[style*="display: block"] {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.category-title {
+    font-size: 2em;
+    color: #667eea;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.category-description {
+    text-align: center;
+    color: #666;
+    margin-bottom: 30px;
+    font-size: 1.1em;
+}
+
+/* Plans Table */
+.plans-table-wrapper {
+    overflow-x: auto;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.plans-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+}
+
+.plans-table thead {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.plans-table th {
+    padding: 18px 15px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.95em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.plans-table td {
+    padding: 18px 15px;
+    border-bottom: 1px solid #eee;
+    vertical-align: middle;
+}
+
+.plans-table tbody tr:hover {
+    background: #f8f9ff;
+}
+
+.plans-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* Plan Model */
+.plan-model strong {
+    color: #667eea;
+    font-size: 1.05em;
+}
+
+/* Resources */
+.resource-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    font-size: 0.9em;
+}
+
+.resource-label {
+    color: #666;
+    font-weight: 500;
+}
+
+.resource-value {
+    color: #333;
+    font-weight: 600;
+}
+
+/* Price */
+.plan-price {
+    text-align: center;
+}
+
+.price-value {
+    display: block;
+    font-size: 1.4em;
+    font-weight: 700;
+    color: #764ba2;
+}
+
+.price-period {
+    font-size: 0.8em;
+    color: #999;
+}
+
+/* Buttons */
+.more-info-btn,
+.cta-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9em;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.more-info-btn {
+    background: #f0f0f0;
+    color: #666;
+}
+
+.more-info-btn:hover {
+    background: #e0e0e0;
+}
+
+.cta-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.cta-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.cta-btn.global {
+    padding: 15px 40px;
+    font-size: 1.1em;
+}
+
+/* Global CTA */
+.futturu-global-cta {
+    text-align: center;
+    margin-top: 60px;
+    padding: 50px 30px;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    border-radius: 12px;
+}
+
+.futturu-global-cta h3 {
+    font-size: 2em;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.futturu-global-cta p {
+    color: #666;
+    font-size: 1.1em;
+    margin-bottom: 25px;
+}
+
+/* Modal Styles */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    padding: 20px;
+}
+
+.modal-container {
+    background: white;
+    border-radius: 12px;
+    max-width: 800px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    animation: modalSlideIn 0.3s ease;
+}
+
+@keyframes modalSlideIn {
+    from { opacity: 0; transform: translateY(-50px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.modal-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 2em;
+    cursor: pointer;
+    color: #999;
+    line-height: 1;
+    padding: 0;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.modal-close:hover {
+    background: #f0f0f0;
+    color: #333;
+}
+
+.modal-header {
+    padding: 30px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 12px 12px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header h3 {
+    margin: 0;
+    font-size: 1.8em;
+}
+
+.modal-price {
+    font-size: 1.5em;
+    font-weight: 700;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 10px 20px;
+    border-radius: 8px;
+}
+
+.modal-body {
+    padding: 30px;
+}
+
+.modal-section {
+    margin-bottom: 30px;
+}
+
+.modal-section h4 {
+    color: #667eea;
+    margin-bottom: 15px;
+    font-size: 1.3em;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 10px;
+}
+
+.resources-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+}
+
+.resource-card {
+    background: #f8f9ff;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.resource-card .label {
+    font-size: 0.85em;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.resource-card .value {
+    font-size: 1.3em;
+    font-weight: 700;
+    color: #667eea;
+}
+
+.features-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 10px;
+}
+
+.features-list li {
+    padding: 12px 15px;
+    background: #f8f9ff;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.features-list li::before {
+    content: '✓';
+    color: #667eea;
+    font-weight: 700;
+    font-size: 1.2em;
+}
+
+#modal-recommendations {
+    background: #fff9e6;
+    padding: 20px;
+    border-radius: 8px;
+    border-left: 4px solid #ffc107;
+}
+
+.modal-footer {
+    padding: 20px 30px;
+    background: #f8f9ff;
+    border-radius: 0 0 12px 12px;
+    text-align: center;
+}
+
+/* Contact Form */
+.contact-form .form-group {
+    margin-bottom: 20px;
+}
+
+.contact-form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #333;
+}
+
+.contact-form input[type="text"],
+.contact-form input[type="email"],
+.contact-form input[type="tel"],
+.contact-form textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 1em;
+    transition: border-color 0.3s ease;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+.contact-form textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.form-submit {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.form-notice {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+    display: none;
+}
+
+.form-notice.success {
+    background: #d4edda;
+    color: #155724;
+    display: block;
+}
+
+.form-notice.error {
+    background: #f8d7da;
+    color: #721c24;
+    display: block;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .plans-table th,
+    .plans-table td {
+        padding: 12px 10px;
+        font-size: 0.9em;
+    }
+    
+    .futturu-intro h2 {
+        font-size: 2em;
+    }
+}
+
+@media (max-width: 768px) {
+    .futturu-cloud-simulator {
+        padding: 20px 15px;
+    }
+    
+    .futturu-intro {
+        padding: 30px 20px;
+    }
+    
+    .futturu-intro h2 {
+        font-size: 1.6em;
+    }
+    
+    .futturu-benefits {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .tab-button {
+        padding: 10px 16px;
+        font-size: 0.9em;
+    }
+    
+    .category-title {
+        font-size: 1.5em;
+    }
+    
+    .plans-table thead {
+        display: none;
+    }
+    
+    .plans-table,
+    .plans-table tbody,
+    .plans-table tr,
+    .plans-table td {
+        display: block;
+    }
+    
+    .plans-table tr {
+        margin-bottom: 20px;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 15px;
+    }
+    
+    .plans-table td {
+        text-align: right;
+        padding: 10px;
+        border-bottom: 1px solid #f0f0f0;
+    }
+    
+    .plans-table td::before {
+        content: attr(data-label);
+        float: left;
+        font-weight: 600;
+        color: #666;
+    }
+    
+    .modal-container {
+        max-width: 95%;
+        margin: 10px;
+    }
+    
+    .modal-header {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+    
+    .futturu-global-cta {
+        padding: 30px 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .futturu-benefits {
+        grid-template-columns: 1fr;
+    }
+    
+    .benefit-item {
+        padding: 15px;
+    }
+}
+
+/* Loading Spinner */
+.futturu-loading {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Print Styles */
+@media print {
+    .futturu-cloud-simulator {
+        max-width: 100%;
+        padding: 0;
+    }
+    
+    .futturu-tabs,
+    .more-info-btn,
+    .cta-btn,
+    .futturu-global-cta {
+        display: none !important;
+    }
+    
+    .plans-section {
+        display: block !important;
+        page-break-inside: avoid;
+    }
+}

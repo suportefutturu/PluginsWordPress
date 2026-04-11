@@ -1,0 +1,170 @@
+/**
+ * Futuru Cloud Simulator - Admin Styles
+ */
+
+.futturu-cloud-admin {
+    max-width: 1400px;
+}
+
+.futturu-cloud-admin .nav-tab-wrapper {
+    margin-top: 20px;
+    border-bottom: 2px solid #ddd;
+}
+
+.futturu-cloud-admin .nav-tab {
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    border: 1px solid transparent;
+    border-bottom: none;
+    margin-left: 5px;
+    background: #f5f5f5;
+    color: #666;
+    border-radius: 5px 5px 0 0;
+    transition: all 0.3s ease;
+}
+
+.futturu-cloud-admin .nav-tab:hover {
+    background: #e0e0e0;
+    color: #333;
+}
+
+.futturu-cloud-admin .nav-tab-active {
+    background: #fff;
+    color: #2271b1;
+    border-color: #ddd #ddd #fff;
+}
+
+.futturu-cloud-admin .tab-content {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-top: none;
+    padding: 20px;
+    margin-top: -1px;
+}
+
+/* Modal Styles */
+.futturu-cloud-admin .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100000;
+}
+
+.futturu-cloud-admin .modal-content {
+    background: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    max-width: 700px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+}
+
+.futturu-cloud-admin .modal-content .close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 28px;
+    cursor: pointer;
+    color: #999;
+    line-height: 1;
+}
+
+.futturu-cloud-admin .modal-content .close:hover {
+    color: #333;
+}
+
+.futturu-cloud-admin .modal-content h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    padding-right: 30px;
+}
+
+.futturu-cloud-admin .features-checkboxes {
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 5px;
+    background: #f9f9f9;
+}
+
+.futturu-cloud-admin .features-checkboxes label {
+    display: block !important;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.futturu-cloud-admin .features-checkboxes input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+/* Card Styles */
+.futturu-cloud-admin .card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.futturu-cloud-admin .card h3 {
+    margin-top: 0;
+    color: #2271b1;
+}
+
+/* Table Improvements */
+.futturu-cloud-admin .wp-list-table code {
+    background: #f0f0f1;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 0.9em;
+}
+
+.futturu-cloud-admin .button-link-delete {
+    color: #d63638 !important;
+}
+
+.futturu-cloud-admin .button-link-delete:hover {
+    background: #d63638;
+    color: #fff !important;
+}
+
+/* Form Improvements */
+.futturu-cloud-admin .form-table th {
+    padding: 20px 10px 20px 0;
+    width: 200px;
+}
+
+.futturu-cloud-admin .form-table td {
+    padding: 15px 10px;
+}
+
+/* Notice Styles */
+.futturu-cloud-admin .notice {
+    margin: 20px 0 0 0;
+}
+
+/* Responsive */
+@media (max-width: 782px) {
+    .futturu-cloud-admin .nav-tab {
+        display: block;
+        margin-bottom: 5px;
+        border-radius: 5px;
+    }
+    
+    .futturu-cloud-admin .modal-content {
+        width: 95%;
+        padding: 20px;
+    }
+}
