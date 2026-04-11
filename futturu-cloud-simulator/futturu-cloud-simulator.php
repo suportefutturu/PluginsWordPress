@@ -41,3 +41,4 @@ add_action('wp_ajax_nopriv_fcs_send_quote_request', array('FCS_Ajax', 'handle_qu
 
 // Register shortcode
 add_shortcode('futturu_cloud_simulator', array('FCS_Frontend', 'render_simulator'));
+?>

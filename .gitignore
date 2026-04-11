@@ -1,31 +1,33 @@
 ```
 # WordPress specific ignores
 wp-content/cache/
-*.log
-*.tmp
+wp-content/uploads/
+wp-config.php
+*.sql
 
 # Dependencies
-node_modules/
 vendor/
+node_modules/
+
+# Build artifacts
+*.log
+*.tmp
+.DS_Store
+Thumbs.db
 
 # Environment
 .env
 .env.local
 *.env.*
 
-# Editor/IDE files
+# Editor/IDE
 .vscode/
 .idea/
 *.swp
 *.swo
 
-# OS files
-.DS_Store
-Thumbs.db
-
-# Build artifacts
-build/
-dist/
-*.min.js
-*.min.css
+# PHP specific
+*.php~
+__MACOSX/
+*.DS_Store
 ```
