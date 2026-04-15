@@ -1,0 +1,725 @@
+/**
+ * Frontend Styles for Futturu Promo Plugin
+ */
+
+/* Reset & Base */
+.futturu-promo-wrapper {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
+    line-height: 1.6;
+    color: #333;
+}
+
+.futturu-promo-wrapper * {
+    box-sizing: border-box;
+}
+
+.futturu-promo-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Hero Section */
+.futturu-promo-hero {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+    padding: 80px 0;
+    text-align: center;
+}
+
+.futturu-promo-badge {
+    display: inline-block;
+    background: #ff6b6b;
+    color: #fff;
+    padding: 8px 20px;
+    border-radius: 50px;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+.futturu-promo-title {
+    font-size: 42px;
+    font-weight: 800;
+    margin-bottom: 20px;
+    line-height: 1.2;
+}
+
+.futturu-promo-subtitle {
+    font-size: 20px;
+    opacity: 0.95;
+    margin-bottom: 40px;
+}
+
+/* Pricing */
+.futturu-promo-pricing {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+}
+
+.futturu-promo-old-price {
+    text-align: center;
+    opacity: 0.8;
+}
+
+.futturu-promo-de {
+    display: block;
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.futturu-promo-value {
+    font-size: 32px;
+    text-decoration: line-through;
+}
+
+.futturu-promo-new-price {
+    text-align: center;
+    background: #fff;
+    color: #333;
+    padding: 30px 40px;
+    border-radius: 15px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+}
+
+.futturu-promo-por {
+    display: block;
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.futturu-promo-value-highlight {
+    display: block;
+    font-size: 56px;
+    font-weight: 800;
+    color: #667eea;
+    line-height: 1;
+}
+
+.futturu-promo-save {
+    display: block;
+    font-size: 16px;
+    color: #27ae60;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+/* Timer */
+.futturu-promo-timer {
+    margin-bottom: 40px;
+}
+
+.futturu-promo-timer-label {
+    display: block;
+    font-size: 16px;
+    margin-bottom: 15px;
+    opacity: 0.9;
+}
+
+.futturu-promo-countdown {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.futturu-promo-countdown-item {
+    background: rgba(255,255,255,0.2);
+    padding: 15px 20px;
+    border-radius: 10px;
+    min-width: 80px;
+}
+
+.futturu-promo-countdown-number {
+    display: block;
+    font-size: 32px;
+    font-weight: 800;
+}
+
+.futturu-promo-countdown-text {
+    display: block;
+    font-size: 12px;
+    opacity: 0.9;
+}
+
+.futturu-promo-countdown-separator {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* Buttons */
+.futturu-promo-btn {
+    display: inline-block;
+    padding: 18px 40px;
+    border-radius: 50px;
+    font-size: 18px;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.futturu-promo-btn-primary {
+    background: #ff6b6b;
+    color: #fff;
+    box-shadow: 0 5px 20px rgba(255,107,107,0.4);
+}
+
+.futturu-promo-btn-primary:hover {
+    background: #ff5252;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(255,107,107,0.5);
+}
+
+.futturu-promo-btn-submit {
+    background: #667eea;
+    color: #fff;
+    width: 100%;
+    box-shadow: 0 5px 20px rgba(102,126,234,0.4);
+}
+
+.futturu-promo-btn-submit:hover {
+    background: #5a6fd6;
+    transform: translateY(-2px);
+}
+
+.futturu-promo-btn-whatsapp {
+    background: #25D366;
+    color: #fff;
+    box-shadow: 0 5px 20px rgba(37,211,102,0.4);
+}
+
+.futturu-promo-btn-whatsapp:hover {
+    background: #20bd5a;
+    transform: translateY(-2px);
+}
+
+/* Social Proof */
+.futturu-promo-social-proof {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 40px;
+    flex-wrap: wrap;
+}
+
+.futturu-promo-proof-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    opacity: 0.9;
+}
+
+.futturu-promo-proof-item .dashicons {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+}
+
+/* Benefits Section */
+.futturu-promo-benefits {
+    padding: 80px 0;
+    background: #f8f9fa;
+}
+
+.futturu-promo-section-title {
+    text-align: center;
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 50px;
+    color: #333;
+}
+
+.futturu-promo-benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-bottom: 50px;
+}
+
+.futturu-promo-benefit-item {
+    background: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.futturu-promo-benefit-item:hover {
+    transform: translateY(-5px);
+}
+
+.futturu-promo-benefit-icon {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+}
+
+.futturu-promo-benefit-icon .dashicons {
+    color: #fff;
+    font-size: 28px;
+    width: 28px;
+    height: 28px;
+}
+
+.futturu-promo-benefit-item h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.futturu-promo-benefit-item p {
+    font-size: 14px;
+    color: #666;
+    margin: 0;
+}
+
+/* Value Comparison */
+.futturu-promo-value-comparison {
+    background: #fff;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 5px 30px rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.futturu-promo-comparison-item {
+    text-align: center;
+}
+
+.futturu-promo-comparison-label {
+    display: block;
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.futturu-promo-comparison-value {
+    display: block;
+    font-size: 36px;
+    font-weight: 800;
+}
+
+.futturu-promo-comparison-value.old {
+    color: #999;
+    text-decoration: line-through;
+}
+
+.futturu-promo-comparison-value.new {
+    color: #27ae60;
+}
+
+.futturu-promo-comparison-divider {
+    font-size: 40px;
+    color: #667eea;
+}
+
+.futturu-promo-comparison-savings {
+    font-size: 18px;
+    color: #666;
+}
+
+/* Payment Section */
+.futturu-promo-payment {
+    padding: 80px 0;
+    background: #fff;
+}
+
+.futturu-promo-steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 30px;
+    margin-bottom: 50px;
+}
+
+.futturu-promo-step {
+    text-align: center;
+    position: relative;
+}
+
+.futturu-promo-step-number {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0 auto 15px;
+}
+
+.futturu-promo-step p {
+    font-size: 14px;
+    color: #666;
+    margin: 0;
+}
+
+/* Payment Options */
+.futturu-promo-payment-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-bottom: 50px;
+}
+
+.futturu-promo-payment-option {
+    background: #f8f9fa;
+    padding: 30px;
+    border-radius: 15px;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.futturu-promo-payment-option:hover {
+    border-color: #667eea;
+    box-shadow: 0 5px 20px rgba(102,126,234,0.15);
+}
+
+.futturu-promo-payment-option h3 {
+    font-size: 20px;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.futturu-promo-payment-option h3 .dashicons {
+    color: #667eea;
+}
+
+.futturu-promo-pix-description {
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.futturu-promo-pix-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.futturu-promo-qr-code {
+    text-align: center;
+    padding: 20px;
+    background: #fff;
+    border-radius: 10px;
+}
+
+.futturu-promo-qr-code img {
+    max-width: 200px;
+    height: auto;
+}
+
+.futturu-promo-pix-key label {
+    display: block;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.futturu-promo-pix-key-value {
+    display: flex;
+    gap: 10px;
+}
+
+.futturu-promo-pix-key-value input {
+    flex: 1;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+    background: #f5f5f5;
+}
+
+.futturu-promo-copy-btn {
+    padding: 12px 20px;
+    background: #667eea;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: background 0.3s ease;
+}
+
+.futturu-promo-copy-btn:hover {
+    background: #5a6fd6;
+}
+
+.futturu-promo-copied-msg {
+    display: none;
+    color: #27ae60;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.futturu-promo-installment-total {
+    font-size: 14px;
+    color: #666;
+}
+
+.futturu-promo-installment-note {
+    font-size: 13px;
+    color: #999;
+    font-style: italic;
+}
+
+/* Form Section */
+.futturu-promo-form-section {
+    background: #f8f9fa;
+    padding: 40px;
+    border-radius: 15px;
+}
+
+.futturu-promo-form-section h3 {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 30px;
+}
+
+.futturu-promo-form {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.futturu-promo-form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.futturu-promo-form-group {
+    margin-bottom: 20px;
+}
+
+.futturu-promo-form-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.futturu-promo-form-group input[type="text"],
+.futturu-promo-form-group input[type="email"],
+.futturu-promo-form-group input[type="tel"],
+.futturu-promo-form-group input[type="number"],
+.futturu-promo-form-group textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+}
+
+.futturu-promo-form-group input:focus,
+.futturu-promo-form-group textarea:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+.futturu-promo-form-group small {
+    display: block;
+    color: #999;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.futturu-promo-radio-group {
+    display: flex;
+    gap: 20px;
+}
+
+.futturu-promo-radio {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.futturu-promo-radio input[type="radio"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+.futturu-promo-form-actions {
+    margin-top: 30px;
+}
+
+.futturu-promo-alternative-cta {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.futturu-promo-alternative-cta p {
+    font-size: 14px;
+    color: #666;
+}
+
+.futturu-promo-link {
+    color: #667eea;
+    text-decoration: underline;
+}
+
+.futturu-promo-link:hover {
+    color: #5a6fd6;
+}
+
+/* WhatsApp CTA */
+.futturu-promo-whatsapp-cta {
+    text-align: center;
+    margin-top: 40px;
+    padding-top: 30px;
+    border-top: 1px solid #ddd;
+}
+
+.futturu-promo-whatsapp-cta p {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 15px;
+}
+
+.futturu-promo-whatsapp-note {
+    font-size: 12px;
+    color: #999;
+    margin-top: 10px;
+}
+
+/* Success Message */
+.futturu-promo-success {
+    background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+    color: #fff;
+    padding: 80px 0;
+    text-align: center;
+}
+
+.futturu-promo-success-content .dashicons {
+    font-size: 80px;
+    width: 80px;
+    height: 80px;
+    margin-bottom: 20px;
+}
+
+.futturu-promo-success-content h2 {
+    font-size: 42px;
+    margin-bottom: 20px;
+}
+
+.futturu-promo-success-content p {
+    font-size: 18px;
+    opacity: 0.95;
+}
+
+.futturu-promo-success-content a {
+    color: #fff;
+    text-decoration: underline;
+}
+
+/* Inactive State */
+.futturu-promo-inactive {
+    background: #f8f9fa;
+    padding: 60px 20px;
+    text-align: center;
+    font-size: 18px;
+    color: #666;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .futturu-promo-title {
+        font-size: 28px;
+    }
+    
+    .futturu-promo-subtitle {
+        font-size: 16px;
+    }
+    
+    .futturu-promo-pricing {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .futturu-promo-new-price {
+        padding: 20px 30px;
+    }
+    
+    .futturu-promo-value-highlight {
+        font-size: 42px;
+    }
+    
+    .futturu-promo-countdown-item {
+        padding: 10px 15px;
+        min-width: 60px;
+    }
+    
+    .futturu-promo-countdown-number {
+        font-size: 24px;
+    }
+    
+    .futturu-promo-countdown-text {
+        font-size: 10px;
+    }
+    
+    .futturu-promo-form-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .futturu-promo-benefits-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .futturu-promo-steps {
+        grid-template-columns: 1fr;
+    }
+    
+    .futturu-promo-payment-options {
+        grid-template-columns: 1fr;
+    }
+    
+    .futturu-promo-value-comparison {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .futturu-promo-comparison-divider {
+        transform: rotate(90deg);
+    }
+    
+    .futturu-promo-pix-key-value {
+        flex-direction: column;
+    }
+}
