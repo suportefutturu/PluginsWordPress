@@ -1,0 +1,48 @@
+/**
+ * Admin Styles for Futturu Promo Plugin
+ */
+
+.futturu-promo-admin-container {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 30px;
+    margin-top: 20px;
+}
+
+.futturu-promo-admin-container form {
+    background: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.futturu-promo-actions {
+    background: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    height: fit-content;
+}
+
+.futturu-promo-actions h2 {
+    margin-top: 0;
+    font-size: 18px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.futturu-promo-actions h3 {
+    font-size: 14px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.form-table th {
+    width: 200px;
+}
+
+@media (max-width: 782px) {
+    .futturu-promo-admin-container {
+        grid-template-columns: 1fr;
+    }
+}

@@ -1,0 +1,25 @@
+```
+# WordPress plugin specific ignores
+*.log
+*.tmp
+*.swp
+
+# Environment files
+.env
+.env.local
+*.env.*
+
+# Editor/IDE files
+.vscode/
+.idea/
+*.swo
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Cache and temporary files
+*.cache
+*.tmp
+*.temp
+```
