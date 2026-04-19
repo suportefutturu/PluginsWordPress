@@ -177,6 +177,21 @@
                 $('input[name="futturu_popup_options[frequency_count]"]').closest('tr').show();
             }
         }).trigger('change');
+
+        // Toggle CTA URL field visibility based on link type
+        $('#futturu-cta-link-type').on('change', function() {
+            var value = $(this).val();
+
+            // Hide all CTA fields first
+            $('.futturu-cta-field').closest('tr').hide();
+
+            // Show relevant field
+            if (value === 'internal') {
+                $('.futturu-cta-field-internal').closest('tr').show();
+            } else if (value === 'external') {
+                $('.futturu-cta-field-external').closest('tr').show();
+            }
+        }).trigger('change');
     });
 
 })(jQuery);

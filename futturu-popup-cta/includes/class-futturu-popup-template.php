@@ -13,7 +13,9 @@ $defaults = array(
     'title' => 'OFERTA ESPECIAL',
     'content' => 'Crie seu Site Institucional Profissional por um preço imperdível! Apenas hoje ou enquanto durarem as vagas.',
     'cta_text' => 'Acesse agora o Hotsite!',
-    'cta_url' => home_url('/promocao-site-institucional/'),
+    'cta_link_type' => 'internal',
+    'cta_page_id' => 0,
+    'cta_custom_url' => '',
     'show_decline_button' => 1,
     'decline_text' => 'Não, obrigado',
     'width' => 'medium',
@@ -33,6 +35,14 @@ $defaults = array(
 );
 
 $options = wp_parse_args($options, $defaults);
+
+// Calculate CTA URL based on link type
+$cta_url = '';
+if ($options['cta_link_type'] === 'internal' && !empty($options['cta_page_id'])) {
+    $cta_url = get_permalink($options['cta_page_id']);
+} elseif ($options['cta_link_type'] === 'external' && !empty($options['cta_custom_url'])) {
+    $cta_url = esc_url_raw($options['cta_custom_url']);
+}
 
 // Calculate width
 $width_value = '500px';
@@ -103,8 +113,8 @@ $blur_class = $options['enable_blur'] ? 'futturu-popup-blur-enabled' : '';
             <?php endif; ?>
             
             <!-- CTA Button -->
-            <?php if (!empty($options['cta_text']) && !empty($options['cta_url'])) : ?>
-                <a href="<?php echo esc_url($options['cta_url']); ?>" class="futturu-popup-cta-button" style="background-color: <?php echo esc_attr($options['cta_bg_color']); ?>; color: <?php echo esc_attr($options['cta_text_color']); ?>; font-family: <?php echo esc_attr($options['font_family']); ?>; font-size: <?php echo esc_attr($options['font_size']); ?>px; font-weight: <?php echo esc_attr($options['font_weight']); ?>;">
+            <?php if (!empty($options['cta_text']) && !empty($cta_url)) : ?>
+                <a href="<?php echo esc_url($cta_url); ?>" class="futturu-popup-cta-button" style="background-color: <?php echo esc_attr($options['cta_bg_color']); ?>; color: <?php echo esc_attr($options['cta_text_color']); ?>; font-family: <?php echo esc_attr($options['font_family']); ?>; font-size: <?php echo esc_attr($options['font_size']); ?>px; font-weight: <?php echo esc_attr($options['font_weight']); ?>;">
                     <?php echo esc_html($options['cta_text']); ?>
                 </a>
             <?php endif; ?>

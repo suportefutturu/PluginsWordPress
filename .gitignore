@@ -1,28 +1,32 @@
 ```
-# Build artifacts
-dist/
-build/
-*.min.js
-*.min.css
-*.map
+# WordPress specific ignores
+wp-content/plugins/futturu-popup-cta/assets/js/*.min.js
+wp-content/plugins/futturu-popup-cta/assets/css/*.min.css
+wp-content/plugins/futturu-popup-cta/node_modules/
 
-# Dependencies
-node_modules/
+# Build artifacts
+*.log
+*.tmp
+*.swp
 
 # Environment
 .env
 .env.local
-.env.*
+*.env.*
 
 # Editors
 .vscode/
 .idea/
-*.swp
-*.swo
 
-# Logs
-*.log
+# Dependencies
+node_modules/
+vendor/
 
-# Temp files
-*.tmp
+# Cache directories
+.cache/
+*.cache
+
+# OS generated files
+.DS_Store
+Thumbs.db
 ```

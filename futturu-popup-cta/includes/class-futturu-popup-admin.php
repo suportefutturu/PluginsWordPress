@@ -79,9 +79,25 @@ class Futturu_Popup_Admin {
         );
         
         add_settings_field(
-            'cta_url',
-            __('Link do CTA Principal', 'futturu-popup-cta'),
-            array($this, 'render_cta_url_field'),
+            'cta_link_type',
+            __('Tipo de Link do CTA', 'futturu-popup-cta'),
+            array($this, 'render_cta_link_type_field'),
+            'futturu-popup-cta',
+            'futturu_popup_content_section'
+        );
+        
+        add_settings_field(
+            'cta_page_id',
+            __('Selecionar Página Interna', 'futturu-popup-cta'),
+            array($this, 'render_cta_page_id_field'),
+            'futturu-popup-cta',
+            'futturu_popup_content_section'
+        );
+        
+        add_settings_field(
+            'cta_custom_url',
+            __('URL Personalizada (externo)', 'futturu-popup-cta'),
+            array($this, 'render_cta_custom_url_field'),
             'futturu-popup-cta',
             'futturu_popup_content_section'
         );
@@ -321,7 +337,9 @@ class Futturu_Popup_Admin {
         $sanitized['title'] = sanitize_text_field($input['title']);
         $sanitized['content'] = wp_kses_post($input['content']);
         $sanitized['cta_text'] = sanitize_text_field($input['cta_text']);
-        $sanitized['cta_url'] = esc_url_raw($input['cta_url']);
+        $sanitized['cta_link_type'] = isset($input['cta_link_type']) ? sanitize_text_field($input['cta_link_type']) : 'internal';
+        $sanitized['cta_page_id'] = isset($input['cta_page_id']) ? absint($input['cta_page_id']) : 0;
+        $sanitized['cta_custom_url'] = esc_url_raw($input['cta_custom_url']);
         $sanitized['show_decline_button'] = isset($input['show_decline_button']) ? 1 : 0;
         $sanitized['decline_text'] = sanitize_text_field($input['decline_text']);
         
@@ -435,10 +453,41 @@ class Futturu_Popup_Admin {
         echo '<input type="text" name="' . $this->option_name . '[cta_text]" value="' . esc_attr($value) . '" class="regular-text" />';
     }
     
-    public function render_cta_url_field() {
+    public function render_cta_link_type_field() {
         $options = get_option($this->option_name);
-        $value = isset($options['cta_url']) ? $options['cta_url'] : home_url('/promocao-site-institucional/');
-        echo '<input type="url" name="' . $this->option_name . '[cta_url]" value="' . esc_attr($value) . '" class="regular-text" />';
+        $value = isset($options['cta_link_type']) ? $options['cta_link_type'] : 'internal';
+        ?>
+        <select name="<?php echo $this->option_name; ?>[cta_link_type]" id="futturu-cta-link-type">
+            <option value="internal" <?php selected($value, 'internal'); ?>><?php _e('Página Interna', 'futturu-popup-cta'); ?></option>
+            <option value="external" <?php selected($value, 'external'); ?>><?php _e('URL Externa', 'futturu-popup-cta'); ?></option>
+        </select>
+        <?php
+    }
+    
+    public function render_cta_page_id_field() {
+        $options = get_option($this->option_name);
+        $selected = isset($options['cta_page_id']) ? $options['cta_page_id'] : 0;
+        
+        $pages = get_pages(array('sort_column' => 'post_title'));
+        ?>
+        <select name="<?php echo $this->option_name; ?>[cta_page_id]" id="futturu-cta-page-id" class="futturu-cta-field futturu-cta-field-internal">
+            <option value="0"><?php _e('Selecione uma página...', 'futturu-popup-cta'); ?></option>
+            <?php foreach ($pages as $page) : ?>
+                <option value="<?php echo esc_attr($page->ID); ?>" <?php selected($selected, $page->ID); ?>>
+                    <?php echo esc_html($page->post_title); ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
+        <?php
+    }
+    
+    public function render_cta_custom_url_field() {
+        $options = get_option($this->option_name);
+        $value = isset($options['cta_custom_url']) ? $options['cta_custom_url'] : '';
+        ?>
+        <input type="url" name="<?php echo $this->option_name; ?>[cta_custom_url]" value="<?php echo esc_attr($value); ?>" class="regular-text futturu-cta-field futturu-cta-field-external" placeholder="<?php echo esc_attr(home_url('/')); ?>" />
+        <p class="description"><?php _e('Use este campo apenas se selecionou "URL Externa" acima.', 'futturu-popup-cta'); ?></p>
+        <?php
     }
     
     public function render_show_decline_field() {
@@ -748,7 +797,9 @@ class Futturu_Popup_Admin {
             'title' => sanitize_text_field($options['title']),
             'content' => wp_kses_post($options['content']),
             'cta_text' => sanitize_text_field($options['cta_text']),
-            'cta_url' => esc_url_raw($options['cta_url']),
+            'cta_link_type' => isset($options['cta_link_type']) ? sanitize_text_field($options['cta_link_type']) : 'internal',
+            'cta_page_id' => isset($options['cta_page_id']) ? absint($options['cta_page_id']) : 0,
+            'cta_custom_url' => esc_url_raw($options['cta_custom_url']),
             'show_decline_button' => isset($options['show_decline_button']) ? 1 : 0,
             'decline_text' => sanitize_text_field($options['decline_text']),
             'width' => sanitize_text_field($options['width']),
