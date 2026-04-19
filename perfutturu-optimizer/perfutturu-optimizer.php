@@ -255,15 +255,21 @@ final class Perfutturu_Optimizer {
             return;
         }
         
+        error_log('perfutturu: Enqueuing admin assets for hook: ' . $hook);
+        
         wp_enqueue_style('perfutturu-admin', PERFUTTURU_PLUGIN_URL . 'assets/css/admin.css', array(), PERFUTTURU_VERSION);
         wp_enqueue_script('perfutturu-admin', PERFUTTURU_PLUGIN_URL . 'assets/js/admin.js', array('jquery'), PERFUTTURU_VERSION, true);
         
         // Get existing script configs for the modal
         $script_configs = get_option('perfutturu_script_configs', array());
         
+        // Generate nonce specifically for AJAX actions
+        $ajax_nonce = wp_create_nonce('perfutturu_admin_nonce');
+        error_log('perfutturu: Generated nonce: ' . substr($ajax_nonce, 0, 10) . '...');
+        
         wp_localize_script('perfutturu-admin', 'perfutturuAdmin', array(
             'ajaxUrl' => admin_url('admin-ajax.php'),
-            'nonce' => wp_create_nonce('perfutturu_admin_nonce'),
+            'nonce' => $ajax_nonce,
             'strings' => array(
                 'saving' => __('Salvando...', 'perfutturu'),
                 'saved' => __('Salvo com sucesso!', 'perfutturu'),
@@ -673,10 +679,19 @@ final class Perfutturu_Optimizer {
      * AJAX: Get enqueued scripts
      */
     public function ajax_get_scripts() {
-        check_ajax_referer('perfutturu_admin_nonce', 'nonce');
+        error_log('perfutturu: ajax_get_scripts called');
+        
+        // Check nonce with explicit false return on failure
+        if (!check_ajax_referer('perfutturu_admin_nonce', 'nonce', false)) {
+            error_log('perfutturu: Invalid nonce in ajax_get_scripts');
+            wp_send_json_error('Nonce inválido');
+            return;
+        }
         
         if (!current_user_can('manage_options')) {
-            wp_send_json_error('Unauthorized');
+            error_log('perfutturu: Unauthorized user in ajax_get_scripts');
+            wp_send_json_error('Não autorizado');
+            return;
         }
         
         global $wp_scripts, $wp_styles;
@@ -700,11 +715,16 @@ final class Perfutturu_Optimizer {
         
         // Trigger the enqueue actions to populate registered scripts
         // This needs to be done in the correct order
+        error_log('perfutturu: Triggering init action');
         do_action('init');
+        error_log('perfutturu: Triggering wp_enqueue_scripts action');
         do_action('wp_enqueue_scripts');
         
         // Also trigger wp_head to catch any scripts added there
+        error_log('perfutturu: Triggering wp_head action');
         do_action('wp_head');
+        
+        error_log('perfutturu: Registered scripts count: ' . count($wp_scripts->registered));
         
         $scripts = array();
         
@@ -757,44 +777,71 @@ final class Perfutturu_Optimizer {
      * AJAX: Save script configuration
      */
     public function ajax_save_script_config() {
-        check_ajax_referer('perfutturu_admin_nonce', 'nonce');
-
-        if (!current_user_can('manage_options')) {
-            wp_send_json_error('Unauthorized');
-        }
-
-        // Validate required fields
-        if (empty($_POST['handle'])) {
-            wp_send_json_error('Handle não fornecido');
-        }
-
-        $handle = sanitize_text_field($_POST['handle']);
+        // Enable error logging for debugging
+        error_log('perfutturu_save_script_config called');
         
-        // Validate config JSON
-        if (empty($_POST['config'])) {
-            wp_send_json_error('Configuração não fornecida');
+        try {
+            // Check nonce first
+            if (!check_ajax_referer('perfutturu_admin_nonce', 'nonce', false)) {
+                error_log('perfutturu: Invalid nonce');
+                wp_send_json_error('Nonce inválido');
+                return;
+            }
+
+            if (!current_user_can('manage_options')) {
+                error_log('perfutturu: Unauthorized user');
+                wp_send_json_error('Não autorizado');
+                return;
+            }
+
+            // Validate required fields
+            if (empty($_POST['handle'])) {
+                error_log('perfutturu: Handle não fornecido');
+                wp_send_json_error('Handle não fornecido');
+                return;
+            }
+
+            $handle = sanitize_text_field($_POST['handle']);
+            error_log('perfutturu: Saving config for handle: ' . $handle);
+            
+            // Validate config JSON
+            if (empty($_POST['config'])) {
+                error_log('perfutturu: Configuração não fornecida');
+                wp_send_json_error('Configuração não fornecida');
+                return;
+            }
+
+            $config = json_decode(stripslashes($_POST['config']), true);
+            
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                error_log('perfutturu: JSON inválido - ' . json_last_error_msg());
+                wp_send_json_error('JSON inválido: ' . json_last_error_msg());
+                return;
+            }
+
+            // Get existing configs or initialize empty array
+            $script_configs = get_option('perfutturu_script_configs', array());
+            
+            // Update config for this handle
+            $script_configs[$handle] = $config;
+            error_log('perfutturu: New config structure: ' . print_r($script_configs, true));
+
+            // Save to database
+            $result = update_option('perfutturu_script_configs', $script_configs);
+            
+            if ($result === false) {
+                error_log('perfutturu: Erro ao salvar no banco de dados');
+                wp_send_json_error('Erro ao salvar no banco de dados');
+                return;
+            }
+
+            error_log('perfutturu: Configuration saved successfully');
+            wp_send_json_success('Configuration saved');
+            
+        } catch (Exception $e) {
+            error_log('perfutturu: Exception in ajax_save_script_config: ' . $e->getMessage());
+            wp_send_json_error('Erro interno: ' . $e->getMessage());
         }
-
-        $config = json_decode(stripslashes($_POST['config']), true);
-        
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            wp_send_json_error('JSON inválido: ' . json_last_error_msg());
-        }
-
-        // Get existing configs or initialize empty array
-        $script_configs = get_option('perfutturu_script_configs', array());
-        
-        // Update config for this handle
-        $script_configs[$handle] = $config;
-
-        // Save to database
-        $result = update_option('perfutturu_script_configs', $script_configs);
-        
-        if ($result === false) {
-            wp_send_json_error('Erro ao salvar no banco de dados');
-        }
-
-        wp_send_json_success('Configuration saved');
     }
     
     /**

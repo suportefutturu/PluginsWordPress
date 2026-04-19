@@ -181,6 +181,9 @@
         $saveBtn.text(perfutturuAdmin.strings.saving);
         
         // Save via AJAX
+        console.log('Saving script config for handle:', handle);
+        console.log('Config data:', config);
+        
         $.ajax({
             url: perfutturuAdmin.ajaxUrl,
             type: 'POST',
@@ -191,6 +194,7 @@
                 config: JSON.stringify(config)
             },
             success: function(response) {
+                console.log('Save response:', response);
                 if (response.success) {
                     showNotice(perfutturuAdmin.strings.saved, 'success');
                     closeModal();
@@ -198,23 +202,31 @@
                     loadScripts();
                 } else {
                     console.error('Save failed:', response.data);
-                    showNotice(perfutturuAdmin.strings.error + ': ' + (response.data || 'Unknown error'), 'error');
+                    var errorMsg = perfutturuAdmin.strings.error + ': ' + (response.data || 'Erro desconhecido');
+                    console.error('Error message:', errorMsg);
+                    showNotice(errorMsg, 'error');
                 }
             },
             error: function(xhr, status, error) {
                 console.error('AJAX save error:', status, error);
                 console.error('XHR response:', xhr.responseText);
+                console.error('XHR status code:', xhr.status);
                 var errorMsg = perfutturuAdmin.strings.error + ': ' + status;
                 if (xhr.responseText) {
                     try {
                         var resp = JSON.parse(xhr.responseText);
                         if (resp.data) {
                             errorMsg += ': ' + resp.data;
+                        } else if (resp.message) {
+                            errorMsg += ': ' + resp.message;
                         }
                     } catch(e) {
-                        errorMsg += ': ' + xhr.responseText.substring(0, 100);
+                        errorMsg += ': ' + xhr.responseText.substring(0, 200);
                     }
+                } else {
+                    errorMsg += ': Sem resposta do servidor';
                 }
+                console.error('Final error message:', errorMsg);
                 showNotice(errorMsg, 'error');
             },
             complete: function() {
