@@ -197,11 +197,25 @@
                     // Reload scripts to show updated status
                     loadScripts();
                 } else {
-                    showNotice(perfutturuAdmin.strings.error, 'error');
+                    console.error('Save failed:', response.data);
+                    showNotice(perfutturuAdmin.strings.error + ': ' + (response.data || 'Unknown error'), 'error');
                 }
             },
-            error: function() {
-                showNotice(perfutturuAdmin.strings.error, 'error');
+            error: function(xhr, status, error) {
+                console.error('AJAX save error:', status, error);
+                console.error('XHR response:', xhr.responseText);
+                var errorMsg = perfutturuAdmin.strings.error + ': ' + status;
+                if (xhr.responseText) {
+                    try {
+                        var resp = JSON.parse(xhr.responseText);
+                        if (resp.data) {
+                            errorMsg += ': ' + resp.data;
+                        }
+                    } catch(e) {
+                        errorMsg += ': ' + xhr.responseText.substring(0, 100);
+                    }
+                }
+                showNotice(errorMsg, 'error');
             },
             complete: function() {
                 $saveBtn.text(originalText);

@@ -758,19 +758,42 @@ final class Perfutturu_Optimizer {
      */
     public function ajax_save_script_config() {
         check_ajax_referer('perfutturu_admin_nonce', 'nonce');
-        
+
         if (!current_user_can('manage_options')) {
             wp_send_json_error('Unauthorized');
         }
-        
+
+        // Validate required fields
+        if (empty($_POST['handle'])) {
+            wp_send_json_error('Handle não fornecido');
+        }
+
         $handle = sanitize_text_field($_POST['handle']);
+        
+        // Validate config JSON
+        if (empty($_POST['config'])) {
+            wp_send_json_error('Configuração não fornecida');
+        }
+
         $config = json_decode(stripslashes($_POST['config']), true);
         
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            wp_send_json_error('JSON inválido: ' . json_last_error_msg());
+        }
+
+        // Get existing configs or initialize empty array
         $script_configs = get_option('perfutturu_script_configs', array());
+        
+        // Update config for this handle
         $script_configs[$handle] = $config;
+
+        // Save to database
+        $result = update_option('perfutturu_script_configs', $script_configs);
         
-        update_option('perfutturu_script_configs', $script_configs);
-        
+        if ($result === false) {
+            wp_send_json_error('Erro ao salvar no banco de dados');
+        }
+
         wp_send_json_success('Configuration saved');
     }
     
