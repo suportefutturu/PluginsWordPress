@@ -45,7 +45,14 @@
                 console.log('Scripts response:', response); // Debug log
                 
                 if (response.success) {
-                    renderScriptList(response.data);
+                    // Check if we have an info message instead of scripts
+                    if (response.data && response.data._info) {
+                        $scriptList.html('<p class="description">' + response.data._info + '</p>');
+                    } else if (Object.keys(response.data).length === 0) {
+                        $scriptList.html('<p>' + perfutturuAdmin.strings.noScripts + '</p>');
+                    } else {
+                        renderScriptList(response.data);
+                    }
                 } else {
                     console.error('Error response:', response);
                     $scriptList.html('<p class="error">' + perfutturuAdmin.strings.error + ': ' + (response.data || 'Unknown error') + '</p>');
@@ -53,7 +60,8 @@
             },
             error: function(xhr, status, error) {
                 console.error('AJAX error:', status, error);
-                $scriptList.html('<p class="error">' + perfutturuAdmin.strings.error + ': ' + status + '</p>');
+                console.error('XHR:', xhr);
+                $scriptList.html('<p class="error">' + perfutturuAdmin.strings.error + ': ' + status + ' - ' + error + '</p>');
             }
         });
     }
@@ -173,6 +181,9 @@
         $saveBtn.text(perfutturuAdmin.strings.saving);
         
         // Save via AJAX
+        console.log('Saving script config for handle:', handle);
+        console.log('Config data:', config);
+        
         $.ajax({
             url: perfutturuAdmin.ajaxUrl,
             type: 'POST',
@@ -183,17 +194,40 @@
                 config: JSON.stringify(config)
             },
             success: function(response) {
+                console.log('Save response:', response);
                 if (response.success) {
                     showNotice(perfutturuAdmin.strings.saved, 'success');
                     closeModal();
                     // Reload scripts to show updated status
                     loadScripts();
                 } else {
-                    showNotice(perfutturuAdmin.strings.error, 'error');
+                    console.error('Save failed:', response.data);
+                    var errorMsg = perfutturuAdmin.strings.error + ': ' + (response.data || 'Erro desconhecido');
+                    console.error('Error message:', errorMsg);
+                    showNotice(errorMsg, 'error');
                 }
             },
-            error: function() {
-                showNotice(perfutturuAdmin.strings.error, 'error');
+            error: function(xhr, status, error) {
+                console.error('AJAX save error:', status, error);
+                console.error('XHR response:', xhr.responseText);
+                console.error('XHR status code:', xhr.status);
+                var errorMsg = perfutturuAdmin.strings.error + ': ' + status;
+                if (xhr.responseText) {
+                    try {
+                        var resp = JSON.parse(xhr.responseText);
+                        if (resp.data) {
+                            errorMsg += ': ' + resp.data;
+                        } else if (resp.message) {
+                            errorMsg += ': ' + resp.message;
+                        }
+                    } catch(e) {
+                        errorMsg += ': ' + xhr.responseText.substring(0, 200);
+                    }
+                } else {
+                    errorMsg += ': Sem resposta do servidor';
+                }
+                console.error('Final error message:', errorMsg);
+                showNotice(errorMsg, 'error');
             },
             complete: function() {
                 $saveBtn.text(originalText);

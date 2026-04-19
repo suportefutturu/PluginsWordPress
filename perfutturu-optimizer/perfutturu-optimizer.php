@@ -72,10 +72,6 @@ final class Perfutturu_Optimizer {
         // Frontend optimizations
         add_action('wp', array($this, 'init_optimizations'), 1);
         
-        // Script management
-        add_action('wp_print_scripts', array($this, 'process_script_optimizations'), 100);
-        add_action('wp_print_styles', array($this, 'process_style_optimizations'), 100);
-        
         // HTML optimization
         add_action('wp_footer', array($this, 'buffer_start'), 0);
         add_action('shutdown', array($this, 'buffer_end'), 0);
@@ -91,10 +87,6 @@ final class Perfutturu_Optimizer {
         
         // Remove unnecessary WordPress features
         add_action('init', array($this, 'cleanup_head'));
-        
-        // AJAX handlers for script manager
-        add_action('wp_ajax_perfutturu_get_scripts', array($this, 'ajax_get_scripts'));
-        add_action('wp_ajax_perfutturu_save_script_config', array($this, 'ajax_save_script_config'));
     }
     
     /**
@@ -104,7 +96,6 @@ final class Perfutturu_Optimizer {
         // Load admin classes
         if (is_admin()) {
             require_once PERFUTTURU_PLUGIN_DIR . 'admin/class-perfutturu-admin.php';
-            require_once PERFUTTURU_PLUGIN_DIR . 'admin/class-perfutturu-script-manager.php';
         }
         
         // Load optimization classes
@@ -137,7 +128,6 @@ final class Perfutturu_Optimizer {
             'perfutturu_remove_dashicons' => 0,
             'perfutturu_dns_prefetch' => '',
             'perfutturu_preconnect' => '',
-            'perfutturu_script_configs' => array(),
             'perfutturu_critical_css' => array(),
             'perfutturu_db_cleanup_revisions' => 0,
             'perfutturu_db_cleanup_transients' => 0,
@@ -195,15 +185,6 @@ final class Perfutturu_Optimizer {
         
         add_submenu_page(
             'perfutturu',
-            __('Script Manager', 'perfutturu'),
-            __('Script Manager', 'perfutturu'),
-            'manage_options',
-            'perfutturu-scripts',
-            array($this, 'render_script_manager_page')
-        );
-        
-        add_submenu_page(
-            'perfutturu',
             __('Configurações', 'perfutturu'),
             __('Configurações', 'perfutturu'),
             'manage_options',
@@ -240,7 +221,6 @@ final class Perfutturu_Optimizer {
         register_setting('perfutturu_group', 'perfutturu_remove_dashicons');
         register_setting('perfutturu_group', 'perfutturu_dns_prefetch');
         register_setting('perfutturu_group', 'perfutturu_preconnect');
-        register_setting('perfutturu_group', 'perfutturu_script_configs');
         register_setting('perfutturu_group', 'perfutturu_critical_css');
     }
     
@@ -248,28 +228,28 @@ final class Perfutturu_Optimizer {
      * Enqueue admin assets
      */
     public function enqueue_admin_assets($hook) {
+        // Load on any Perfutturu admin page
         if (strpos($hook, 'perfutturu') === false) {
             return;
         }
         
+        error_log('perfutturu: Enqueuing admin assets for hook: ' . $hook);
+        
         wp_enqueue_style('perfutturu-admin', PERFUTTURU_PLUGIN_URL . 'assets/css/admin.css', array(), PERFUTTURU_VERSION);
         wp_enqueue_script('perfutturu-admin', PERFUTTURU_PLUGIN_URL . 'assets/js/admin.js', array('jquery'), PERFUTTURU_VERSION, true);
         
-        // Get existing script configs for the modal
-        $script_configs = get_option('perfutturu_script_configs', array());
+        // Generate nonce specifically for AJAX actions
+        $ajax_nonce = wp_create_nonce('perfutturu_admin_nonce');
+        error_log('perfutturu: Generated nonce: ' . substr($ajax_nonce, 0, 10) . '...');
         
         wp_localize_script('perfutturu-admin', 'perfutturuAdmin', array(
             'ajaxUrl' => admin_url('admin-ajax.php'),
-            'nonce' => wp_create_nonce('perfutturu_admin_nonce'),
+            'nonce' => $ajax_nonce,
             'strings' => array(
                 'saving' => __('Salvando...', 'perfutturu'),
                 'saved' => __('Salvo com sucesso!', 'perfutturu'),
                 'error' => __('Erro ao salvar', 'perfutturu'),
-                'noScripts' => __('Nenhum script encontrado. Recarregue a página.', 'perfutturu'),
-                'configure' => __('Configurar', 'perfutturu'),
-                'loadingScripts' => __('Carregando scripts...', 'perfutturu'),
             ),
-            'scriptConfigs' => $script_configs
         ));
     }
     
@@ -301,142 +281,6 @@ final class Perfutturu_Optimizer {
         
         if (class_exists('Perfutturu_Cleanup')) {
             Perfutturu_Cleanup::get_instance();
-        }
-    }
-    
-    /**
-     * Process script optimizations
-     */
-    public function process_script_optimizations() {
-        if (!get_option('perfutturu_enabled', 1)) {
-            return;
-        }
-        
-        global $wp_scripts;
-        
-        if (!$wp_scripts instanceof WP_Scripts) {
-            return;
-        }
-        
-        $script_configs = get_option('perfutturu_script_configs', array());
-        
-        foreach ($wp_scripts->queue as $handle) {
-            if (isset($script_configs[$handle])) {
-                $config = $script_configs[$handle];
-                
-                // Defer script
-                if (!empty($config['defer']) && !in_array($handle, array('jquery', 'jquery-core'))) {
-                    $wp_scripts->add_data($handle, 'strategy', 'defer');
-                }
-                
-                // Async script
-                if (!empty($config['async']) && !in_array($handle, array('jquery', 'jquery-core'))) {
-                    $wp_scripts->add_data($handle, 'strategy', 'async');
-                }
-                
-                // Disable script based on conditions
-                if (!empty($config['disabled'])) {
-                    $disable = false;
-                    
-                    if (!empty($config['disable_sitewide'])) {
-                        $disable = true;
-                    }
-                    
-                    if (!empty($config['disable_on_front_page']) && is_front_page()) {
-                        $disable = true;
-                    }
-                    
-                    if (!empty($config['disable_on_home']) && is_home()) {
-                        $disable = true;
-                    }
-                    
-                    if (!empty($config['disable_on_singular']) && is_singular()) {
-                        $disable = true;
-                    }
-                    
-                    if (!empty($config['disable_on_posts']) && is_singular('post')) {
-                        $disable = true;
-                    }
-                    
-                    if (!empty($config['disable_on_pages']) && is_singular('page')) {
-                        $disable = true;
-                    }
-                    
-                    if (!empty($config['disable_specific_ids'])) {
-                        $ids = array_map('intval', explode(',', $config['disable_specific_ids']));
-                        if (is_singular() && in_array(get_queried_object_id(), $ids)) {
-                            $disable = true;
-                        }
-                    }
-                    
-                    if ($disable) {
-                        $wp_scripts->remove($handle);
-                    }
-                }
-            }
-        }
-    }
-    
-    /**
-     * Process style optimizations
-     */
-    public function process_style_optimizations() {
-        if (!get_option('perfutturu_enabled', 1)) {
-            return;
-        }
-        
-        global $wp_styles;
-        
-        if (!$wp_styles instanceof WP_Styles) {
-            return;
-        }
-        
-        $script_configs = get_option('perfutturu_script_configs', array());
-        
-        foreach ($wp_styles->queue as $handle) {
-            if (isset($script_configs[$handle])) {
-                $config = $script_configs[$handle];
-                
-                // Disable style based on conditions
-                if (!empty($config['disabled'])) {
-                    $disable = false;
-                    
-                    if (!empty($config['disable_sitewide'])) {
-                        $disable = true;
-                    }
-                    
-                    if (!empty($config['disable_on_front_page']) && is_front_page()) {
-                        $disable = true;
-                    }
-                    
-                    if (!empty($config['disable_on_home']) && is_home()) {
-                        $disable = true;
-                    }
-                    
-                    if (!empty($config['disable_on_singular']) && is_singular()) {
-                        $disable = true;
-                    }
-                    
-                    if (!empty($config['disable_on_posts']) && is_singular('post')) {
-                        $disable = true;
-                    }
-                    
-                    if (!empty($config['disable_on_pages']) && is_singular('page')) {
-                        $disable = true;
-                    }
-                    
-                    if (!empty($config['disable_specific_ids'])) {
-                        $ids = array_map('intval', explode(',', $config['disable_specific_ids']));
-                        if (is_singular() && in_array(get_queried_object_id(), $ids)) {
-                            $disable = true;
-                        }
-                    }
-                    
-                    if ($disable) {
-                        $wp_styles->remove($handle);
-                    }
-                }
-            }
         }
     }
     
@@ -631,142 +475,10 @@ final class Perfutturu_Optimizer {
     }
     
     /**
-     * AJAX: Get enqueued scripts
-     */
-    public function ajax_get_scripts() {
-        check_ajax_referer('perfutturu_admin_nonce', 'nonce');
-        
-        if (!current_user_can('manage_options')) {
-            wp_send_json_error('Unauthorized');
-        }
-        
-        global $wp_scripts, $wp_styles;
-        
-        // Initialize WordPress properly to populate scripts and styles
-        // We need to simulate a front-end request to get all registered scripts
-        
-        // Create a dummy query to initialize the main query
-        if (!is_main_query()) {
-            $dummy_query = new WP_Query(array(
-                'posts_per_page' => 1,
-                'post_type' => 'post',
-                'post_status' => 'publish'
-            ));
-            
-            if ($dummy_query->have_posts()) {
-                $dummy_query->the_post();
-                setup_postdata(get_post());
-            }
-        }
-        
-        // Trigger the enqueue actions to populate registered scripts
-        do_action('wp_enqueue_scripts');
-        
-        // Also trigger init for any plugins that register scripts on init
-        do_action('init');
-        
-        $scripts = array();
-        
-        // Get scripts - iterate through registered scripts
-        if ($wp_scripts instanceof WP_Scripts) {
-            foreach ($wp_scripts->registered as $handle => $script) {
-                // Only include scripts that have a source URL
-                if (!empty($script->src)) {
-                    $scripts[$handle] = array(
-                        'type' => 'script',
-                        'src' => $script->src,
-                        'deps' => isset($script->deps) ? $script->deps : array(),
-                        'ver' => isset($script->ver) ? $script->ver : '',
-                    );
-                }
-            }
-        }
-        
-        // Get styles - iterate through registered styles
-        if ($wp_styles instanceof WP_Styles) {
-            foreach ($wp_styles->registered as $handle => $style) {
-                // Only include styles that have a source URL
-                if (!empty($style->src)) {
-                    $scripts[$handle] = array(
-                        'type' => 'style',
-                        'src' => $style->src,
-                        'deps' => isset($style->deps) ? $style->deps : array(),
-                        'ver' => isset($style->ver) ? $style->ver : '',
-                    );
-                }
-            }
-        }
-        
-        // Clean up
-        if (isset($dummy_query)) {
-            wp_reset_postdata();
-        }
-        
-        wp_send_json_success($scripts);
-    }
-    
-    /**
-     * AJAX: Save script configuration
-     */
-    public function ajax_save_script_config() {
-        check_ajax_referer('perfutturu_admin_nonce', 'nonce');
-        
-        if (!current_user_can('manage_options')) {
-            wp_send_json_error('Unauthorized');
-        }
-        
-        $handle = sanitize_text_field($_POST['handle']);
-        $config = json_decode(stripslashes($_POST['config']), true);
-        
-        $script_configs = get_option('perfutturu_script_configs', array());
-        $script_configs[$handle] = $config;
-        
-        update_option('perfutturu_script_configs', $script_configs);
-        
-        wp_send_json_success('Configuration saved');
-    }
-    
-    /**
      * Render main admin page
      */
     public function render_admin_page() {
         include PERFUTTURU_PLUGIN_DIR . 'admin/views/dashboard.php';
-    }
-    
-    /**
-     * Render script manager page
-     */
-    public function render_script_manager_page() {
-        // Get existing script configs
-        $script_configs = get_option('perfutturu_script_configs', array());
-        
-        // Pre-load scripts for display
-        global $wp_scripts, $wp_styles;
-        
-        // Create a dummy query to initialize the main query
-        if (!is_main_query()) {
-            $dummy_query = new WP_Query(array(
-                'posts_per_page' => 1,
-                'post_type' => 'post',
-                'post_status' => 'publish'
-            ));
-            
-            if ($dummy_query->have_posts()) {
-                $dummy_query->the_post();
-                setup_postdata(get_post());
-            }
-        }
-        
-        // Trigger the enqueue actions to populate registered scripts
-        do_action('wp_enqueue_scripts');
-        do_action('init');
-        
-        // Clean up
-        if (isset($dummy_query)) {
-            wp_reset_postdata();
-        }
-        
-        include PERFUTTURU_PLUGIN_DIR . 'admin/views/script-manager.php';
     }
     
     /**

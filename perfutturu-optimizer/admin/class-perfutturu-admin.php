@@ -46,7 +46,6 @@ class Perfutturu_Admin {
         $custom_links = array(
             '<a href="' . admin_url('admin.php?page=perfutturu') . '">' . __('Dashboard', 'perfutturu') . '</a>',
             '<a href="' . admin_url('admin.php?page=perfutturu-settings') . '">' . __('Configurações', 'perfutturu') . '</a>',
-            '<a href="' . admin_url('admin.php?page=perfutturu-scripts') . '">' . __('Script Manager', 'perfutturu') . '</a>',
         );
         
         return array_merge($custom_links, $links);
