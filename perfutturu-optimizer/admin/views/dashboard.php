@@ -81,10 +81,6 @@ if (class_exists('Perfutturu_Cache')) {
                     <?php echo $test_mode ? __('Desativar Modo de Teste', 'perfutturu') : __('Ativar Modo de Teste', 'perfutturu'); ?>
                 </button>
                 
-                <a href="<?php echo admin_url('admin.php?page=perfutturu-scripts'); ?>" class="button button-secondary">
-                    <?php _e('Gerenciar Scripts', 'perfutturu'); ?>
-                </a>
-                
                 <a href="<?php echo admin_url('admin.php?page=perfutturu-settings'); ?>" class="button button-secondary">
                     <?php _e('Configurações', 'perfutturu'); ?>
                 </a>
@@ -96,10 +92,6 @@ if (class_exists('Perfutturu_Cache')) {
             <h2><?php _e('Dicas de Performance', 'perfutturu'); ?></h2>
             
             <ul class="perfutturu-tips-list">
-                <li>
-                    <strong><?php _e('Script Manager:', 'perfutturu'); ?></strong>
-                    <?php _e('Desabilite scripts não utilizados em páginas específicas para reduzir o peso do carregamento.', 'perfutturu'); ?>
-                </li>
                 <li>
                     <strong><?php _e('Lazy Loading:', 'perfutturu'); ?></strong>
                     <?php _e('Mantenha o lazy loading ativado para imagens e iframes para melhorar o LCP.', 'perfutturu'); ?>

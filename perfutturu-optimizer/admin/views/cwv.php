@@ -65,10 +65,6 @@ if (!current_user_can('manage_options')) {
                 <strong><?php _e('Minificação de CSS/JS:', 'perfutturu'); ?></strong>
                 <?php _e('Reduz o tamanho dos arquivos para acelerar o carregamento geral da página.', 'perfutturu'); ?>
             </li>
-            <li>
-                <strong><?php _e('Remoção de Scripts Desnecessários:', 'perfutturu'); ?></strong>
-                <?php _e('Script Manager permite desabilitar scripts que não são usados em páginas específicas.', 'perfutturu'); ?>
-            </li>
         </ul>
         
         <h3><?php _e('Dicas Adicionais:', 'perfutturu'); ?></h3>
