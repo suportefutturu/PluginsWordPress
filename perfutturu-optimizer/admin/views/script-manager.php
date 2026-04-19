@@ -124,3 +124,10 @@ $script_configs = get_option('perfutturu_script_configs', array());
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    // Pre-populate script configs from PHP
+    if (typeof perfutturuAdmin !== 'undefined') {
+        perfutturuAdmin.scriptConfigs = <?php echo json_encode($script_configs); ?>;
+    }
+</script>

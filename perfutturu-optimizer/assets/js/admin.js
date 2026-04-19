@@ -29,6 +29,11 @@
      * Load all enqueued scripts
      */
     function loadScripts() {
+        var $scriptList = $('#perfutturu-script-list');
+        
+        // Show loading state
+        $scriptList.html('<p><span class="spinner is-active"></span> ' + perfutturuAdmin.strings.loadingScripts + '</p>');
+        
         $.ajax({
             url: perfutturuAdmin.ajaxUrl,
             type: 'POST',
@@ -37,14 +42,18 @@
                 nonce: perfutturuAdmin.nonce
             },
             success: function(response) {
+                console.log('Scripts response:', response); // Debug log
+                
                 if (response.success) {
                     renderScriptList(response.data);
                 } else {
-                    $('#perfutturu-script-list').html('<p>' + perfutturuAdmin.strings.error + '</p>');
+                    console.error('Error response:', response);
+                    $scriptList.html('<p class="error">' + perfutturuAdmin.strings.error + ': ' + (response.data || 'Unknown error') + '</p>');
                 }
             },
-            error: function() {
-                $('#perfutturu-script-list').html('<p>' + perfutturuAdmin.strings.error + '</p>');
+            error: function(xhr, status, error) {
+                console.error('AJAX error:', status, error);
+                $scriptList.html('<p class="error">' + perfutturuAdmin.strings.error + ': ' + status + '</p>');
             }
         });
     }
@@ -103,8 +112,8 @@
         var $nameEl = $('#perfutturu-script-name');
         var $srcEl = $('#perfutturu-script-src');
         
-        // Get existing config
-        var existingConfig = window.perfutturuScriptConfigs && window.perfutturuScriptConfigs[handle] || {};
+        // Get existing config from localized script
+        var existingConfig = perfutturuAdmin.scriptConfigs && perfutturuAdmin.scriptConfigs[handle] || {};
         
         // Populate modal
         $handleInput.val(handle);
@@ -152,11 +161,11 @@
             disable_specific_ids: $('#perfutturu-script-disable-ids').val()
         };
         
-        // Store locally
-        if (!window.perfutturuScriptConfigs) {
-            window.perfutturuScriptConfigs = {};
+        // Update local config in perfutturuAdmin object
+        if (!perfutturuAdmin.scriptConfigs) {
+            perfutturuAdmin.scriptConfigs = {};
         }
-        window.perfutturuScriptConfigs[handle] = config;
+        perfutturuAdmin.scriptConfigs[handle] = config;
         
         // Show saving state
         var $saveBtn = $('#perfutturu-save-script-config');
@@ -177,6 +186,8 @@
                 if (response.success) {
                     showNotice(perfutturuAdmin.strings.saved, 'success');
                     closeModal();
+                    // Reload scripts to show updated status
+                    loadScripts();
                 } else {
                     showNotice(perfutturuAdmin.strings.error, 'error');
                 }
