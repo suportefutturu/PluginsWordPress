@@ -45,7 +45,14 @@
                 console.log('Scripts response:', response); // Debug log
                 
                 if (response.success) {
-                    renderScriptList(response.data);
+                    // Check if we have an info message instead of scripts
+                    if (response.data && response.data._info) {
+                        $scriptList.html('<p class="description">' + response.data._info + '</p>');
+                    } else if (Object.keys(response.data).length === 0) {
+                        $scriptList.html('<p>' + perfutturuAdmin.strings.noScripts + '</p>');
+                    } else {
+                        renderScriptList(response.data);
+                    }
                 } else {
                     console.error('Error response:', response);
                     $scriptList.html('<p class="error">' + perfutturuAdmin.strings.error + ': ' + (response.data || 'Unknown error') + '</p>');
@@ -53,7 +60,8 @@
             },
             error: function(xhr, status, error) {
                 console.error('AJAX error:', status, error);
-                $scriptList.html('<p class="error">' + perfutturuAdmin.strings.error + ': ' + status + '</p>');
+                console.error('XHR:', xhr);
+                $scriptList.html('<p class="error">' + perfutturuAdmin.strings.error + ': ' + status + ' - ' + error + '</p>');
             }
         });
     }

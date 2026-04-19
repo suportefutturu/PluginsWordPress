@@ -68,6 +68,8 @@ final class Perfutturu_Optimizer {
         add_action('admin_menu', array($this, 'add_admin_menu'));
         add_action('admin_init', array($this, 'register_settings'));
         add_action('admin_enqueue_scripts', array($this, 'enqueue_admin_assets'));
+        // Preload scripts for Script Manager page before admin UI loads
+        add_action('admin_head', array($this, 'preload_scripts_for_admin'), 1);
         
         // Frontend optimizations
         add_action('wp', array($this, 'init_optimizations'), 1);
@@ -248,6 +250,7 @@ final class Perfutturu_Optimizer {
      * Enqueue admin assets
      */
     public function enqueue_admin_assets($hook) {
+        // Load on any Perfutturu admin page
         if (strpos($hook, 'perfutturu') === false) {
             return;
         }
@@ -271,6 +274,42 @@ final class Perfutturu_Optimizer {
             ),
             'scriptConfigs' => $script_configs
         ));
+    }
+    
+    /**
+     * Preload scripts for admin pages that need them
+     */
+    public function preload_scripts_for_admin() {
+        global $wp_scripts, $wp_styles;
+        
+        // Only run on Script Manager page
+        if (!isset($_GET['page']) || $_GET['page'] !== 'perfutturu-scripts') {
+            return;
+        }
+        
+        // Create a dummy query to initialize the main query
+        if (!is_main_query()) {
+            $dummy_query = new WP_Query(array(
+                'posts_per_page' => 1,
+                'post_type' => 'post',
+                'post_status' => 'publish'
+            ));
+            
+            if ($dummy_query->have_posts()) {
+                $dummy_query->the_post();
+                setup_postdata(get_post());
+            }
+        }
+        
+        // Trigger the enqueue actions to populate registered scripts
+        do_action('init');
+        do_action('wp_enqueue_scripts');
+        do_action('wp_head');
+        
+        // Clean up
+        if (isset($dummy_query)) {
+            wp_reset_postdata();
+        }
     }
     
     /**
@@ -660,10 +699,12 @@ final class Perfutturu_Optimizer {
         }
         
         // Trigger the enqueue actions to populate registered scripts
+        // This needs to be done in the correct order
+        do_action('init');
         do_action('wp_enqueue_scripts');
         
-        // Also trigger init for any plugins that register scripts on init
-        do_action('init');
+        // Also trigger wp_head to catch any scripts added there
+        do_action('wp_head');
         
         $scripts = array();
         
@@ -702,7 +743,14 @@ final class Perfutturu_Optimizer {
             wp_reset_postdata();
         }
         
-        wp_send_json_success($scripts);
+        // If no scripts found, provide a helpful message
+        if (empty($scripts)) {
+            wp_send_json_success(array(
+                '_info' => __('Nenhum script registrado encontrado. Certifique-se de que o tema e plugins estão carregando scripts normalmente.', 'perfutturu')
+            ));
+        } else {
+            wp_send_json_success($scripts);
+        }
     }
     
     /**
@@ -737,35 +785,8 @@ final class Perfutturu_Optimizer {
      * Render script manager page
      */
     public function render_script_manager_page() {
-        // Get existing script configs
-        $script_configs = get_option('perfutturu_script_configs', array());
-        
-        // Pre-load scripts for display
-        global $wp_scripts, $wp_styles;
-        
-        // Create a dummy query to initialize the main query
-        if (!is_main_query()) {
-            $dummy_query = new WP_Query(array(
-                'posts_per_page' => 1,
-                'post_type' => 'post',
-                'post_status' => 'publish'
-            ));
-            
-            if ($dummy_query->have_posts()) {
-                $dummy_query->the_post();
-                setup_postdata(get_post());
-            }
-        }
-        
-        // Trigger the enqueue actions to populate registered scripts
-        do_action('wp_enqueue_scripts');
-        do_action('init');
-        
-        // Clean up
-        if (isset($dummy_query)) {
-            wp_reset_postdata();
-        }
-        
+        // Scripts should already be preloaded by preload_scripts_for_admin()
+        // This is just to include the view
         include PERFUTTURU_PLUGIN_DIR . 'admin/views/script-manager.php';
     }
     
