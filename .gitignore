@@ -1,38 +1,28 @@
 ```
-# WordPress specific ignores
-*.log
-*.tmp
-*.swp
-
-# Environment files
-.env
-.env.local
-*.env.*
-
-# Editor/IDE files
-.vscode/
-.idea/
-*.swo
-
-# Backup files
-*~
-*.bak
-*.backup
-
-# OS files
-.DS_Store
-Thumbs.db
-
-# PHP related
-*.php.swp
-*.php.swo
-
-# Web assets
+# Build artifacts
+dist/
+build/
 *.min.js
 *.min.css
 *.map
 
-# WordPress core (if accidentally added)
-wp-config.php
-wp-content/uploads/
+# Dependencies
+node_modules/
+
+# Environment
+.env
+.env.local
+.env.*
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+
+# Temp files
+*.tmp
 ```

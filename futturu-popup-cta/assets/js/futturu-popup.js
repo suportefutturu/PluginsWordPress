@@ -37,8 +37,8 @@
             });
 
             if (styles.enableBlur) {
-                $('body').addClass('futturu-popup-blur-enabled');
-                $('body').css('--futturu-blur-intensity', styles.blurIntensity + 'px');
+                $overlay.addClass('futturu-popup-blur-enabled');
+                $overlay.css('--futturu-blur-intensity', styles.blurIntensity + 'px');
             }
         }
 

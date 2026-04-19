@@ -13,35 +13,44 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 999999;
+    z-index: 9999999;
     opacity: 0;
     transition: opacity 0.1s ease-out;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
 }
 
 .futturu-popup-overlay.futturu-popup-visible {
     opacity: 1;
 }
 
-/* Blur effect */
-.futturu-popup-overlay.futturu-popup-blur-enabled.futturu-popup-visible ~ * {
-    filter: blur(5px);
+/* Blur effect - applied via pseudo-element behind the popup content */
+.futturu-popup-overlay.futturu-popup-blur-enabled::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(var(--futturu-blur-intensity, 8px));
+    -webkit-backdrop-filter: blur(var(--futturu-blur-intensity, 8px));
+    z-index: 1;
+    pointer-events: none;
 }
 
 body.futturu-popup-active {
     overflow: hidden;
 }
 
-body.futturu-popup-active.futturu-popup-blur-enabled {
-    filter: blur(5px);
-}
-
-/* Container */
+/* Container must be above the blur layer */
 .futturu-popup-container {
+    position: relative;
+    z-index: 10;
     background-color: #ffffff;
     border-radius: 12px;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
     padding: 40px 30px;
-    position: relative;
     max-width: 500px;
     width: 90%;
     max-height: 80vh;

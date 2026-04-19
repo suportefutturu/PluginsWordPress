@@ -545,12 +545,13 @@ class Futturu_Popup_Admin {
     
     public function render_enable_blur_field() {
         $options = get_option($this->option_name);
-        $enabled = isset($options['enable_blur']) ? $options['enable_blur'] : 1;
+        $enabled = isset($options['enable_blur']) ? $options['enable_blur'] : 0;
         ?>
         <label>
             <input type="checkbox" name="<?php echo $this->option_name; ?>[enable_blur]" value="1" <?php checked($enabled, 1); ?>>
             <?php _e('Ativar efeito blur no fundo', 'futturu-popup-cta'); ?>
         </label>
+        <p class="description"><?php _e('O blur será aplicado ao fundo da página, mantendo o popup nítido.', 'futturu-popup-cta'); ?></p>
         <?php
     }
     
