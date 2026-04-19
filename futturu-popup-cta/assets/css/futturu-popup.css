@@ -1,0 +1,310 @@
+/**
+ * Futturu Popup CTA - Frontend Styles
+ */
+
+/* Overlay */
+.futturu-popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999999;
+    opacity: 0;
+    transition: opacity 0.1s ease-out;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+}
+
+.futturu-popup-overlay.futturu-popup-visible {
+    opacity: 1;
+}
+
+/* Blur effect - applied via pseudo-element behind the popup content */
+.futturu-popup-overlay.futturu-popup-blur-enabled::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(var(--futturu-blur-intensity, 8px));
+    -webkit-backdrop-filter: blur(var(--futturu-blur-intensity, 8px));
+    z-index: 1;
+    pointer-events: none;
+}
+
+body.futturu-popup-active {
+    overflow: hidden;
+}
+
+/* Container must be above the blur layer */
+.futturu-popup-container {
+    position: relative;
+    z-index: 10;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    padding: 40px 30px;
+    max-width: 500px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+    transform: scale(0.9);
+    transition: transform 0.3s ease-out;
+}
+
+.futturu-popup-container.futturu-popup-visible {
+    transform: scale(1);
+}
+
+/* Animation - Fade In */
+.futturu-popup-animate-fade-in {
+    opacity: 0;
+    transform: scale(1);
+}
+
+.futturu-popup-animate-fade-in.futturu-popup-visible {
+    opacity: 1;
+    transform: scale(1);
+    animation: futturuFadeIn 0.3s ease-out;
+}
+
+@keyframes futturuFadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Animation - Slide Up */
+.futturu-popup-animate-slide-up {
+    opacity: 0;
+    transform: translateY(30px);
+}
+
+.futturu-popup-animate-slide-up.futturu-popup-visible {
+    opacity: 1;
+    transform: translateY(0);
+    animation: futturuSlideUp 0.3s ease-out;
+}
+
+@keyframes futturuSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Animation - Slide Down */
+.futturu-popup-animate-slide-down {
+    opacity: 0;
+    transform: translateY(-30px);
+}
+
+.futturu-popup-animate-slide-down.futturu-popup-visible {
+    opacity: 1;
+    transform: translateY(0);
+    animation: futturuSlideDown 0.3s ease-out;
+}
+
+@keyframes futturuSlideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Animation - Zoom In */
+.futturu-popup-animate-zoom-in {
+    opacity: 0;
+    transform: scale(0.8);
+}
+
+.futturu-popup-animate-zoom-in.futturu-popup-visible {
+    opacity: 1;
+    transform: scale(1);
+    animation: futturuZoomIn 0.3s ease-out;
+}
+
+@keyframes futturuZoomIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Close Button */
+.futturu-popup-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    line-height: 1;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+    opacity: 0.7;
+}
+
+.futturu-popup-close:hover {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+.futturu-popup-close:focus {
+    outline: 2px solid #0073aa;
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+/* Content */
+.futturu-popup-content {
+    text-align: center;
+}
+
+.futturu-popup-title {
+    margin: 0 0 15px 0;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.futturu-popup-text {
+    margin: 0 0 25px 0;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.futturu-popup-text p {
+    margin: 0 0 15px 0;
+}
+
+.futturu-popup-text p:last-child {
+    margin-bottom: 0;
+}
+
+/* CTA Button */
+.futturu-popup-cta-button {
+    display: inline-block;
+    padding: 14px 32px;
+    background-color: #0073aa;
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 115, 170, 0.3);
+    margin-bottom: 15px;
+    width: 100%;
+    max-width: 300px;
+    text-align: center;
+}
+
+.futturu-popup-cta-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 115, 170, 0.4);
+    filter: brightness(1.1);
+}
+
+.futturu-popup-cta-button:focus {
+    outline: 2px solid #005a87;
+    outline-offset: 2px;
+}
+
+/* Decline Button */
+.futturu-popup-decline-button {
+    display: block;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px 20px;
+    font-size: 14px;
+    color: #666666;
+    transition: all 0.2s ease;
+    margin: 0 auto;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.futturu-popup-decline-button:hover {
+    color: #333333;
+    text-decoration: none;
+}
+
+.futturu-popup-decline-button:focus {
+    outline: 2px solid #0073aa;
+    outline-offset: 2px;
+    border-radius: 4px;
+    text-decoration: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .futturu-popup-container {
+        padding: 30px 20px;
+        width: 95%;
+    }
+    
+    .futturu-popup-title {
+        font-size: 20px;
+    }
+    
+    .futturu-popup-text {
+        font-size: 14px;
+    }
+    
+    .futturu-popup-cta-button {
+        padding: 12px 24px;
+        font-size: 14px;
+    }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .futturu-popup-container {
+        border: 2px solid #000000;
+    }
+    
+    .futturu-popup-close {
+        border: 1px solid #000000;
+        border-radius: 4px;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .futturu-popup-container,
+    .futturu-popup-overlay,
+    .futturu-popup-cta-button,
+    .futturu-popup-close {
+        transition: none !important;
+        animation: none !important;
+    }
+    
+    .futturu-popup-container.futturu-popup-visible {
+        transform: none;
+        opacity: 1;
+    }
+}
