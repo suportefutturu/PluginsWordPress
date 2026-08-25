@@ -1,0 +1,262 @@
+/**
+ * Lead Scoring Form - Frontend Styles
+ * Modern and Professional Design
+ */
+
+.lsf-form-container {
+    --lsf-primary: #2563eb;
+    --lsf-secondary: #1e40af;
+    --lsf-bg: #ffffff;
+    --lsf-text: #1f2937;
+    
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    line-height: 1.6;
+    color: var(--lsf-text);
+    background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf1 100%);
+    padding: 40px 20px;
+    border-radius: 12px;
+    margin: 20px 0;
+}
+
+.lsf-form-wrapper {
+    max-width: 700px;
+    margin: 0 auto;
+    background: var(--lsf-bg);
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+}
+
+.lsf-form-header {
+    background: linear-gradient(135deg, var(--lsf-primary) 0%, var(--lsf-secondary) 100%);
+    color: #ffffff;
+    padding: 40px;
+    text-align: center;
+}
+
+.lsf-form-header h2 {
+    margin: 0 0 15px 0;
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.3;
+    color: #ffffff;
+}
+
+.lsf-subtitle {
+    font-size: 16px;
+    opacity: 0.95;
+    margin: 0;
+    line-height: 1.6;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.lsf-form {
+    padding: 40px;
+}
+
+.lsf-form-row {
+    margin-bottom: 25px;
+}
+
+.lsf-form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.lsf-form-group label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--lsf-text);
+    margin-bottom: 8px;
+    display: block;
+}
+
+.lsf-required {
+    color: #ef4444;
+    font-weight: 700;
+}
+
+.lsf-form-group input[type="text"],
+.lsf-form-group input[type="email"],
+.lsf-form-group select {
+    width: 100%;
+    padding: 14px 16px;
+    font-size: 15px;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    background: #ffffff;
+    color: var(--lsf-text);
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+    font-family: inherit;
+}
+
+.lsf-form-group input:focus,
+.lsf-form-group select:focus {
+    outline: none;
+    border-color: var(--lsf-primary);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.lsf-form-group input::placeholder {
+    color: #9ca3af;
+}
+
+.lsf-form-group select {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236b7280' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    padding-right: 40px;
+}
+
+.lsf-submit-row {
+    margin-top: 35px;
+}
+
+.lsf-submit-button {
+    width: 100%;
+    padding: 18px 32px;
+    font-size: 16px;
+    font-weight: 700;
+    color: #ffffff;
+    background: linear-gradient(135deg, var(--lsf-primary) 0%, var(--lsf-secondary) 100%);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-family: inherit;
+}
+
+.lsf-submit-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+}
+
+.lsf-submit-button:active {
+    transform: translateY(0);
+}
+
+.lsf-submit-button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.lsf-message {
+    margin-top: 20px;
+    padding: 16px 20px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 500;
+    text-align: center;
+}
+
+.lsf-message.success {
+    background: #d1fae5;
+    color: #065f46;
+    border: 1px solid #a7f3d0;
+}
+
+.lsf-message.error {
+    background: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #fecaca;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .lsf-form-container {
+        padding: 20px 15px;
+    }
+    
+    .lsf-form-header {
+        padding: 30px 20px;
+    }
+    
+    .lsf-form-header h2 {
+        font-size: 22px;
+    }
+    
+    .lsf-subtitle {
+        font-size: 14px;
+    }
+    
+    .lsf-form {
+        padding: 25px 20px;
+    }
+    
+    .lsf-submit-button {
+        font-size: 14px;
+        padding: 16px 24px;
+    }
+}
+
+/* Animation for form elements */
+@keyframes lsfFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.lsf-form-row {
+    animation: lsfFadeIn 0.4s ease forwards;
+}
+
+.lsf-form-row:nth-child(1) { animation-delay: 0.05s; }
+.lsf-form-row:nth-child(2) { animation-delay: 0.1s; }
+.lsf-form-row:nth-child(3) { animation-delay: 0.15s; }
+.lsf-form-row:nth-child(4) { animation-delay: 0.2s; }
+.lsf-form-row:nth-child(5) { animation-delay: 0.25s; }
+.lsf-form-row:nth-child(6) { animation-delay: 0.3s; }
+
+/* Loading state */
+.lsf-btn-loading {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.lsf-btn-loading::before {
+    content: '';
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: #ffffff;
+    border-radius: 50%;
+    animation: lsfSpin 0.8s linear infinite;
+}
+
+@keyframes lsfSpin {
+    to { transform: rotate(360deg); }
+}
+
+/* Focus visible for accessibility */
+.lsf-form-group input:focus-visible,
+.lsf-form-group select:focus-visible,
+.lsf-submit-button:focus-visible {
+    outline: 3px solid var(--lsf-primary);
+    outline-offset: 2px;
+}
+
+/* Print styles */
+@media print {
+    .lsf-form-container {
+        background: #ffffff;
+        box-shadow: none;
+    }
+    
+    .lsf-submit-button {
+        display: none;
+    }
+}
