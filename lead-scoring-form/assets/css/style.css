@@ -121,8 +121,8 @@
     padding: 18px 32px;
     font-size: 16px;
     font-weight: 700;
-    color: #ffffff;
-    background: linear-gradient(135deg, var(--lsf-primary) 0%, var(--lsf-secondary) 100%);
+    color: var(--lsf-button-text);
+    background: var(--lsf-button);
     border: none;
     border-radius: 10px;
     cursor: pointer;
@@ -136,6 +136,7 @@
 .lsf-submit-button:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+    filter: brightness(1.1);
 }
 
 .lsf-submit-button:active {

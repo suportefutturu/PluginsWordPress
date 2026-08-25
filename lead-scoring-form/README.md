@@ -58,11 +58,19 @@ Acesse **Lead Scoring → Configurações** no admin do WordPress para:
 ### E-mail de Destino
 - Configure o e-mail que receberá as notificações (padrão: `suporte@futturu.com.br`)
 
+### Textos Personalizáveis
+- **Título do Formulário**: Título principal em H2 (padrão: "Pare de perder dinheiro com um site que não converte.")
+- **Subtítulo**: Texto descritivo abaixo do título
+- **Texto do Botão**: Texto do botão de envio (CTA)
+- **Mensagem de Sucesso**: Mensagem exibida após o envio bem-sucedido
+
 ### Cores Personalizáveis
-- **Cor Primária**: Cor principal dos botões e destaques
-- **Cor Secundária**: Cor secundária para gradientes
+- **Cor Primária**: Cor principal dos elementos e gradientes
+- **Cor Secundária**: Cor secundária para detalhes
 - **Cor de Fundo**: Fundo do formulário
 - **Cor do Texto**: Cor do texto principal
+- **Cor do Botão**: Cor de fundo do botão de envio
+- **Cor do Texto do Botão**: Cor do texto dentro do botão
 
 ## 🎯 Sistema de Pontuação
 

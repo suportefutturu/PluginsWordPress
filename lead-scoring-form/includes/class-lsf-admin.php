@@ -73,6 +73,49 @@ class LSF_Admin {
         );
         
         add_settings_section(
+            'lsf_texts_section',
+            __('Textos do Formulário', 'lead-scoring-form'),
+            array($this, 'render_texts_section'),
+            'lead-scoring-form'
+        );
+        
+        add_settings_field(
+            'lsf_form_title',
+            __('Título do Formulário', 'lead-scoring-form'),
+            array($this, 'render_text_field'),
+            'lead-scoring-form',
+            'lsf_texts_section',
+            array('field' => 'form_title', 'default' => 'Pare de perder dinheiro com um site que não converte.')
+        );
+        
+        add_settings_field(
+            'lsf_form_subtitle',
+            __('Subtítulo', 'lead-scoring-form'),
+            array($this, 'render_textarea_field'),
+            'lead-scoring-form',
+            'lsf_texts_section',
+            array('field' => 'form_subtitle', 'default' => 'Preencha o breve diagnóstico abaixo. Em até 24h, um de nossos especialistas em criação de site em Belém enviará uma análise personalizada do seu cenário atual e as melhores opções de investimento para o seu negócio.')
+        );
+        
+        add_settings_field(
+            'lsf_button_text',
+            __('Texto do Botão', 'lead-scoring-form'),
+            array($this, 'render_text_field'),
+            'lead-scoring-form',
+            'lsf_texts_section',
+            array('field' => 'button_text', 'default' => 'Solicitar Meu Diagnóstico de Criação de Site e Receber Opções')
+        );
+        
+        add_settings_field(
+            'lsf_success_message',
+            __('Mensagem de Sucesso', 'lead-scoring-form'),
+            array($this, 'render_textarea_field'),
+            'lead-scoring-form',
+            'lsf_texts_section',
+            array('field' => 'success_message', 'default' => 'Obrigado! Seu diagnóstico foi enviado com sucesso. Nossa equipe entrará em contato em até 24 horas.')
+        );
+        
+        add_settings_section(
             'lsf_design_section',
             __('Cores e Design', 'lead-scoring-form'),
             array($this, 'render_design_section'),
@@ -114,6 +157,24 @@ class LSF_Admin {
             'lsf_design_section',
             array('field' => 'text_color')
         );
+        
+        add_settings_field(
+            'lsf_button_color',
+            __('Cor do Botão', 'lead-scoring-form'),
+            array($this, 'render_color_field'),
+            'lead-scoring-form',
+            'lsf_design_section',
+            array('field' => 'button_color')
+        );
+        
+        add_settings_field(
+            'lsf_button_text_color',
+            __('Cor do Texto do Botão', 'lead-scoring-form'),
+            array($this, 'render_color_field'),
+            'lead-scoring-form',
+            'lsf_design_section',
+            array('field' => 'button_text_color')
+        );
     }
     
     /**
@@ -126,8 +187,45 @@ class LSF_Admin {
         $sanitized['secondary_color'] = sanitize_hex_color($input['secondary_color']);
         $sanitized['background_color'] = sanitize_hex_color($input['background_color']);
         $sanitized['text_color'] = sanitize_hex_color($input['text_color']);
+        $sanitized['button_color'] = sanitize_hex_color($input['button_color']);
+        $sanitized['button_text_color'] = sanitize_hex_color($input['button_text_color']);
+        $sanitized['form_title'] = sanitize_text_field($input['form_title']);
+        $sanitized['form_subtitle'] = sanitize_textarea_field($input['form_subtitle']);
+        $sanitized['button_text'] = sanitize_text_field($input['button_text']);
+        $sanitized['success_message'] = sanitize_textarea_field($input['success_message']);
         
         return $sanitized;
+    }
+    
+    /**
+     * Render texts section description
+     */
+    public function render_texts_section() {
+        echo '<p>' . __('Personalize os textos do formulário para adaptar à sua comunicação.', 'lead-scoring-form') . '</p>';
+    }
+    
+    /**
+     * Render text field
+     */
+    public function render_text_field($args) {
+        $options = get_option('lsf_settings');
+        $field = $args['field'];
+        $default = isset($args['default']) ? $args['default'] : '';
+        $value = isset($options[$field]) ? $options[$field] : $default;
+        
+        echo '<input type="text" name="lsf_settings[' . esc_attr($field) . ']" value="' . esc_attr($value) . '" class="regular-text" style="max-width: 600px;" />';
+    }
+    
+    /**
+     * Render textarea field
+     */
+    public function render_textarea_field($args) {
+        $options = get_option('lsf_settings');
+        $field = $args['field'];
+        $default = isset($args['default']) ? $args['default'] : '';
+        $value = isset($options[$field]) ? $options[$field] : $default;
+        
+        echo '<textarea name="lsf_settings[' . esc_attr($field) . ']" rows="3" class="large-text" style="max-width: 600px;">' . esc_textarea($value) . '</textarea>';
     }
     
     /**

@@ -26,14 +26,21 @@ class LSF_Form {
         $secondary_color = isset($options['secondary_color']) ? $options['secondary_color'] : '#1e40af';
         $background_color = isset($options['background_color']) ? $options['background_color'] : '#ffffff';
         $text_color = isset($options['text_color']) ? $options['text_color'] : '#1f2937';
+        $button_color = isset($options['button_color']) ? $options['button_color'] : '#2563eb';
+        $button_text_color = isset($options['button_text_color']) ? $options['button_text_color'] : '#ffffff';
+        
+        // Get texts from settings
+        $form_title = isset($options['form_title']) ? $options['form_title'] : 'Pare de perder dinheiro com um site que não converte.';
+        $form_subtitle = isset($options['form_subtitle']) ? $options['form_subtitle'] : 'Preencha o breve diagnóstico abaixo. Em até 24h, um de nossos especialistas em criação de site em Belém enviará uma análise personalizada do seu cenário atual e as melhores opções de investimento para o seu negócio.';
+        $button_text = isset($options['button_text']) ? $options['button_text'] : 'Solicitar Meu Diagnóstico de Criação de Site e Receber Opções';
         
         ob_start();
         ?>
-        <div class="lsf-form-container" style="--lsf-primary: <?php echo esc_attr($primary_color); ?>; --lsf-secondary: <?php echo esc_attr($secondary_color); ?>; --lsf-bg: <?php echo esc_attr($background_color); ?>; --lsf-text: <?php echo esc_attr($text_color); ?>;">
+        <div class="lsf-form-container" style="--lsf-primary: <?php echo esc_attr($primary_color); ?>; --lsf-secondary: <?php echo esc_attr($secondary_color); ?>; --lsf-bg: <?php echo esc_attr($background_color); ?>; --lsf-text: <?php echo esc_attr($text_color); ?>; --lsf-button: <?php echo esc_attr($button_color); ?>; --lsf-button-text: <?php echo esc_attr($button_text_color); ?>;">
             <div class="lsf-form-wrapper">
                 <div class="lsf-form-header">
-                    <h2><?php _e('Pare de perder dinheiro com um site que não converte.', 'lead-scoring-form'); ?></h2>
-                    <p class="lsf-subtitle"><?php _e('Preencha o breve diagnóstico abaixo. Em até 24h, um de nossos especialistas em criação de site em Belém enviará uma análise personalizada do seu cenário atual e as melhores opções de investimento para o seu negócio.', 'lead-scoring-form'); ?></p>
+                    <h2><?php echo esc_html($form_title); ?></h2>
+                    <p class="lsf-subtitle"><?php echo esc_html($form_subtitle); ?></p>
                 </div>
                 
                 <form id="lsf-lead-form" class="lsf-form" method="post">
@@ -99,7 +106,7 @@ class LSF_Form {
                     
                     <div class="lsf-form-row lsf-submit-row">
                         <button type="submit" id="lsf-submit-btn" class="lsf-submit-button">
-                            <span class="lsf-btn-text"><?php _e('Solicitar Meu Diagnóstico de Criação de Site e Receber Opções', 'lead-scoring-form'); ?></span>
+                            <span class="lsf-btn-text"><?php echo esc_html($button_text); ?></span>
                             <span class="lsf-btn-loading" style="display: none;"><?php _e('Enviando...', 'lead-scoring-form'); ?></span>
                         </button>
                     </div>
@@ -175,8 +182,12 @@ class LSF_Form {
         
         do_action('lsf_send_email', $email_data);
         
+        // Get success message from settings
+        $options = get_option('lsf_settings');
+        $success_message = isset($options['success_message']) ? $options['success_message'] : 'Obrigado! Seu diagnóstico foi enviado com sucesso. Nossa equipe entrará em contato em até 24 horas.';
+        
         wp_send_json_success(array(
-            'message' => __('Obrigado! Seu diagnóstico foi enviado com sucesso. Nossa equipe entrará em contato em até 24 horas.', 'lead-scoring-form')
+            'message' => $success_message
         ));
     }
     
