@@ -112,7 +112,7 @@ class LSF_Admin {
             array($this, 'render_textarea_field'),
             'lead-scoring-form',
             'lsf_texts_section',
-            array('field' => 'success_message', 'default' => 'Obrigado! Seu diagnóstico foi enviado com sucesso. Nossa equipe entrará em contato em até 24 horas.')
+            array('field' => 'success_message', 'default' => "Obrigado! Seu diagnóstico foi enviado com sucesso.\n\nNossa equipe analisará suas respostas e entrará em contato em até 24 horas pelo WhatsApp ou E-mail informado.\n\n📋 Próximos passos:\n1. Nossa equipe irá analisar seu perfil e necessidades\n2. Você receberá uma análise personalizada do seu cenário atual\n3. Enviaremos as melhores opções de investimento para o seu negócio\n\nFique atento ao seu e-mail e WhatsApp!")
         );
         
         add_settings_section(
@@ -190,9 +190,9 @@ class LSF_Admin {
         $sanitized['button_color'] = sanitize_hex_color($input['button_color']);
         $sanitized['button_text_color'] = sanitize_hex_color($input['button_text_color']);
         $sanitized['form_title'] = sanitize_text_field($input['form_title']);
-        $sanitized['form_subtitle'] = sanitize_textarea_field($input['form_subtitle']);
+        $sanitized['form_subtitle'] = wp_kses_post($input['form_subtitle']);
         $sanitized['button_text'] = sanitize_text_field($input['button_text']);
-        $sanitized['success_message'] = sanitize_textarea_field($input['success_message']);
+        $sanitized['success_message'] = wp_kses_post($input['success_message']);
         
         return $sanitized;
     }

@@ -96,17 +96,23 @@
         
         // Show message
         function showMessage(text, type) {
+            var icon = type === 'success' 
+                ? '<span class="lsf-message-icon">✓</span>' 
+                : '<span class="lsf-message-icon">!</span>';
+            
             $message
-                .text(text)
+                .html(icon + '<span class="lsf-message-text">' + text + '</span>')
                 .removeClass('success error')
                 .addClass(type)
                 .fadeIn(300);
-            
-            // Auto-hide success messages after 10 seconds
+
+            // Scroll to message on success
             if (type === 'success') {
-                setTimeout(function() {
-                    $message.fadeOut(300);
-                }, 10000);
+                $('html, body').animate({
+                    scrollTop: $message.offset().top - 100
+                }, 500);
+                
+                // Don't auto-hide success messages - user should see next steps
             }
         }
         

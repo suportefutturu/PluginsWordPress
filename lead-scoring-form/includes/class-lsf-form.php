@@ -181,11 +181,12 @@ class LSF_Form {
         );
         
         do_action('lsf_send_email', $email_data);
-        
+
         // Get success message from settings
         $options = get_option('lsf_settings');
-        $success_message = isset($options['success_message']) ? $options['success_message'] : 'Obrigado! Seu diagnóstico foi enviado com sucesso. Nossa equipe entrará em contato em até 24 horas.';
-        
+        $default_message = "Obrigado! Seu diagnóstico foi enviado com sucesso.\n\nNossa equipe analisará suas respostas e entrará em contato em até 24 horas pelo WhatsApp ou E-mail informado.\n\n📋 Próximos passos:\n1. Nossa equipe irá analisar seu perfil e necessidades\n2. Você receberá uma análise personalizada do seu cenário atual\n3. Enviaremos as melhores opções de investimento para o seu negócio\n\nFique atento ao seu e-mail e WhatsApp!";
+        $success_message = isset($options['success_message']) && !empty($options['success_message']) ? $options['success_message'] : $default_message;
+
         wp_send_json_success(array(
             'message' => $success_message
         ));
